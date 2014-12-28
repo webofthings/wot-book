@@ -1,0 +1,15 @@
+{
+  "name": "wot-book-examples",
+  "description": "Examples for the Web of Things Book",
+  "author": "Dom Guinard <dom@guinard.org>",
+  "author": "Vlad Trifa <vladounet@gmail.com>",
+  "dependencies": {
+    "pi-gpio": "0.x.x"
+  },
+  "devDependencies": {
+  },
+  "engine": "node >= 0.4.1"
+}
+
+    
+
