@@ -8,7 +8,7 @@ function off() {
 	    gpio.write(16, 0, function() {          
 	        gpio.close(16);
 	        setTimeout(function() {
-    			off();
+    			on();
 			}, 2000);                        
 	    });
 	});
