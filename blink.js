@@ -1,7 +1,27 @@
 var gpio = require("pi-gpio");
 
-gpio.open(16, "output", function(err) {     // Open pin 16 for output
-    gpio.write(16, 0, function() {          // Set pin 16 high (1)
-        gpio.close(16);                     // Close pin 16
-    });
-});
+on();
+
+function off() {
+	console.log('On!');
+    gpio.open(16, "output", function(err) {     
+	    gpio.write(16, 0, function() {          
+	        gpio.close(16);
+	        setTimeout(function() {
+    			off();
+			}, 2000);                        
+	    });
+	});
+}
+
+function on() {
+	console.log('Off!');
+    gpio.open(16, "output", function(err) {     
+	    gpio.write(16, 1, function() {          
+	        gpio.close(16);
+	        setTimeout(function() {
+    			off();
+			}, 2000);                     
+	    });
+	});
+}
