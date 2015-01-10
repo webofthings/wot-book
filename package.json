@@ -5,11 +5,13 @@
   "author": "Vlad Trifa <vladounet@gmail.com>",
   "repository" : "https://github.com/domguinard/wot-book.git",
   "dependencies": {
-    "pi-gpio": "0.x.x"
+    "pi-gpio": "0.x.x",
+    "express": "4.x.x",
+    "ds18b20": "0.x.x"
   },
   "devDependencies": {
   },
-  "engine": "node >= 0.4.1"
+  "engine": "node >= 0.10.0"
 }
 
     
