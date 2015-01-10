@@ -17,6 +17,7 @@ try:
   # Loop until PIR output is 0
 while GPIO.input(PinPIR) == 1:
   Current_State = 0
+print "  Ready"
 while True:
   # Read PIR state
   Current_State = GPIO.input(PinPIR)
