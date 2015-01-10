@@ -5,4 +5,5 @@ gpio.open(12, "input", function(err) {
     	if(err) throw err;
     		console.log(value); // The current state of the pin
 		});
+		gpio.close(12);
 });
