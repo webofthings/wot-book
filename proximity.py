@@ -24,27 +24,27 @@ try:
   while GPIO.input(PinPIR)==1:
     Current_State = 0
 
-print "  Ready"
-while True:
-  # Read PIR state
-  Current_State = GPIO.input(PinPIR)
+  print " Ready"
+  while True:
+    # Read PIR state
+    Current_State = GPIO.input(PinPIR)
 
-  # If the PIR is triggered
-  if Current_State==1 and Previous_State==0:
-    print "  Motion detected!"
-    # Record previous state
-    Previous_State=1
+    # If the PIR is triggered
+    if Current_State==1 and Previous_State==0:
+      print " Motion detected!"
+      # Record previous state
+      Previous_State=1
 
-  # If the PIR has returned to ready state
-  elif Current_State==0 and Previous_State==1:
-    print "  Ready"
-    Previous_State = 0
-  
-  # Wait for 10 milliseconds
-  time.sleep(0.01)
+    # If the PIR has returned to ready state
+    elif Current_State==0 and Previous_State==1:
+      print " Ready"
+      Previous_State = 0
+    
+    # Wait for 10 milliseconds
+    time.sleep(0.01)
 
 except KeyboardInterrupt:
-  print "  Quit"
+  print " Quit"
   
   # Reset GPIO settings
   GPIO.cleanup()
