@@ -22,5 +22,5 @@ process.on('SIGINT', function() {
     gpio.write(inPin, 0, function() {          
 	    gpio.close(inPin);
 	    process.exit(); 
-	}   
+	});   
 });
