@@ -18,9 +18,9 @@ function blink(status) {
 }
 
 process.on('SIGINT', function() {
-    console.log('Caught interrupt signal, turning LED off!');
     gpio.write(inPin, 0, function() {          
 	    gpio.close(inPin);
+	    console.log('Bye, bye!')
 	    process.exit(); 
 	});   
 });
