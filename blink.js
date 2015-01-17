@@ -1,12 +1,13 @@
 var gpio = require("pi-gpio");
 
+var inPin = 7;
 on();
 
 function off() {
 	console.log('Off!');
-    gpio.open(16, "output", function(err) {     
-	    gpio.write(16, 0, function() {          
-	        gpio.close(16);
+    gpio.open(inPin, "output", function(err) {     
+	    gpio.write(inPin, 0, function() {          
+	        gpio.close(inPin);
 	        setTimeout(function() {
     			on();
 			}, 2000);                        
@@ -16,9 +17,9 @@ function off() {
 
 function on() {
 	console.log('On!');
-    gpio.open(16, "output", function(err) {     
-	    gpio.write(16, 1, function() {          
-	        gpio.close(16);
+    gpio.open(inPin, "output", function(err) {     
+	    gpio.write(inPin, 1, function() {          
+	        gpio.close(inPin);
 	        setTimeout(function() {
     			off();
 			}, 2000);                     
