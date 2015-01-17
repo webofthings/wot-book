@@ -2,6 +2,7 @@ var gpio = require("pi-gpio");
 
 var inPin = 7;
 var status = 1;
+blink();
 
 function blink() {
 	console.log(status);
