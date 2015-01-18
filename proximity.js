@@ -5,15 +5,15 @@ var inPin = 12;
 gpio.open(inPin, "input", function(err) {     
 	gpio.read(inPin, function(err, value) {
     	if(err) throw err;
-    	readProximity(readProximity);
+    	readProximity();
 	});
 });
 
-function readProximity(callback) {
+function readProximity() {
 	gpio.read(inPin, function(err, value) {
     	if(err) throw err;
     	console.log(value);
-		callback;
+		readProximity();
 	});
 }
 
