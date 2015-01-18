@@ -4,21 +4,23 @@ var inPin = 11;
 
 gpio.open(inPin, "input", function(err) {     
 	gpio.read(inPin, function(err, value) {
-    	if(err) throw err;
+    	if (err) exit();
     	readProximity();
 	});
 });
 
 function readProximity() {
 	gpio.read(inPin, function(err, value) {
-    	if(err) throw err;
+    	if(err) exit();
     	console.log(value ? 'some one!' : 'no one!');
 		readProximity();
 	});
 }
 
-process.on('SIGINT', function() {        
+function exit() {
 	gpio.close(inPin);
 	console.log('Bye, bye!')
 	process.exit(); 
-});   
+}
+
+process.on('SIGINT', exit);  
