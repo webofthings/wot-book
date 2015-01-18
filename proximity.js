@@ -1,6 +1,7 @@
 var gpio = require("pi-gpio");
 
-readProximity(11);
+var inPin = 11;
+readProximity(inPin);
 
 function readProximity(inPin) {
 	gpio.read(inPin, function(err, value) {
