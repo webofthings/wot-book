@@ -1,25 +1,24 @@
 var gpio = require("pi-gpio");
 
-var pin = 11;
+var inPin = 11;
 
-gpio.open(pin, "input", function(err) {     
+gpio.open(inPin, "input", function(err) {     
 	gpio.read(pin, function(err, value) {
     	if(err) throw err;
-    	readProximity();
+    	readProximity(readProximity);
 	});
 });
 
-
-function readProximity() {
-	gpio.read(pin, function(err, value) {
+function readProximity(callback) {
+	gpio.read(inPin, function(err, value) {
     	if(err) throw err;
     	console.log(value);
-		readProximity();
+		callback();
 	});
 }
 
-function closeGpios() {
-	gpio.close(pin);
-}
-
-process.on('SIGINT', closeGpios);
+process.on('SIGINT', function() {        
+	gpio.close(inPin);
+	console.log('Bye, bye!')
+	process.exit(); 
+});   

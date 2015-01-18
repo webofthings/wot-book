@@ -1,25 +1,25 @@
 var gpio = require("pi-gpio");
 
-var inPin = 7;
+var outPin = 7;
 
-blink(1);
+blink(1, 2000);
 
-function blink(status) {
+function blink(status, frequency) {
 	console.log('GPIO set to: ' + status);
-    gpio.open(inPin, "output", function(err) {     
-	    gpio.write(inPin, status, function() {          
-	        gpio.close(inPin);
+    gpio.open(outPin, "output", function(err) {     
+	    gpio.write(outPin, status, function() {          
+	        gpio.close(outPin);
 	        setTimeout(function() {
 	        	status = (status + 1) % 2;
     			blink(status);
-			}, 2000);                        
+			}, frequency);                        
 	    });
 	});
 }
 
 process.on('SIGINT', function() {
-    gpio.write(inPin, 0, function() {          
-	    gpio.close(inPin);
+    gpio.write(outPin, 0, function() {          
+	    gpio.close(outPin);
 	    console.log('Bye, bye!')
 	    process.exit(); 
 	});   
