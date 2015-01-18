@@ -1,15 +1,8 @@
 var gpio = require("pi-gpio");
 
-var inPin = 11;
+readProximity(11);
 
-gpio.open(inPin, "input", function(err) {     
-	gpio.read(inPin, function(err, value) {
-    	if (err) exit();
-    	readProximity();
-	});
-});
-
-function readProximity() {
+function readProximity(inPin) {
 	gpio.read(inPin, function(err, value) {
     	if(err) exit();
     	console.log(value ? 'some one!' : 'no one!');

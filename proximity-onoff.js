@@ -8,7 +8,8 @@ sensor.watch(function(err, value) {
 
 function exit() {
     sensor.unexport();
-    process.exit();
+    console.log('Bye, bye!')
+	process.exit(); 
 }
 
 process.on('SIGINT', exit);

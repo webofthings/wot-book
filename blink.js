@@ -1,10 +1,8 @@
 var gpio = require("pi-gpio");
 
-var outPin = 7;
+blink(7, 1, 2000);
 
-blink(1, 2000);
-
-function blink(status, frequency) {
+function blink(outPin, status, frequency) {
 	console.log('GPIO set to: ' + status);
     gpio.open(outPin, "output", function(err) {     
 	    gpio.write(outPin, status, function() {          
