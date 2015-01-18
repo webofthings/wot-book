@@ -12,7 +12,7 @@ gpio.open(inPin, "input", function(err) {
 function readProximity() {
 	gpio.read(inPin, function(err, value) {
     	if(err) throw err;
-    	console.log(value ? 'no one!', 'some one!');
+    	console.log(value ? 'no one!' : 'some one!');
 		readProximity();
 	});
 }
