@@ -1,6 +1,6 @@
 var gpio = require("pi-gpio");
 
-var inPin = 11;
+var inPin = 12;
 
 gpio.open(inPin, "input", function(err) {     
 	gpio.read(inPin, function(err, value) {
