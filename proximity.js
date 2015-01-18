@@ -13,7 +13,7 @@ function readProximity(callback) {
 	gpio.read(inPin, function(err, value) {
     	if(err) throw err;
     	console.log(value);
-		callback();
+		callback;
 	});
 }
 
