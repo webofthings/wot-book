@@ -3,7 +3,7 @@ var Gpio = require('onoff').Gpio,
 
 sensor.watch(function(err, value) {
     if (err) exit(err);
-    console.log("Change detected:" + value);
+    console.log(value ? 'intruder detected!' : 'intruder is gone!');
 });
 
 function exit(err) {
