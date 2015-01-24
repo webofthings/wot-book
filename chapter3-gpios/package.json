@@ -1,9 +1,9 @@
 {
-  "name": "wot-book-examples",
+  "name": "wot-book-gpio",
   "description": "Examples for the Web of Things Book",
   "author": "Dom Guinard <dom@guinard.org>",
   "author": "Vlad Trifa <vladounet@gmail.com>",
-  "repository" : "https://github.com/domguinard/wot-book.git",
+  "repository" : "https://github.com/webofthings/wot-book.git",
   "dependencies": {
     "pi-gpio": "0.x.x",
     "express": "4.x.x",

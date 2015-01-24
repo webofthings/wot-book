@@ -162,13 +162,6 @@ var actuators = {
 
 
 
-var properties = [
-	{'name':'battery-level-percent','value':'80','timestamp':'','description':''},
-	{'name':'status','value':'OK','timestamp':'','description':''},
-	{'name':'leds','description':''}
-];
-
-
 
 // GETs the list of all devices connected here
 app.get('/', function (req, res) {
