@@ -13,7 +13,7 @@ function readProximity() {
 
 function exit(err) {
 	gpio.close(inPin);
-	if(err) console.log('An error occured:' + err);
+	if(err) console.log('An error occured: ' + err);
 	console.log('Bye, bye!')
 	process.exit(); 
 }

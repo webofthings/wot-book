@@ -7,7 +7,7 @@ sensor.watch(function(err, value) {
 });
 
 function exit(err) {
-	if(err) console.log('An error occured:' + err);
+	if(err) console.log('An error occured: ' + err);
     sensor.unexport();
     console.log('Bye, bye!')
 	process.exit(); 
