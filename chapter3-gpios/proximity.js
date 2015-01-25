@@ -6,7 +6,7 @@ readProximity();
 function readProximity() {
 	gpio.read(inPin, function(err, value) {
     	if(err) exit(err);
-    	console.log(value ? 'some one!' : 'no one!');
+    	console.log(value ? 'there is some one!' : 'not anymore!');
 		readProximity();
 	});
 }
