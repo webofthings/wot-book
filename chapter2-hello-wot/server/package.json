@@ -5,10 +5,9 @@
   "author": "Vlad Trifa <vladounet@gmail.com>",
   "repository" : "https://github.com/webofthings/getting-started.git",
   "dependencies": {
-    "pi-gpio": "0.x.x",
     "consolidate": "~0.9.1",
     "express": "4.x.x",
-    "ds18b20": "0.x.x",
+    "cors": "2.5.x",
     "swig": "~0.14.0"
   },
   "devDependencies": {

@@ -1,6 +1,9 @@
-var express = require('express')
-var app = express()
+var express = require('express'),
+	cors = require('cors'),
+	app = express();
+
 var cons = require('consolidate')
+
 
 
 // This is just to get the external IP address to access this device
@@ -21,6 +24,9 @@ for (var k in interfaces) {
 app.engine('html', cons.swig);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
+
+// Activate CORS
+app.use(cors());
 
 
 // Handler for internal server errors
@@ -88,7 +94,7 @@ var sensors = {
 			'description':'The general-purpose input-output pins.'},
 		'temperature':{
 			'name':'Temperature Sensor',
-			'description':'A temperature sensor.','unit':'celsius','value':'22'},
+			'description':'A temperature sensor.','unit':'celsius','value':22},
 		'pir':{
 			'name':'Passive Infrared',
 			'description':'A passive infrared sensor. When true someone is present.','type':'boolean','value':false}
