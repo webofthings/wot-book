@@ -1,0 +1,64 @@
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="mashup.css" />
+</head>
+
+<body>
+  <script type="text/javascript">
+  
+  function mashup(event) {
+    var result = JSON.parse(event.data);
+    console.log(result);
+    if(result.value === true) {
+      console.log('Intruder detected!');
+    // We detected an intruder!
+    updateSwitch();
+    takePicture();
+  }
+}
+
+
+function subscribeToPir() {
+  var socket = new WebSocket('ws://localhost:3000/pi/sensors/pir');
+  socket.onmessage = mashup;
+}
+
+function takePicture() {
+  // Replace with this once CORS enabled!
+  // $.ajax({
+  //   type: "GET",
+  //   url: 'http://images.webcams.travel/original/1199785699-Weather-Charmey-Vounetz-Charmey.jpg',
+  //   datatype:"image/jpg",
+  //   success: function (data) {
+  //     $('#webcamImg').attr('src', data);
+  //   }
+  // });
+
+var img = $("<img />").attr('src', 'http://images.webcams.travel/original/1199785699-Weather-Charmey-Vounetz-Charmey.jpg')
+.load(function() {
+  if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+    alert('broken image!');
+  } else {
+    $("#imgContainer").append(img);
+  }
+});
+}
+
+function updateSwitch() {
+  $('#alertSwitch').attr('checked', true);
+}
+
+subscribeToPir();
+
+</script>
+<div class="onoffswitch">
+  <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="alertSwitch">
+  <label class="onoffswitch-label" for="myonoffswitch">
+    <span class="onoffswitch-inner"></span>
+    <span class="onoffswitch-switch"></span>
+  </label>
+</div>
+<div id="imgContainer"></div>
+</body>
+</html>
