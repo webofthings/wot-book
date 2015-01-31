@@ -17,7 +17,7 @@
 
 	<script>
 	function doPoll(){
-		$.getJSON('http://192.168.1.87:3000/pi/sensors/temperature', function(data) {
+		$.getJSON('http://localhost:3000/pi/sensors/temperature', function(data) {
 			console.log(data);
 			$('#temp').html(data.value + ' ' + data.unit);
 			setTimeout(doPoll,5000);
