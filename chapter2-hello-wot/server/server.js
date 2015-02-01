@@ -29,7 +29,7 @@ app.set('views', __dirname + '/views');
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-// parse application/x-www-form-urlencoded
+// parse application/x-www-form-urlencoded --> to parse stuff received from forms using POST
 app.use(bodyParser.urlencoded({ extended: false }))
 
 
@@ -418,7 +418,6 @@ app.post('/:id/actuators/:type/:property', function (req, res) {
 			// TODO implement support for other actuators in a similar way - this is obviously mega custom
 
 			if (property == 'content'){
-				console.log(req.body);
 				lcdBuffer.push({id:messageId++,content:req.body.value});		
 				result = {'message-received': req.body.value, 'id':messageId,'display-in-seconds':actuators.pi.display.properties.duration.value * lcdBuffer.length/1000};
 			}
