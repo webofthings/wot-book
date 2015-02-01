@@ -29,6 +29,10 @@ app.set('views', __dirname + '/views');
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+
 // Activate CORS
 app.use(cors());
 
@@ -388,8 +392,13 @@ app.get('/:id/subscriptions', function (req, res) {
 	console.log('Request (%s %s)', req.method, req.url)
 })
 
-// Id of the message
+// Id of the message to display as an infinte counter - till we reset the server ;)
 messageId = 2;
+
+// An array to hold the messages - ideally should be stored in the main json object
+var lcdBuffer = [{id:0,content:'First text'},{id:1,content:'Second text'}];
+
+
 
 // accept POST on all actuators
 app.post('/:id/actuators/:type/:property', function (req, res) {
@@ -409,6 +418,7 @@ app.post('/:id/actuators/:type/:property', function (req, res) {
 			// TODO implement support for other actuators in a similar way - this is obviously mega custom
 
 			if (property == 'content'){
+				console.log(req.body);
 				lcdBuffer.push({id:messageId++,content:req.body.value});		
 				result = {'message-received': req.body.value, 'id':messageId,'display-in-seconds':actuators.pi.display.properties.duration.value * lcdBuffer.length/1000};
 			}
@@ -419,12 +429,9 @@ app.post('/:id/actuators/:type/:property', function (req, res) {
 		result = {'error':'Sorry, this property does not exist.'}
 		res.status(404).json(result);
 	}	
-	console.log('Request (%s %s %s', req.method, req.url,req.body)
+	console.log('Request (%s %s) \n%s', req.method, req.url,JSON.stringify(req.body,null,4))
 })
 
-
-// An array to hold the messages - ideally should be stored in the main json object
-var lcdBuffer = [{id:0,content:'First text'},{id:1,content:'Second text'}];
 
 
 
