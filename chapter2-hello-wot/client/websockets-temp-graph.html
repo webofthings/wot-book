@@ -58,10 +58,14 @@
       var result = JSON.parse(event.data);
       console.log(result);
       addDataPoint(result);
-    }
+    };
+    socket.onerror = function (error) {
+      console.log('An error occured while trying to connected to a Websocket!');
+      console.log(error);
+    };
   }
 
-  subscribeToWebSocket();
+  subscribeToTemperature();
   </script>
 
 </body>

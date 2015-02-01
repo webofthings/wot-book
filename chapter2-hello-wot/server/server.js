@@ -26,7 +26,7 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
 // Activate CORS
-//app.use(cors());
+app.use(cors());
 
 
 // Handler for internal server errors
