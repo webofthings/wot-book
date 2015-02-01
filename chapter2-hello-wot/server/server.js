@@ -25,6 +25,10 @@ app.engine('html', cons.swig);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
+// To parse the the body of incoming HTTP requests
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
 // Activate CORS
 app.use(cors());
 
@@ -44,18 +48,21 @@ app.use(errorHandler);
 	device will need to have support for API keys
 	*/
 
-
-// We need a master object to hold the list of all sensors, actuators, config of the device, etc.
-
+// This is the gateway data structure.
 var myself = {
 	'name':'WoT Gateway @ EVRYTHNG',
 	'ip' : addresses[0]
 }
 
-// 
+
+// The timestamp when the server was started.
+startTime = new Date();//.toString();
+
+
+// We need a master object to hold the list of all sensors, actuators, config of the device, etc.
 var devices = {
 	'pi':{
-		'id':'klklsjfdamlsadk',
+		'id':'1',
 		'name':'My WoT Raspberry PI',
 		'description':'A simple WoT-connected Raspberry PI for the WoT book.',
 		'url':'https://devices.webofthings.io/pi',
@@ -70,7 +77,7 @@ var devices = {
 		}
 	},
 	'camera':{
-		'id':'klklsjfdamlsadk',
+		'id':'2',
 		'name':'My WoT Camera',
 		'description':'A simple WoT-connected camera.',
 		'url':'https://devices.webofthings.io/camera',
@@ -92,79 +99,133 @@ var sensors = {
 		'gpio':{
 			'name':'General Purpose IO',
 			'description':'The general-purpose input-output pins.'},
-			'temperature':{
-				'name':'Temperature Sensor',
-				'description':'A temperature sensor.','unit':'celsius','value':22},
-				'pir':{
-					'name':'Passive Infrared',
-					'description':'A passive infrared sensor. When true someone is present.','type':'boolean','value':true}
+		'temperature':{
+			'name':'Temperature Sensor',
+			'description':'A temperature sensor.',
+			'unit':'celsius',
+			'value':22,
+			'timestamp': startTime
+		},
+		'pir':{
+			'name':'Passive Infrared',
+			'description':'A passive infrared sensor. When true someone is present.','type':'boolean','value':true},
+			'value':22,
+			'type':'boolean',
+			'timestamp': startTime			
+	},
+	'camera':{
+		'ccd':{
+			'name':'Camera Sensor',
+			'url':'cam',
+			'type':'image/jpg',
+			'description':'The CCD sensor on the camera.'}
+	}
+};
+
+var actuators = {
+	'pi':{
+		'display':{			
+			'name':'LCD Display screen',
+			'description':'A simple display that can write commands.',
+			'properties':{
+				'brightness':{
+					'name':'Brightness',
+					'timestamp': startTime,
+					'value':80,
+					'unit':'%',
+					'type':'integer',
+					'description':'Percentace of brightness of the display. Min is 0 which is black, max is 100 which is white.'
 				},
-				'camera':{
-					'ccd':{
-						'name':'Camera Sensor',
-						'description':'The CCD sensor on the camera.'}
-					}
+				'content':{
+					'name':'Content',
+					'timestamp': startTime,
+					'value':'Hello World!',
+					'type':'string',
+					'description':'The text to display on the LCD screen.'
+				},
+				'duration':{
+					'name':'Display Duration',
+					'timestamp': startTime,
+					'value':5000,
+					'unit':'milliseconds',
+					'type':'integer',
+					'read-only':true,
+					'description':'The duration for how long text will be displayed on the LCD screen.'					
 				}
-
-				;
-
-				var actuators = {
-					'pi':{
-						'display':{			
-							'name':'LCD Display screen',
-							'description':'A simple display that can write commands.',
-							'properties':[
-							{
-								'name':'brightness',
-								'timestamp':'today',
-								'value':80,
-								'unit':'%',
-								'type':'integer',
-								'description':'Percentace of brightness of the display. Min is 0 which is black, max is 100 which is white.'
-							},{
-								'name':'text'
-							}
-							],
-							'commands':['write','clear','blink','color','brightness']
-						},
-						'leds':{
-							'name':'General Purpose IO',
-							'description':'LEDs on the device',
-							'properties':[
-							{
-								'name':'rgb-led0',
-								'timestamp':'today',
-								'value':[255,100,10],
-								'unit':'intensity',
-								'type':['integer','integer','integer'],
-								'description':'Color setting of LED #0 in RGB. Min 0, max 255. Green is [0,255,0].'
-							},
-							{
-								'name':'rgb-led1',
-								'timestamp':'today',
-								'value':[255,100,10],
-								'unit':'intensity',
-								'type':['integer','integer','integer'],
-								'description':'Color setting of LED #1 in RGB. Min 0, max 255.'
-							},
-							{
-								'name':'binary-led0',
-								'timestamp':'today',
-								'value':true,
-								'unit':'intensity',
-								'type':'boolean',
-								'description':'Setting of binary LED #0. True for led on, false for led off.'
-							}
-							]
-						}
-					},
-					'camera':{
-						'debug':{
-							'name':'Debug port',
-							'description':'A basic debug port to be used for reset & other admin functionality. Ideally do not use.'
-						}
-					}
+			},
+			'commands':['write','clear','blink','color','brightness']
+		},
+		'leds':{
+			'name':'LEDs',
+			'description':'LEDs on the device',
+			'properties':[
+				{
+					'name':'rgb-led0',
+					'timestamp':startTime,
+					'value':[255,100,10],
+					'unit':'intensity',
+					'type':['integer','integer','integer'],
+					'description':'Color setting of LED #0 in RGB. Min 0, max 255. Green is [0,255,0].'
+				},
+				{
+					'name':'rgb-led1',
+					'timestamp':startTime,
+					'value':[255,100,10],
+					'unit':'intensity',
+					'type':['integer','integer','integer'],
+					'description':'Color setting of LED #1 in RGB. Min 0, max 255.'
+				},
+				{
+					'name':'binary-led0',
+					'timestamp':startTime,
+					'value':true,
+					'unit':'intensity',
+					'type':'boolean',
+					'description':'Setting of binary LED #0. True for led on, false for led off.'
 				}
+			]
+		},		
+		'gpio':{
+			'name':'GPIOs',
+			'description':'Raw access to GPIO ports on the Pi',
+			'properties':[
+				{
+					'name':'gpio1',
+					'timestamp':startTime,
+					'value':[255,100,10],
+					'unit':'intensity',
+					'type':['integer','integer','integer'],
+					'description':'Color setting of LED #0 in RGB. Min 0, max 255. Green is [0,255,0].'
+				},
+				{
+					'name':'rgb-led1',
+					'timestamp':startTime,
+					'value':[255,100,10],
+					'unit':'intensity',
+					'type':['integer','integer','integer'],
+					'description':'Color setting of LED #1 in RGB. Min 0, max 255.'
+				},
+				{
+					'name':'binary-led0',
+					'timestamp':startTime,
+					'value':true,
+					'unit':'intensity',
+					'type':'boolean',
+					'description':'Setting of binary LED #0. True for led on, false for led off.'
+				}
+			]
+		}
+	},
+	'camera':{
+		'debug':{
+			'name':'Debug port',
+			'description':'A basic debug port to be used for reset & other admin functionality. Ideally do not use.'
+		},
+		'images':{
+			'name':'The video stream'
+		}
+	}
+}
 
 
 
@@ -268,11 +329,11 @@ app.get('/:id/actuators', function (req, res) {
 
 	res.format({
 		html: function(){
-			res.render('actuators', {deviceId: req.params.id,  device: devices[req.params.id], actuators: actuators[req.params.id]});
+			res.render('actuators', {deviceId: req.params.id, names: Object.keys(actuators[req.params.id]), device: devices[req.params.id], actuators: actuators[req.params.id]});
 		},
 
 		json: function(){
-			res.json(actuators[req.params.id]);	    
+			res.set({'Content-Length': '123','ETag': '12345'}).json(actuators[req.params.id]);	    
 		}
 	});	
 
@@ -280,17 +341,40 @@ app.get('/:id/actuators', function (req, res) {
 })
 
 // GET on actuators of a device
-app.get('/:id/actuators/:type', function (req, res) {
+app.get('/:id/actuators/:type/:property?', function (req, res) {
 
-	res.format({
-		html: function(){
-			res.render('actuator', {deviceId: req.params.id,  device: devices[req.params.id], actuators: actuators[req.params.id]});
-		},
+    if (property = req.params.property){ // if there's a property given
+    	console.log('Reading property (%s %s)', req.method, req.url)
+    	
+    	if (actuators[req.params.id][req.params.type]['properties'][property]){ // if prop exists    		
+			res.format({ 
+				html: function(){
+					res.render('actuator', {device: devices[req.params.id], actuator: actuators[req.params.id][req.params.type]});
+				},
 
-		json: function(){
-			res.json(actuators[req.params.id][req.params.type]);	    
-		}
-	});	
+				json: function(){
+					res.json(actuators[req.params.id][req.params.type]['properties'][property]);	    
+				}
+			});	
+    	} else { // Property doesn't exist
+    		// return some error or shit
+			result = {'error':'Sorry, this property does not exist.'}
+			res.status(404).json(result);
+    	}
+    } else { // no property given, just return the actuators object
+    	console.log('Reading actuator (%s %s)', req.method, req.url)
+		res.format({
+			html: function(){
+				res.render('actuator', {device: devices[req.params.id], actuator: actuators[req.params.id][req.params.type], properties: Object.keys(actuators[req.params.id][req.params.type]['properties'])});
+			},
+
+			json: function(){
+				res.json(actuators[req.params.id][req.params.type]);	    
+			}
+		});	
+    }
+
+	console.log('Request (%s %s)', req.method, req.url)
 })
 
 
@@ -304,16 +388,60 @@ app.get('/:id/subscriptions', function (req, res) {
 	console.log('Request (%s %s)', req.method, req.url)
 })
 
+// Id of the message
+messageId = 2;
 
-// accept POST on LEDs
-app.put('/:id/actuators/:type/', function (req, res) {
-	var result = {'status' : 'on'};
-	res.json(result);
-	console.log('Changing status of the LED to %s', result)
+// accept POST on all actuators
+app.post('/:id/actuators/:type/:property', function (req, res) {
 
-	console.log('Request (%s %s)', req.method, req.url)
+	// Parse the request parameters
+	var deviceId = req.params.id, type = req.params.type, property = req.params.property; 
+
+	var result; // Response to the request
+
+	if (actuators[deviceId][type]['properties'][property]) { // If property exists
+		if (actuators[deviceId][type]['properties'][property]['read-only']){ // If property is read-only
+			result = {'error':'Sorry, this property is read-only.'}
+			res.status(403).json(result);
+		} else {
+			// check if buffered, then write it
+
+			// TODO implement support for other actuators in a similar way - this is obviously mega custom
+
+			if (property == 'content'){
+				lcdBuffer.push({id:messageId++,content:req.body.value});		
+				result = {'message-received': req.body.value, 'id':messageId,'display-in-seconds':actuators.pi.display.properties.duration.value * lcdBuffer.length/1000};
+			}
+		
+			res.status(202).json(result); // Accepted, not sure we'll act though
+		}
+	} else { // Property doesn't exist
+		result = {'error':'Sorry, this property does not exist.'}
+		res.status(404).json(result);
+	}	
+	console.log('Request (%s %s %s', req.method, req.url,req.body)
 })
 
+
+// An array to hold the messages - ideally should be stored in the main json object
+var lcdBuffer = [{id:0,content:'First text'},{id:1,content:'Second text'}];
+
+
+
+// We setup a timed function that displays some text from the buffer
+setInterval(function() {
+	if (lcdBuffer.length > 0){ // Do we have stuff to write on the display?
+		message = lcdBuffer.shift()
+		// update the property object
+		actuators.pi.display.properties.content.timestamp = new Date();
+		actuators.pi.display.properties.content.value = message.content;
+		console.log('Updating display text to: ' + message.content + ' (message id = ' + message.id + ' )');
+		// Push the command to the device/lcd
+	} else { // the buffer is empty - so do nothing (just keeps the last message displayed)		
+		//console.log('No more text to display. Send data over!')
+	}
+
+}, actuators.pi.display.properties.duration.value);
 
 
 // We now start the server

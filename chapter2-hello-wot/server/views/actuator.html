@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{deviceId}} :: Actuators :: </title>
+    <title>{{deviceId}} :: Actuators</title>
 
     <!-- Bootstrap -->
 	<!-- Latest compiled and minified CSS -->
@@ -55,7 +55,7 @@
             </li>
           </ul>
         </div><!--/.nav-collapse -->
-      </div>
+      </div> 
     </nav>
 
     <div class="container theme-showcase" role="main">
@@ -69,12 +69,23 @@
 		</div>
 
     <div class="page-header">
-      <h1>Actuators</h1>
+      <h1>Actuator: {{actuator.name}}</h1>
       <p>Actuators on this device:</p>
     
+      <h2>Properties</h2>
       <ol>
-        {% for id in names %}
-          <li><a href="{{id}}/"><b>{{actuators[id].name}}</b></a>: <em>{{actuators[id].description}}</em></li>   
+        {% for property in properties %}
+          <li><a href="{{property}}/"><b>{{actuator.properties[property].name}}</b></a>: <em>{{actuator.properties[property].description}}</em>. <b>Last value:</b> {{actuator.properties[property].value}} @ {{actuator.properties[property].timestamp}}</li> 
+          <form class="form-inline" action="{{property}}" method="post">
+            <div class="form-group">
+              <label class="sr-only" for="exampleInputAmount">Change value (in {{actuator.properties[property].type}})</label>
+              <div class="input-group">
+                <div class="input-group-addon">{{actuator.properties[property].unit}}</div>
+                <input type="text" class="form-control" id="value" placeholder="{{actuator.properties[property].value}}">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>  
         {% endfor %}
       </ol>
     </div>
