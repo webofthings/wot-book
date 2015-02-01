@@ -15,8 +15,6 @@
   <div id="chart" style="width: 900px; height: 500px"></div>
 
   <script type="text/javascript">
-  google.setOnLoadCallback(drawChart);
-
   var maxDataPoints = 10;
   var chart = new google.visualization.LineChart($('#chart')[0]);
   
@@ -35,16 +33,13 @@
     legend: { position: 'bottom' }
   };
 
-  function drawChart() {
+  function addDataPoint(dataPoint) {
     if (data.getNumberOfRows() > maxDataPoints) {
       data.removeRow(0);
     }
-    chart.draw(data, options);
-  }
-
-  function addDataPoint(dataPoint) {
     data.addRow([getTime(), dataPoint.value]);
-    drawChart();
+
+    chart.draw(data, options);
   }
 
   function getTime() {
