@@ -150,7 +150,7 @@ var actuators = {
 				'duration':{
 					'name':'Display Duration',
 					'timestamp': startTime,
-					'value':5000,
+					'value':20000,
 					'unit':'milliseconds',
 					'type':'integer',
 					'read-only':true,
@@ -433,7 +433,6 @@ app.post('/:id/actuators/:type/:property', function (req, res) {
 
 
 
-
 // We setup a timed function that displays some text from the buffer
 setInterval(function() {
 	if (lcdBuffer.length > 0){ // Do we have stuff to write on the display?
@@ -441,6 +440,7 @@ setInterval(function() {
 		// update the property object
 		actuators.pi.display.properties.content.timestamp = new Date();
 		actuators.pi.display.properties.content.value = message.content;
+		actuators.pi.display.properties.content.length = lcdBuffer.length;
 		console.log('Updating display text to: ' + message.content + ' (message id = ' + message.id + ' )');
 		// Push the command to the device/lcd
 	} else { // the buffer is empty - so do nothing (just keeps the last message displayed)		
