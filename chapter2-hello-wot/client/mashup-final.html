@@ -31,11 +31,6 @@
   }
 
   function publishMessage(message) {
-    //TODO: remove once services are up!
-    console.log(message)
-    $('#message').html('Published: ' + message);
-    takePicture();
-
     var payload = {'message' : message};
     $.ajax(piRootUrl + 'actuators/lcd', {
       data : JSON.stringify(payload),
