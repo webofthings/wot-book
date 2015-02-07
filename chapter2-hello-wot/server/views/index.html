@@ -7,11 +7,23 @@
     <title>Gateway Page</title>
 
     <!-- Bootstrap -->
-	<!-- Latest compiled and minified CSS -->
+    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+  	<!-- Optional theme -->
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+
+    <!-- Links to other resources -->
+  {% for link in linkNames %}
+    <link href="{{link}}" rel="{{links[link].rel}}" title="{{links[link].title}}" /> 
+  {% endfor %}
+
+    <!-- Links to other devices -->
+  {% for id in names %}
+    <link href="{{id}}" rel="device" title="{{devices[id].name}}" /> 
+  {% endfor %}
+
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

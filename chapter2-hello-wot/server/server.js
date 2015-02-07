@@ -235,20 +235,82 @@ var actuators = {
 
 // GETs the list of all devices connected here
 app.get('/', function (req, res) {
+	
+	/*
+		These are links to be used for HATEOAS 
+	*/
+
+	var links = {
+		'meta.rdf': {
+			'rel':'meta',
+			'title':'Metadata'
+		},
+		'self': {
+			'rel':'self',
+			'title':'Self'
+		},
+		'doc': {
+			'rel':'doc',
+			'title':'Documentation'
+		},
+		'ui': {
+			'rel':'ui',
+			'title':'User Interface'
+		}
+	};
+
+	var headers = {'Link': '</meta.rdf>; rel="meta"','Link': '</self>; rel="self"','Link': '</things>; rel="things"','Link': '</doc>; rel="doc"','Link': '</ui>; rel="ui"'};
 
 	res.format({
 		html: function(){
-			res.render('index', {names: Object.keys(devices), devices: devices, myself: myself });
+			res.set(headers).render('index', {names: Object.keys(devices), devices: devices, linkNames: Object.keys(links), links:links, myself: myself });
 		},
 
 		json: function(){
-			res.json(devices);
+			res.set(headers).json(devices);
 		}
 	});	
 
 	console.log('Request (%s %s)', req.method, req.url);
 })
 
+
+// GETs documentation
+app.get('/doc', function (req, res) { // Gets a specific device
+
+	res.format({
+		html: function(){
+			res.render('device', {deviceId: req.params.id, device: devices[req.params.id]});
+		},
+
+		json: function(){
+			res.json(devices[req.params.id]);
+		}
+	});	
+
+  	//res.send('user' + req.params.id);
+
+  	console.log('Request (%s %s)', req.method, req.url);
+  })
+
+
+// GETs self
+app.get('/self', function (req, res) { // Gets a specific device
+
+	res.format({
+		html: function(){
+			res.render('device', {deviceId: req.params.id, device: devices[req.params.id]});
+		},
+
+		json: function(){
+			res.json(devices[req.params.id]);
+		}
+	});	
+
+  	//res.send('user' + req.params.id);
+
+  	console.log('Request (%s %s)', req.method, req.url);
+  })
 
 
 // GETs a specific device
