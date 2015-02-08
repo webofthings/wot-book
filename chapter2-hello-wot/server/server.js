@@ -3,7 +3,9 @@ cors = require('cors'),
 app = express(),
 cons = require('consolidate'),
 http = require('http'),
+mdns = require('mdns'),
 WebSocketServer = require('ws').Server;
+
 
 
 // This is just to get the external IP address to access this device
@@ -513,11 +515,49 @@ setInterval(function() {
 
 
 // We now start the server
-var server = app.listen(3000, function () {
+var rootPort = 3000;
+var server = app.listen(rootPort, function () {
 	var host = server.address().address
 	var port = server.address().port
 	console.log('Your WoT device is running at http://%s:%s', addresses[0], port)
 })
+
+
+
+// Let's create and expose an mDNS service 
+
+// This holds infos about this Gateway - the "type:wot" means it's a WoT device and the rootPort has the "rootPort"
+var txt_record = {
+    name: 'here',
+    type : 'wot',  
+    public: true,
+    rootPort: rootPort
+};
+
+var ad = mdns.createAdvertisement(mdns.tcp('http'), 4321, {txtRecord: txt_record});
+ad.start();
+
+
+// This is looking for other mDNS devices on the LAN (and maybe add them to the GW ;) 
+var browser = mdns.createBrowser(mdns.tcp('http'));
+
+browser.on('serviceUp', function(service) {
+	if (service.txtRecord){ // hey, do we know anything about this dude?
+		if (service.txtRecord.type=='wot'){ // we do, so is it a WoT device?
+		  console.log("Found WoT Device: ", service);
+		  // It is, so we now parse the data on the root device address+port
+		}
+	}
+});
+
+browser.on('serviceDown', function(service) {
+	if (service.txtRecord.type=='wot'){ 
+	  console.log("WoT Device is gone: ", service);
+	}
+});
+
+browser.start();
+
 
 
 // W3C Standard Websocket Server for temperature

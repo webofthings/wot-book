@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Exercise 4 - Parse a Device</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<h1>Browse a new device</h1>
+	
+		<form id="message-form"> 
+			<input type="text" id="host" name="host" value="http://localhost:3000" placeholder="The URL of a WoT device" /> 
+			<button type="submit">Browse this device</button> 
+		</form> 
+		
+		<hr>
+
+		<div id="headers">
+			<h4>HTTP Response headers</h4> 
+			<pre></pre> 
+		</div> 
+
+		<div id="response">
+			<h4>JSON Response</h4> 
+			<pre></pre> 
+		</div> 
+
+		<script> 
+		(function($){ function processForm(e){
+
+			$.ajax({
+          		url: $('#host').val(),
+          		type: 'GET',
+          		dataType: 'json',
+          		success: function(data, textStatus, jqXHR) { 
+
+					console.log( textStatus ); 
+
+	  				// Plot the response JSON object
+					$('#response pre').html( JSON.stringify( data ) );
+
+					console.log( data ); 
+
+					// Plot the response headers
+					$('#headers pre').html(jqXHR.getAllResponseHeaders());
+
+					console.log( jqXHR ); 
+
+
+	  				if (data.devices){
+
+	  				} else {
+	  					$('#response pre').html("No devices found")
+	  				}
+          		},
+          		error: function(data, textStatus, jqXHR) { 
+					// Plot the response headers
+					$('#headers pre').html(jqXHR.getAllResponseHeaders());
+          		},
+          		beforeSend: setHeader
+        	});
+
+			function setHeader(xhr) {
+        		xhr.setRequestHeader('securityCode', 'Foo');
+        		xhr.setRequestHeader('passkey', 'Bar');
+      		}
+
+
+			e.preventDefault(); 
+		} 
+
+		$('#message-form').submit(processForm); })(jQuery); 
+
+
+	  </script> 
+	
+
+</body>
+</html>
