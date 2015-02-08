@@ -1,0 +1,12 @@
+{
+  "name": "wot-book-node",
+  "description": "Examples for the Web of Things Book",
+  "author": "Vlad Trifa <vladounet@gmail.com>",
+  "repository": "https://github.com/webofthings/wot-book.git",
+  "dependencies": {
+    "async": "^0.9.0",
+    "request": "^2.53.0"
+  },
+  "devDependencies": {},
+  "engine": "node >= 0.10.0"
+}
