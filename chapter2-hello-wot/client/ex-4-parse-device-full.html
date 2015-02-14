@@ -15,7 +15,7 @@
 	<h1>Browse a new device</h1>
 	
 		<form id="message-form"> 
-			<input type="text" id="host" name="host" value="http://localhost:3000" placeholder="The URL of a WoT device" /> 
+			<input type="text" id="host" name="host" value="http://localhost:3000/pi" placeholder="The URL of a WoT device" /> 
 			<button type="submit">Browse this device</button> 
 		</form> 
 		
@@ -31,6 +31,10 @@
 			<pre></pre> 
 		</div> 
 
+		<h4>Device Metadata</h4>
+		<p>Metadata (general model used by this device) : <div id="meta"></div></p>
+		<p>Doc (human-readable data for this device): <div id="doc"></div></p>
+
 		<script> 
 		(function($){ function processForm(e){
 
@@ -45,12 +49,15 @@
 	  				// Plot the response JSON object
 					$('#response pre').html( JSON.stringify( data ) );
 
-					console.log( data ); 
-
 					// Plot the response headers
-					$('#headers pre').html(jqXHR.getAllResponseHeaders());
+					//$('#headers pre').html(jqXHR.getAllResponseHeaders());
 
 					console.log( jqXHR ); 
+
+					// Explore All Links
+
+					$('#meta').html( "<a href=\""+data.links.meta.rel+"\">"+data.links.meta.title+"</a>");
+					$('#doc').html( "<a href=\""+data.links.doc.rel+"\">"+data.links.doc.title+"</a>");
 
 
 	  				if (data.devices){

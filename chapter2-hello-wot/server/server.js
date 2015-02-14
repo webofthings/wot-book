@@ -7,7 +7,6 @@ mdns = require('mdns'),
 WebSocketServer = require('ws').Server;
 
 
-
 // This is just to get the external IP address to access this device
 var os = require('os');
 var interfaces = os.networkInterfaces();
@@ -20,6 +19,10 @@ for (var k in interfaces) {
 		}
 	}
 }
+
+// And this is the port for this server
+var rootPort = 3000;
+
 
 
 // Setup all the templating stuff
@@ -51,13 +54,17 @@ app.use(errorHandler);
 
 
 /*
-	device will need to have support for API keys
-	*/
+	Device will need to have support for API keys
+*/
+
 
 // This is the gateway data structure.
 var myself = {
 	'name':'WoT Gateway @ EVRYTHNG',
-	'ip' : addresses[0]
+	'ip' : addresses[0],
+	'port': rootPort,
+	'rootUrl':'http://'+addresses[0]+':'+rootPort+'/',
+	'publicUrl':'https://devices.webofthings.io'
 }
 
 
@@ -71,31 +78,64 @@ var devices = {
 		'id':'1',
 		'name':'My WoT Raspberry PI',
 		'description':'A simple WoT-connected Raspberry PI for the WoT book.',
-		'url':'https://devices.webofthings.io/pi',
+		'url':myself.rootUrl+'pi/',
 		'version':'v0.1',
 		'tags':['raspberry','pi','WoT'],
 		'ip' : addresses[0],
-		'elements':{
-			'sensors':{'url':'sensors','doc':'The list of sensors'},
-			'actuators':{'url':'actuators','doc':'The list of actuators'},
-			'debug':{'url':'doc','doc':'The debug channel'},
-			'docs':{'url':'doc','doc':'The documentation for this device'}
+		'resources':{
+			'sensors':{'url':'sensors/','name':'The list of sensors'},
+			'actuators':{'url':'actuators/','name':'The list of actuators'},
+			'debug':{'url':'debug/','name':'The debug channel'},
+			'docs':{'url':'doc/','name':'The documentation for this device'}
+		},
+		'links': {
+			'meta': {
+				'rel':'http://webofthings.io/meta/device/',
+				'title':'Metadata'
+			},
+			'self': {
+				'rel':'self/',
+				'title':'Self'
+			},
+			'doc': {
+				'rel':'http://webofthings.io/docs/pi/	',
+				'title':'Documentation'
+			},
+			'ui': {
+				'rel':'ui/',
+				'title':'User Interface'
+			}
 		}
 	},
 	'camera':{
 		'id':'2',
 		'name':'My WoT Camera',
 		'description':'A simple WoT-connected camera.',
-		'url':'https://devices.webofthings.io/camera',
+		'url':myself.rootUrl+'camera/',
 		'version':'v0.1',
 		'tags':['camera','WoT'],
 		'ip' : addresses[0],
-		'elements':{
-			'sensors':{'url':'sensors','doc':'The list of sensors'},
-			'actuators':{'url':'actuators','doc':'The list of actuators'},
-			'debug':{'url':'doc','doc':'The debug channel'},
-			'docs':{'url':'doc','doc':'The documentation for this device'}
+		'resources':{
+			'sensors':{'url':'sensors/','name':'The list of sensors'},
+			'actuators':{'url':'actuators/','name':'The list of actuators'},
+			'debug':{'url':'debug/','name':'The debug channel'},
+			'docs':{'url':'doc/','name':'The documentation for this device'}
+		},
+		'links': {
+			'meta': {
+				'rel':'http://webofthings.io/meta/device/',
+				'title':'Metadata'
+			},
+			'doc': {
+				'rel':'http://webofthings.io/docs/pi/',
+				'title':'Documentation'
+			},
+			'ui': {
+				'rel':'ui',
+				'title':'User Interface'
+			}
 		}
+
 	}
 }
 
@@ -110,14 +150,12 @@ var sensors = {
 			'description':'A temperature sensor.',
 			'unit':'celsius',
 			'value':22,
-			'timestamp': startTime
-		},
+			'timestamp': startTime},
 		'pir':{
 			'name':'Passive Infrared',
-			'description':'A passive infrared sensor. When true someone is present.','type':'boolean','value':true},
-			'value':22,
+			'description':'A passive infrared sensor. When true someone is present.',
 			'type':'boolean',
-			'timestamp': startTime			
+			'value':true},
 	},
 	'camera':{
 		'ccd':{
@@ -233,6 +271,17 @@ var actuators = {
 	}
 }
 
+
+
+/* 
+ ######   ######## ########          ## 
+##    ##  ##          ##            ##  
+##        ##          ##           ##   
+##   #### ######      ##          ##    
+##    ##  ##          ##         ##     
+##    ##  ##          ##        ##      
+ ######   ########    ##       ##       
+*/
 
 
 // GETs the list of all devices connected here
@@ -515,7 +564,6 @@ setInterval(function() {
 
 
 // We now start the server
-var rootPort = 3000;
 var server = app.listen(rootPort, function () {
 	var host = server.address().address
 	var port = server.address().port

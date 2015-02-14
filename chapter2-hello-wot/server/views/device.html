@@ -73,8 +73,8 @@
 			<p>These are the sub-elements of this device:</p>
 		
 			<ul>
-				{% for element in device.elements %}
-					<li>See <a href="{{element.url}}/">{{element.doc}}</a></li>		
+				{% for element in device.resources %}
+					<li>See <a href="{{element.url}}/">{{element.name}}</a></li>		
 				{% endfor %}
 			</ul>
 		</div>
