@@ -31,7 +31,7 @@
 
 			var sensorsPath='';
 
-			// Step 1 - we get the ROOT page of the device, and extract data from it
+			// STEP 1 - GET the ROOT page of the device and extract data from it
 			$.ajax({
 				url: $('#host').val(),
 				type: 'GET',
@@ -43,7 +43,7 @@
 					// let's record of the sensors path
 					sensorsPath=data.url+data.resources.sensors.url;
 
-					// STEP 2 - Now we get the list of all sensors on the device
+					// STEP 2 - GET the list of all sensors on the device
 					$.ajax({
 						url: sensorsPath,
 						type: 'GET',
@@ -56,9 +56,9 @@
 
 							for (key in data) { // Loop through all sensors
 								sensorList = sensorList + "<li><a href=\""+sensorsPath+key+"\">"+data[key].name+"</a></li>";
-   							}
-   							// Display the list in the HTML now
-   							$('#sensors-list').html(sensorList);
+								}
+								// Display the list in the HTML now
+								$('#sensors-list').html(sensorList);
 						},
 						error: function(data, textStatus, jqXHR) { 
 						}

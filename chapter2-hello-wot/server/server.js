@@ -83,10 +83,18 @@ var devices = {
 		'tags':['raspberry','pi','WoT'],
 		'ip' : addresses[0],
 		'resources':{
-			'sensors':{'url':'sensors/','name':'The list of sensors'},
-			'actuators':{'url':'actuators/','name':'The list of actuators'},
-			'debug':{'url':'debug/','name':'The debug channel'},
-			'docs':{'url':'doc/','name':'The documentation for this device'}
+			'sensors':{
+				'url':'sensors/',
+				'name':'The list of sensors'
+			},
+			'actuators':{
+				'url':'actuators/',
+				'name':'The list of actuators'
+			},
+			'debug':{
+				'url':'debug/',
+				'name':'The debug channel'
+			}
 		},
 		'links': {
 			'meta': {
@@ -98,7 +106,7 @@ var devices = {
 				'title':'Self'
 			},
 			'doc': {
-				'rel':'http://webofthings.io/docs/pi/	',
+				'rel':'http://webofthings.io/docs/pi/',
 				'title':'Documentation'
 			},
 			'ui': {
@@ -116,10 +124,18 @@ var devices = {
 		'tags':['camera','WoT'],
 		'ip' : addresses[0],
 		'resources':{
-			'sensors':{'url':'sensors/','name':'The list of sensors'},
-			'actuators':{'url':'actuators/','name':'The list of actuators'},
-			'debug':{'url':'debug/','name':'The debug channel'},
-			'docs':{'url':'doc/','name':'The documentation for this device'}
+			'sensors':{
+				'url':'sensors/',
+				'name':'The list of sensors'
+			},
+			'actuators':{
+				'url':'actuators/',
+				'name':'The list of actuators'
+			},
+			'debug':{
+				'url':'debug/',
+				'name':'The debug channel'
+			}
 		},
 		'links': {
 			'meta': {
@@ -144,25 +160,29 @@ var sensors = {
 	'pi': {
 		'gpio':{
 			'name':'General Purpose IO',
-			'description':'The general-purpose input-output pins.'},
+			'description':'The general-purpose input-output pins.'
+		},
 		'temperature':{
 			'name':'Temperature Sensor',
 			'description':'A temperature sensor.',
 			'unit':'celsius',
 			'value':22,
-			'timestamp': startTime},
+			'timestamp': startTime
+		},
 		'pir':{
 			'name':'Passive Infrared',
 			'description':'A passive infrared sensor. When true someone is present.',
 			'type':'boolean',
-			'value':true},
+			'value':true
+		},
 	},
 	'camera':{
 		'ccd':{
 			'name':'Camera Sensor',
 			'url':'cam',
 			'type':'image/jpg',
-			'description':'The CCD sensor on the camera.'}
+			'description':'The CCD sensor on the camera.'
+		}
 	}
 };
 
@@ -202,62 +222,62 @@ var actuators = {
 		'leds':{
 			'name':'LEDs',
 			'description':'LEDs on the device',
-			'properties':[
-				{
-					'name':'rgb-led0',
+			'properties':{
+				'rgbled0':{
+					'name':'RGB Led 0',
 					'timestamp':startTime,
 					'value':[255,100,10],
 					'unit':'intensity',
 					'type':['integer','integer','integer'],
 					'description':'Color setting of LED #0 in RGB. Min 0, max 255. Green is [0,255,0].'
 				},
-				{
-					'name':'rgb-led1',
+				'rgbled1':{
+					'name':'RGB Led 1',
 					'timestamp':startTime,
 					'value':[255,100,10],
 					'unit':'intensity',
 					'type':['integer','integer','integer'],
 					'description':'Color setting of LED #1 in RGB. Min 0, max 255.'
 				},
-				{
-					'name':'binary-led0',
+				'rgb-ed2':{
+					'name':'RGB Led 2',
 					'timestamp':startTime,
-					'value':true,
+					'value':[255,100,10],
 					'unit':'intensity',
-					'type':'boolean',
+					'type':['integer','integer','integer'],
 					'description':'Setting of binary LED #0. True for led on, false for led off.'
 				}
-			]
+			}
 		},		
 		'gpio':{
 			'name':'GPIOs',
 			'description':'Raw access to GPIO ports on the Pi',
-			'properties':[
-				{
-					'name':'gpio1',
-					'timestamp':startTime,
-					'value':[255,100,10],
-					'unit':'intensity',
-					'type':['integer','integer','integer'],
-					'description':'Color setting of LED #0 in RGB. Min 0, max 255. Green is [0,255,0].'
-				},
-				{
-					'name':'rgb-led1',
-					'timestamp':startTime,
-					'value':[255,100,10],
-					'unit':'intensity',
-					'type':['integer','integer','integer'],
-					'description':'Color setting of LED #1 in RGB. Min 0, max 255.'
-				},
-				{
-					'name':'binary-led0',
+			'properties':{
+				'gpio0':{
+					'name':'GPIO 0',
 					'timestamp':startTime,
 					'value':true,
-					'unit':'intensity',
+					'unit':'digital HIGH',
+					'type':'boolean',
+					'description':'Color setting of LED #0 in RGB. Min 0, max 255. Green is [0,255,0].'
+				},
+				'gpio1':{
+					'name':'GPIO 1',
+					'timestamp':startTime,
+					'value':true,
+					'unit':'digital HIGH',
+					'type':'boolean',
+					'description':'Color setting of LED #1 in RGB. Min 0, max 255.'
+				},
+				'gpio2':{
+					'name':'GPIO 2',
+					'timestamp':startTime,
+					'value':true,
+					'unit':'digital HIGH',
 					'type':'boolean',
 					'description':'Setting of binary LED #0. True for led on, false for led off.'
 				}
-			]
+			}
 		}
 	},
 	'camera':{
@@ -354,7 +374,7 @@ app.get('/self', function (req, res) { // Gets a specific device
 		},
 
 		json: function(){
-			res.json(devices[req.params.id]);
+			res.json(myself);
 		}
 	});	
 
