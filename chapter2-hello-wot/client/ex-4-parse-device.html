@@ -1,81 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Exercise 4 - Parse a Device</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Exercise 4 - Parse a Device</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 </head>
 <body>
-	<h1>Browse a new device</h1>
-	
-<form id="message-form"> 
-	<input type="text" id="host" name="host" value="http://localhost:3000/pi" placeholder="The root URL of a WoT device" /> 
-	<button type="submit">Browse this device</button> 
-</form> 
+<h1>Browse a new device</h1>
+
+<form id="message-form">
+    <input type="text" id="host" name="host" value="http://localhost:3000/pi"
+           placeholder="The root URL of a WoT device"/>
+    <button type="submit">Browse this device</button>
+</form>
 
 <h4>Device Metadata</h4>
-<p><b>Metadata.</b> A general model used by this device can be found here: <div id="meta"></div></p>
-<p><b>Documentation.</b> A human-readable documentation specifically for this device can be found here: <div id="doc"></div></p>
-<p><b>Sensors.</b> The sensors offered by this device: <div id="sensors"></div></p>
+
+<p><b>Metadata.</b> A general model used by this device can be found here:
+
+<div id="meta"></div>
+</p>
+<p><b>Documentation.</b> A human-readable documentation specifically for this device can be found here:
+
+<div id="doc"></div>
+</p>
+<p><b>Sensors.</b> The sensors offered by this device:
+
+<div id="sensors"></div>
+</p>
 <ul id="sensors-list">
 </ul>
 
-		<script> 
-		(function($){ function processForm(e){
+<script>
+    (function ($) {
+        function processForm(e) {
 
-			var sensorsPath='';
+            var sensorsPath = '';
 
-			// STEP 1 - GET the ROOT page of the device and extract data from it
-			$.ajax({
-				url: $('#host').val(),
-				type: 'GET',
-				dataType: 'json',
-				success: function(data) { 					
-					$('#meta').html( data.links.meta.title+" <a href=\""+data.links.meta.rel+"\">"+data.links.meta.rel+"</a>");
-					$('#doc').html( data.links.doc.title+" <a href=\""+data.links.doc.rel+"\">"+data.links.doc.rel+"</a>");
+            //#1 GET the ROOT page of the device and extract data from it
+            $.ajax({
+                url: $('#host').val(),
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#meta').html(data.links.meta.title + " <a href=\"" + data.links.meta.rel + "\">" + data.links.meta.rel + "</a>");
+                    $('#doc').html(data.links.doc.title + " <a href=\"" + data.links.doc.rel + "\">" + data.links.doc.rel + "</a>");
 
-					// let's record of the sensors path
-					sensorsPath=data.url+data.resources.sensors.url;
+                    //2 we record of the sensors path
+                    sensorsPath = data.url + data.resources.sensors.url;
 
-					// STEP 2 - GET the list of all sensors on the device
-					$.ajax({
-						url: sensorsPath,
-						type: 'GET',
-						dataType: 'json',
-						success: function(data) {
-							// 'data' contains the JSON object of the sensors 
-							var sensorList="";
+                    //3 GET the list of all sensors on the device
+                    $.ajax({
+                        url: sensorsPath,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            //4 'data' contains the JSON object of the sensors
+                            var sensorList = "";
 
-							$('#sensors').html( Object.keys(data).length + " sensors found!");
+                            $('#sensors').html(Object.keys(data).length + " sensors found!");
 
-							for (key in data) { // Loop through all sensors
-								sensorList = sensorList + "<li><a href=\""+sensorsPath+key+"\">"+data[key].name+"</a></li>";
-								}
-								// Display the list in the HTML now
-								$('#sensors-list').html(sensorList);
-						},
-						error: function(data, textStatus, jqXHR) { 
-						}
-					});
-				},
-				error: function(data, textStatus, jqXHR) { 
-				}
-			});
+                            for (key in data) { //5 loop through all sensors
+                                sensorList = sensorList + "<li><a href=\"" + sensorsPath + key + "\">" + data[key].name + "</a></li>";
+                            }
+                            //6 display the list in the HTML now
+                            $('#sensors-list').html(sensorList);
+                        },
+                        error: function (data, textStatus, jqXHR) {
+                            console.log(data);
+                        }
+                    });
+                },
+                error: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                }
+            });
 
-			e.preventDefault(); 
-		} 
+            e.preventDefault();
+        }
 
-		$('#message-form').submit(processForm); })(jQuery); 
+        $('#message-form').submit(processForm);
+    })(jQuery);
 
 
-	  </script> 
-	
+</script>
+
 
 </body>
 </html>

@@ -1,8 +1,8 @@
 <html>
 <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script type="text/javascript"
-  src="https://www.google.com/jsapi?autoload={
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="https://www.google.com/jsapi?autoload={
     'modules':[{
       'name':'visualization',
       'version':'1',
@@ -12,52 +12,57 @@
 </head>
 
 <body>
-  <div id="chart" style="width: 900px; height: 500px"></div>
+<div id="chart" style="width: 900px; height: 500px"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //1 Google Chart intitialization
+        var maxDataPoints = 10;
+        var chart = new google.visualization.LineChart($('#chart')[0]);
+        //2 Array that will contain our datapoints
+        var data = google.visualization.arrayToDataTable([
+            ['Time', 'Temperature'],
+            [getTime(), 0]
+        ]);
 
-  <script type="text/javascript">
-//  google.setOnLoadCallback(drawChart);
+        //3 Chart configuration
+        var options = {
+            title: 'Temperature',
+            curveType: 'function',
+            animation: {
+                duration: 1000,
+                easing: 'in'
+            },
+            legend: {position: 'bottom'}
+        };
 
-  var maxDataPoints = 10;
-  var chart = new google.visualization.LineChart($('#chart')[0]);
-  
-  var data = google.visualization.arrayToDataTable([
-    ['Time', 'Temperature'],
-    [getTime(), 0]
-    ]);
+        //4 Adds a datapoint to the chart data
+        function addDataPoint(dataPoint) {
+            if (data.getNumberOfRows() > maxDataPoints) {
+                data.removeRow(0);
+            }
+            data.addRow([getTime(), dataPoint.value]);
+            //5 Redraw the chart with the new data
+            chart.draw(data, options);
+        }
 
-  var options = {
-    title: 'Temperature',
-    curveType: 'function',
-    animation: {
-      duration: 1000,
-      easing: 'in'
-    },
-    legend: { position: 'bottom' }
-  };
+        function getTime() {
+            var d = new Date();
+            return d.toLocaleTimeString();
+        }
 
-  function addDataPoint(dataPoint) {
-    if (data.getNumberOfRows() > maxDataPoints) {
-      data.removeRow(0);
-    }
-    data.addRow([getTime(), dataPoint.value]);
+        //6 Polls the temperature sensor
+        function doPoll() {
+            $.getJSON('http://localhost:3000/pi/sensors/temperature/value',
+                    function (result) {
+                        console.log(result);
+                        addDataPoint(result);
+                        setTimeout(doPoll, 2000);
+                    });
+        }
 
-    chart.draw(data, options);
-  }
-
-  function getTime() {
-    var d = new Date();
-    return d.toLocaleTimeString();
-  }
-
-  function doPoll(){
-    $.getJSON('http://localhost:3000/pi/sensors/temperature/value', function(result) {
-      console.log(result);
-      addDataPoint(result);
-      setTimeout(doPoll,2000);
+        doPoll();
     });
-  }
-  doPoll();
-  </script>
+</script>
 
 </body>
 </html>

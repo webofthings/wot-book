@@ -177,11 +177,11 @@ var sensors = {
 		},
 	},
 	'camera':{
-		'ccd':{
+		'picture':{
 			'name':'Camera Sensor',
 			'url':'cam',
 			'type':'image/jpg',
-			'description':'The CCD sensor on the camera.'
+			'description':'Takes a still picture with the camera.'
 		}
 	}
 };
@@ -198,7 +198,7 @@ var actuators = {
 					'value':80,
 					'unit':'%',
 					'type':'integer',
-					'description':'Percentace of brightness of the display. Min is 0 which is black, max is 100 which is white.'
+					'description':'Percentage of brightness of the display. Min is 0 which is black, max is 100 which is white.'
 				},
 				'content':{
 					'name':'Content',
@@ -239,7 +239,7 @@ var actuators = {
 					'type':['integer','integer','integer'],
 					'description':'Color setting of LED #1 in RGB. Min 0, max 255.'
 				},
-				'rgb-ed2':{
+				'rgbled2':{
 					'name':'RGB Led 2',
 					'timestamp':startTime,
 					'value':[255,100,10],
@@ -552,7 +552,7 @@ app.post('/:id/actuators/:type/:property', function (req, res) {
 
 			if (property == 'content'){
 				lcdBuffer.push({id:messageId++,content:req.body.value});		
-				result = {'message-received': req.body.value, 'id':messageId,'display-in-seconds':actuators.pi.display.properties.duration.value * lcdBuffer.length/1000};
+				result = {'message-received': req.body.value, 'id':messageId,'displayInSeconds':actuators.pi.display.properties.duration.value * lcdBuffer.length/1000};
 			}
 		
 			res.status(202).json(result); // Accepted, not sure we'll act though

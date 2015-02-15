@@ -1,94 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My first WoT Mashup!</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My first WoT Mashup!</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-  <script type="text/javascript">  
-  var piRootUrl = "http://localhost:3000/pi/";
+<script type="text/javascript">
+    $(document).ready(function () {
+        var gatewayRootUrl = "http://localhost:3000/";
+        var camRootUrl = "http://localhost:3000/camera/";
+        var piRootUrl = "http://localhost:3000/pi/";
 
-  function mashup(name, location) {
-    $.getJSON(prepareYahooWeatherUrl(location), function(yahooResult) {
-      var localTemp = yahooResult.query.results.channel.item.condition.temp;
-      console.log('Local @ ' + location + ': ' + localTemp);
-      
-      $.getJSON(piRootUrl + 'sensors/temperature', function(piResult) {
-        var piTemp = piResult.value;
-        console.log('Pi @ London: ' + piTemp);
-        publishMessage(prepareMessage(name, location, localTemp, piTemp));
-      });
+        //1 this starts by getting the local temperature from Yahoo
+        function mashup(name, location) {
+            $.getJSON(prepareYahooWeatherUrl(location), function (yahooResult) {
+                var localTemp = yahooResult.query.results.channel.item.condition.temp;
+                console.log('Local @ ' + location + ': ' + localTemp);
+                //2 then it gets the remote temperature
+                $.getJSON(piRootUrl + 'sensors/temperature', function (piResult) {
+                    var piTemp = piResult.value;
+                    console.log('Pi @ London: ' + piTemp);
+                    //3 then we publish the message on the LCD screen
+                    publishMessage(prepareMessage(name, location, localTemp, piTemp));
+                });
+            });
+        }
+
+
+        function publishMessage(message) {
+            var payload = {"value": message};
+            $.ajax(piRootUrl + 'actuators/display/content', {
+                data: JSON.stringify(payload),
+                contentType: 'application/json',
+                type: 'POST',
+                success: function (data) {
+                    $('#message').html('Published: ' + message);
+                    console.log('Will take a picture in ' +
+                    data.displayInSeconds + ' seconds...');
+                    //4 we delay taking the picture until is is our
+                    //turn, based on what the server told us to wait
+                    setTimeout(function () {
+                        takePicture();
+                    }, data.displayInSeconds);
+                }
+            });
+        }
+
+        function prepareYahooWeatherUrl(location) {
+            return "https://query.yahooapis.com/v1/public/yql?q=select item from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + location + "') and u='c'&format=json";
+        }
+
+        function prepareMessage(name, location, localTemp, piTemp) {
+            var diff = localTemp - piTemp;
+            var qualifier = ' higher ';
+            if (diff < 0) {
+                qualifier = ' lower ';
+            }
+            var result = 'Hello I\'m ' + name + ' from ' + location;
+            result += ' my local temperature is ' + Math.abs(diff) + ' degrees';
+            result += qualifier + 'than yours!';
+            return result;
+        }
+
+        function takePicture() {
+            $.ajax({
+                type: 'GET',
+                url: 'camRootUrl' + 'sensors/picture/',
+                datatype: 'image/jpg',
+                success: function (data) {
+                    $('#camImg').attr('src', data);
+                }
+            });
+        }
+        mashup('Rachel', 'Zurich, Switzerland');
     });
-  }
-
-  function publishMessage(message) {
-    //TODO: remove once services are up!
-    console.log(message)
-    $('#message').html('Published: ' + message);
-    takePicture();
-
-    var payload = {'message' : message};
-    $.ajax(piRootUrl + 'actuators/lcd', {
-      data : JSON.stringify(payload),
-      contentType : 'application/json',
-      type : 'POST',
-      success: function () {
-        console.log(message)
-        $('#message').html('Published: ' + message);
-        takePicture();
-      }
-    });
-  }
-
-  function takePicture() {
-  // Replace with this once CORS enabled!
-  // $.ajax({
-  //   type: "GET",
-  //   url: 'http://images.webcams.travel/original/1199785699-Weather-Charmey-Vounetz-Charmey.jpg',
-  //   datatype:"image/jpg",
-  //   success: function (data) {
-  //     $('#webcamImg').attr('src', data);
-  //   }
-  // });
-
-var img = $("<img />").attr('src', 'http://images.webcams.travel/original/1199785699-Weather-Charmey-Vounetz-Charmey.jpg')
-.load(function() {
-  if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
-    alert('broken image!');
-  } else {
-    $("#imgContainer").append(img);
-  }
-});
-}
-
-function prepareYahooWeatherUrl(location) {
-  return "https://query.yahooapis.com/v1/public/yql?q=select item from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + location + "') and u='c'&format=json";
-}
-
-function prepareMessage(name, location, localTemp, piTemp) {
-  var diff = localTemp - piTemp;
-  var qualifier = ' higher '; 
-  if(diff < 0) {
-    qualifier = ' lower '; 
-  }
-  var result = 'Hello I\'m ' + name + ' from ' + location;
-  result += ' my local temperature is '  + Math.abs(diff) + ' degrees';
-  result += qualifier + 'than yours!';
-  return result;
-}
-
-mashup('dom', 'New York, US');
 </script>
 
-<h1>Compare my Weather WoT Mashup</h1>
-<h2 id='message'></h2>
-<div id="imgContainer"></div>
 </body>
+<h1>Compare my Weather WoT Mashup</h1>
+
+<h2 id='message'></h2>
+<img id="camImg" src=""/>
 </html>
