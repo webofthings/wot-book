@@ -75,12 +75,12 @@
 		<!-- Main jumbotron for a primary marketing message or call to action -->
 		<div class="jumbotron">
 			<h1>Hello!</h1>
-			<p>Welcome to your first WoT device (the IP of this gateway {{myself.ip}}).</p>
+			<p>Welcome to the Web of Things gateway (my IP: {{myself.ip}}).</p>
 		</div>
 
 		<div class="page-header">
-			<h1>Content</h1>
-			<p>This is a Web of Things gateway. These are the various <b>devices</b> connected to this gateway:</p>
+			<h1>Devices</h1>
+			<p>The various <b>devices</b> connected to this gateway:</p>
 		
 			<ol>
 				{% for id in names %}
