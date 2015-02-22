@@ -43,8 +43,7 @@
 
             var sensorsPath = '';
 
-            //#1 GET the ROOT page of the device and extract data from it
-            $.ajax({
+            $.ajax({//#A
                 url: $('#host').val(),
                 type: 'GET',
                 dataType: 'json',
@@ -52,25 +51,21 @@
                     $('#meta').html(data.links.meta.title + " <a href=\"" + data.links.meta.rel + "\">" + data.links.meta.rel + "</a>");
                     $('#doc').html(data.links.doc.title + " <a href=\"" + data.links.doc.rel + "\">" + data.links.doc.rel + "</a>");
 
-                    //2 we record of the sensors path
-                    sensorsPath = data.url + data.resources.sensors.url;
+                    sensorsPath = data.url + data.resources.sensors.url; //#B
 
-                    //3 GET the list of all sensors on the device
-                    $.ajax({
+                    $.ajax({ //#C
                         url: sensorsPath,
                         type: 'GET',
                         dataType: 'json',
-                        success: function (data) {
-                            //4 'data' contains the JSON object of the sensors
+                        success: function (data) { //#D
                             var sensorList = "";
 
                             $('#sensors').html(Object.keys(data).length + " sensors found!");
 
-                            for (key in data) { //5 loop through all sensors
+                            for (key in data) { //#E 
                                 sensorList = sensorList + "<li><a href=\"" + sensorsPath + key + "\">" + data[key].name + "</a></li>";
                             }
-                            //6 display the list in the HTML now
-                            $('#sensors-list').html(sensorList);
+                            $('#sensors-list').html(sensorList); //#F
                         },
                         error: function (data, textStatus, jqXHR) {
                             console.log(data);
@@ -88,6 +83,12 @@
         $('#message-form').submit(processForm);
     })(jQuery);
 
+//#A GET the ROOT page of the device and extract data from it
+//#B we record of the sensors path
+//#C GET the list of all sensors on the device
+//#D the function that will be called if the request was successful, 'data' contains the JSON object of the sensors
+//#E loop through all sensors
+//#F display the list in the HTML now
 
 </script>
 
