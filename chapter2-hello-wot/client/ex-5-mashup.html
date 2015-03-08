@@ -14,9 +14,9 @@
 <body>
 <script type="text/javascript">
 $(document).ready(function () {
-    var gatewayRootUrl = "http://localhost:3000/";
-    var camRootUrl = "http://localhost:3000/camera/";
-    var piRootUrl = "http://localhost:3000/pi/";
+    var gatewayRootUrl = "http://devices.webofthings.io/";
+    var camRootUrl = "http://devices.webofthings.io/camera/";
+    var piRootUrl = "http://devices.webofthings.io/pi/";
 
     function mashup(name, location) {//#A
         $.getJSON(prepareYahooWeatherUrl(location), function (yahooResult) {
@@ -80,6 +80,8 @@ $(document).ready(function () {
 //#B then it gets the remote temperature
 //#C then we publish the message on the LCD screen
 //#D we delay taking the picture until is is our turn, based on what the server told us to wait
+
+// @DOM - can you please add a little more descriptions here (e.g. the quivalent of the text explanations?)
 
 </script>
 
