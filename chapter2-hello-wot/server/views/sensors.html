@@ -60,13 +60,33 @@
 
     <div class="container theme-showcase" role="main">
 
-		<!-- Main jumbotron for a primary marketing message or call to action -->
-		<div class="jumbotron">
-			<h1>Device: {{device.name}}!</h1>
-			<p>This is a WoT Device (URL: {{device.url}}).</p>
-      <p>Description: {{device.description}}.</p>
-      <p>Tags: {{device.tags|json_encode}}.</p>
-		</div>
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <h3>{{device.name}} > Sensors</h3>
+
+      <hr>
+      <h2>Device Information</h2>
+
+      <div class="table-responsive">
+        <table class="table">
+          <tr>
+            <td>URL</td>
+            <td>{{device.url}}</td>
+          </tr>
+
+          <tr>
+            <td>Description</td>
+            <td>{{device.description}}</td>
+          </tr>
+
+          <tr>
+            <td>Tags</td>
+            <td>{{device.tags|json_encode}}</td>
+          </tr>
+
+        </table>
+      </div>
+    </div>
 
     <div class="page-header">
       <h1>Sensors</h1>

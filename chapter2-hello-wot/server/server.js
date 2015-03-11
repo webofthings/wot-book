@@ -64,7 +64,7 @@ var myself = {
 	'ip' : addresses[0],
 	'port': rootPort,
 	'rootUrl':'http://'+addresses[0]+':'+rootPort+'/',
-	'publicUrl':'https://devices.webofthings.io'
+	'publicUrl':'http://devices.webofthings.io/'
 }
 
 
@@ -78,7 +78,7 @@ var devices = {
 		'id':'1',
 		'name':'My WoT Raspberry PI',
 		'description':'A simple WoT-connected Raspberry PI for the WoT book.',
-		'url':myself.rootUrl+'pi/',
+		'url':myself.publicUrl+'pi/',
 		'version':'v0.1',
 		'tags':['raspberry','pi','WoT'],
 		'ip' : addresses[0],
@@ -119,7 +119,7 @@ var devices = {
 		'id':'2',
 		'name':'My WoT Camera',
 		'description':'A simple WoT-connected camera.',
-		'url':myself.rootUrl+'camera/',
+		'url':myself.publicUrl+'camera/',
 		'version':'v0.1',
 		'tags':['camera','WoT'],
 		'ip' : addresses[0],
@@ -190,8 +190,15 @@ var actuators = {
 	'pi':{
 		'display':{			
 			'name':'LCD Display screen',
-			'description':'A simple display that can write commands.',
+			'description':'A simple LCD screen where text can be displayed.',
 			'properties':{
+				'content':{
+					'name':'Content',
+					'timestamp': startTime,
+					'value':'Hello World!',
+					'type':'string',
+					'description':'The text to be displayed on the LCD screen.'
+				},
 				'brightness':{
 					'name':'Brightness',
 					'timestamp': startTime,
@@ -200,13 +207,6 @@ var actuators = {
 					'type':'integer',
 					'description':'Percentage of brightness of the display. Min is 0 which is black, max is 100 which is white.'
 				},
-				'content':{
-					'name':'Content',
-					'timestamp': startTime,
-					'value':'Hello World!',
-					'type':'string',
-					'description':'The text to display on the LCD screen.'
-				},
 				'duration':{
 					'name':'Display Duration',
 					'timestamp': startTime,
@@ -214,7 +214,7 @@ var actuators = {
 					'unit':'milliseconds',
 					'type':'integer',
 					'read-only':true,
-					'description':'The duration for how long text will be displayed on the LCD screen.'					
+					'description':'How long text will be displayed on the LCD screen.'					
 				}
 			},
 			'commands':['write','clear','blink','color','brightness']

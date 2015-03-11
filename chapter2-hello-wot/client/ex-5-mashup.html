@@ -13,74 +13,74 @@
 
 <body>
 <script type="text/javascript">
-    $(document).ready(function () {
-        var gatewayRootUrl = "http://localhost:3000/";
-        var camRootUrl = "http://localhost:3000/camera/";
-        var piRootUrl = "http://localhost:3000/pi/";
+$(document).ready(function () {
+    var gatewayRootUrl = "http://localhost:3000/";
+    var camRootUrl = "http://localhost:3000/camera/";
+    var piRootUrl = "http://localhost:3000/pi/";
 
-        //1 this starts by getting the local temperature from Yahoo
-        function mashup(name, location) {
-            $.getJSON(prepareYahooWeatherUrl(location), function (yahooResult) {
-                var localTemp = yahooResult.query.results.channel.item.condition.temp;
-                console.log('Local @ ' + location + ': ' + localTemp);
-                //2 then it gets the remote temperature
-                $.getJSON(piRootUrl + 'sensors/temperature', function (piResult) {
-                    var piTemp = piResult.value;
-                    console.log('Pi @ London: ' + piTemp);
-                    //3 then we publish the message on the LCD screen
-                    publishMessage(prepareMessage(name, location, localTemp, piTemp));
-                });
+    function mashup(name, location) {//#A
+        $.getJSON(prepareYahooWeatherUrl(location), function (yahooResult) {
+            var localTemp = yahooResult.query.results.channel.item.condition.temp;
+            console.log('Local @ ' + location + ': ' + localTemp);
+            $.getJSON(piRootUrl + 'sensors/temperature', function (piResult) {//#B
+                var piTemp = piResult.value;
+                console.log('Pi @ London: ' + piTemp);
+                publishMessage(prepareMessage(name, location, localTemp, piTemp)); //#C
             });
-        }
+        });
+    }
 
 
-        function publishMessage(message) {
-            var payload = {"value": message};
-            $.ajax(piRootUrl + 'actuators/display/content', {
-                data: JSON.stringify(payload),
-                contentType: 'application/json',
-                type: 'POST',
-                success: function (data) {
-                    $('#message').html('Published: ' + message);
-                    console.log('Will take a picture in ' +
-                    data.displayInSeconds + ' seconds...');
-                    //4 we delay taking the picture until is is our
-                    //turn, based on what the server told us to wait
-                    setTimeout(function () {
-                        takePicture();
-                    }, data.displayInSeconds);
-                }
-            });
-        }
-
-        function prepareYahooWeatherUrl(location) {
-            return "https://query.yahooapis.com/v1/public/yql?q=select item from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + location + "') and u='c'&format=json";
-        }
-
-        function prepareMessage(name, location, localTemp, piTemp) {
-            var diff = localTemp - piTemp;
-            var qualifier = ' higher ';
-            if (diff < 0) {
-                qualifier = ' lower ';
+    function publishMessage(message) {
+        var payload = {"value": message};
+        $.ajax(piRootUrl + 'actuators/display/content', {
+            data: JSON.stringify(payload),
+            contentType: 'application/json',
+            type: 'POST',
+            success: function (data) {
+                $('#message').html('Published: ' + message);
+                console.log('Will take a picture in ' +
+                data.displayInSeconds + ' seconds...');
+                setTimeout(function () { //#D
+                    takePicture();
+                }, data.displayInSeconds);
             }
-            var result = 'Hello I\'m ' + name + ' from ' + location;
-            result += ' my local temperature is ' + Math.abs(diff) + ' degrees';
-            result += qualifier + 'than yours!';
-            return result;
-        }
+        });
+    }
+ 
+    function prepareYahooWeatherUrl(location) {
+        return "https://query.yahooapis.com/v1/public/yql?q=select item from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + location + "') and u='c'&format=json";
+    }
 
-        function takePicture() {
-            $.ajax({
-                type: 'GET',
-                url: 'camRootUrl' + 'sensors/picture/',
-                datatype: 'image/jpg',
-                success: function (data) {
-                    $('#camImg').attr('src', data);
-                }
-            });
+    function prepareMessage(name, location, localTemp, piTemp) {
+        var diff = localTemp - piTemp;
+        var qualifier = ' higher ';
+        if (diff < 0) {
+            qualifier = ' lower ';
         }
-        mashup('Rachel', 'Zurich, Switzerland');
-    });
+        var result = 'Hello I\'m ' + name + ' from ' + location;
+        result += ' my local temperature is ' + Math.abs(diff) + ' degrees';
+        result += qualifier + 'than yours!';
+        return result;
+    }
+
+    function takePicture() {
+        $.ajax({
+            type: 'GET',
+            url: 'camRootUrl' + 'sensors/picture/',
+            datatype: 'image/jpg',
+            success: function (data) {
+                $('#camImg').attr('src', data);
+            }
+        });
+    }
+    mashup('Rachel', 'Zurich, Switzerland');
+});
+//#A this starts by getting the local temperature from Yahoo
+//#B then it gets the remote temperature
+//#C then we publish the message on the LCD screen
+//#D we delay taking the picture until is is our turn, based on what the server told us to wait
+
 </script>
 
 </body>

@@ -23,24 +23,33 @@
 		</form> 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
 	
-		<script> (function($){ function processForm( e ){ 
-			$.ajax({ 
-				url: 'http://localhost:3000/pi/actuators/display/content/', 
-				dataType: 'text', 
-				type: 'post', 
-				contentType: 'application/x-www-form-urlencoded', 
-				data: $(this).serialize(), 
-				success: function( data, textStatus, jQxhr ){ 
-					$('#response pre').html( data ); 
-				}, 
-				error: function( jqXhr, textStatus, errorThrown ){ 
-					console.log( errorThrown ); 
-				} 
-			}); 
-			
-			e.preventDefault(); } 
-			$('#message-form').submit( processForm ); })(jQuery); 
-	  </script> 
+<script> (function($){ function processForm( e ){ 
+	$.ajax({ 
+		url: 'http://devices.webofthings.io/pi/actuators/display/content/', //#A
+		dataType: 'text', //#B
+		type: 'post', //#C
+		contentType: 'application/x-www-form-urlencoded', //#D
+		data: $(this).serialize(), //#E
+		success: function( data, textStatus, jQxhr ){ //#F
+			$('#response pre').html( data ); 
+		}, 
+		error: function( jqXhr, textStatus, errorThrown ){//#G 
+			console.log( errorThrown ); 
+		} 
+	}); 
+
+	e.preventDefault(); } 
+	$('#message-form').submit( processForm ); //#H
+})(jQuery); 
+//#A The URL the request will be sent to
+//#B The format of the data you expect to get
+//#C The HTTP verb this request will send
+//#D The encoding of the data you are sending 
+//#E The actual data you are sending (the content of the form)
+//#F The callback to invoke if the request was sucessful
+//#G The callback to invoke if the request failed
+//#H We attach the processForm function to be called when someone presses submit
+</script> 
 	
 
 </body>

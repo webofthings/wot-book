@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{deviceId}} :: Actuators :: </title>
+    <title>{{deviceId}} :: Actuators</title>
 
     <!-- Bootstrap -->
 	<!-- Latest compiled and minified CSS -->
@@ -60,13 +60,34 @@
 
     <div class="container theme-showcase" role="main">
 
-		<!-- Main jumbotron for a primary marketing message or call to action -->
-		<div class="jumbotron">
-			<h1>Device: {{device.name}}!</h1>
-			<p>This is a WoT Device (URL: {{device.url}}).</p>
-      <p>Description: {{device.description}}.</p>
-      <p>Tags: {{device.tags|json_encode}}.</p>
-		</div>
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <h3>{{device.name}} > Actuators</h3>
+
+      <hr>
+      <h2>Device Information</h2>
+
+      <div class="table-responsive">
+        <table class="table">
+
+          <tr>
+            <td>URL</td>
+            <td>{{device.url}}</td>
+          </tr>
+
+          <tr>
+            <td>Description</td>
+            <td>{{device.description}}</td>
+          </tr>
+
+          <tr>
+            <td>Tags</td>
+            <td>{{device.tags|json_encode}}</td>
+          </tr>
+
+        </table>
+      </div>
+    </div>
 
     <div class="page-header">
       <h1>Actuators</h1>

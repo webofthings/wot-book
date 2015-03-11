@@ -1,1 +1,1 @@
-Temperature: 20 Light: 30 - Temperature: 20 Light: 30 - Temperature: 20 Light: 30 - Temperature: 20 Light: 30 - Temperature: 20 Light: 30 - Temperature: 20 Light: 30 - 
+Temperature: 20 Light: 30 - Temperature: 20 Light: 30 - Temperature: 20 Light: 30 - Temperature: 20 Light: 30 - Temperature: 20 Light: 30 - Temperature: 20 Light: 30 - Temperature: 29 Light: 71 - Temperature: 34 Light: 51 - Temperature: 29 Light: 13 - 

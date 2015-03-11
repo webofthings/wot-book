@@ -62,22 +62,66 @@
 
 		<!-- Main jumbotron for a primary marketing message or call to action -->
 		<div class="jumbotron">
-			<h1>Device: {{device.name}}!</h1>
-			<p>This is a WoT Device (URL: {{device.url}}).</p>
-      <p>Description: {{device.description}}.</p>
-      <p>Tags: {{device.tags|json_encode}}.</p>
+			<h1>Device - Root Page</h1>
+
+      <hr>
+      <h2>Device Information</h2>
+
+      <div class="table-responsive">
+        <table class="table">
+          <tr>
+            <td>Name</td>
+            <td>{{device.name}}</td>
+          </tr>
+
+          <tr>
+            <td>URL</td>
+            <td>{{device.url}}</td>
+          </tr>
+
+          <tr>
+            <td>Description</td>
+            <td>{{device.description}}</td>
+          </tr>
+
+          <tr>
+            <td>Tags</td>
+            <td>{{device.tags|json_encode}}</td>
+          </tr>
+
+        </table>
+      </div>
 		</div>
 
+
 		<div class="page-header">
-			<h1>Content</h1>
+			<h2>Resources</h2>
 			<p>These are the sub-elements of this device:</p>
 		
 			<ul>
 				{% for element in device.resources %}
-					<li>See <a href="{{element.url}}/">{{element.name}}</a></li>		
+					<li>See <a href="{{element.url}}">{{element.name}}</a></li>		
 				{% endfor %}
 			</ul>
 		</div>
+
+
+    <div class="page-header">
+      <h2>Links</h2>
+      <div class="table-responsive">
+        <table class="table">
+
+        {% for element in device.links %}
+          <tr>
+            <td>{{element.title}}</td>
+            <td><a href="{{element.rel}}">{{element.rel}}</a></td>
+          </tr>
+        {% endfor %}
+
+        </table>
+      </div>
+    </div>
+
 
 
     </div> <!-- /container -->

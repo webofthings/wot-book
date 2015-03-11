@@ -43,14 +43,8 @@
           		type: 'GET',
           		dataType: 'json',
           		success: function(data, textStatus, jqXHR) { 
-
-					console.log( textStatus ); 
-
 	  				// Plot the response JSON object
-					$('#response pre').html( JSON.stringify( data ) );
-
-					// Plot the response headers
-					//$('#headers pre').html(jqXHR.getAllResponseHeaders());
+					$('#response pre').html( JSON.stringify( data ) ); //
 
 					console.log( jqXHR ); 
 

@@ -48,24 +48,23 @@
             return d.toLocaleTimeString();
         }
 
-        function subscribeToTemperature() {
-            //3 Create a new WebSocket
-            var socket = new WebSocket('ws://localhost:3000/pi/sensors/temperature');
-            //2 Register to the event triggerd when a message arrives on the
-            //WebSocket connection
-            socket.onmessage = function (event) {
-                var result = JSON.parse(event.data);
-                console.log(result);
-                addDataPoint(result);
-            };
-            //3 Register to the event triggered when an error occurs
-            socket.onerror = function (error) {
-                console.log('An error occured while trying to connected to a Websocket!');
-                console.log(error);
-            };
-        }
-
-        subscribeToTemperature();
+function subscribeToTemperature() {
+    var socket = new WebSocket('ws://localhost:3000/pi/sensors/temperature'); //#A
+    socket.onmessage = function (event) { //#B
+        var result = JSON.parse(event.data);
+        console.log(result);
+        addDataPoint(result);
+    };
+    socket.onerror = function (error) { //#C
+        console.log('An error occured while trying to connected to a Websocket!');
+        console.log(error);
+    };
+}
+subscribeToTemperature();
+//#A Create a new WebSocket
+//#B Register to the event triggerd when a message arrives on the WebSocket
+//#C Register to the event triggered when an error occurs
+        
     });
 </script>
 

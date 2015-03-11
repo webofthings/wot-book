@@ -15,17 +15,14 @@
 <div id="chart" style="width: 900px; height: 500px"></div>
 <script type="text/javascript">
     $(document).ready(function () {
-        //1 Google Chart intitialization
         var maxDataPoints = 10;
-        var chart = new google.visualization.LineChart($('#chart')[0]);
-        //2 Array that will contain our datapoints
-        var data = google.visualization.arrayToDataTable([
+        var chart = new google.visualization.LineChart($('#chart')[0]); //#A
+        var data = google.visualization.arrayToDataTable([ //#B
             ['Time', 'Temperature'],
             [getTime(), 0]
-        ]);
+        ]); 
 
-        //3 Chart configuration
-        var options = {
+        var options = { //#C
             title: 'Temperature',
             curveType: 'function',
             animation: {
@@ -34,15 +31,12 @@
             },
             legend: {position: 'bottom'}
         };
-
-        //4 Adds a datapoint to the chart data
-        function addDataPoint(dataPoint) {
+        function addDataPoint(dataPoint) { //#D
             if (data.getNumberOfRows() > maxDataPoints) {
                 data.removeRow(0);
             }
             data.addRow([getTime(), dataPoint.value]);
-            //5 Redraw the chart with the new data
-            chart.draw(data, options);
+            chart.draw(data, options); //#E
         }
 
         function getTime() {
@@ -50,8 +44,7 @@
             return d.toLocaleTimeString();
         }
 
-        //6 Polls the temperature sensor
-        function doPoll() {
+        function doPoll() { //#F
             $.getJSON('http://localhost:3000/pi/sensors/temperature/value',
                     function (result) {
                         console.log(result);
@@ -62,6 +55,12 @@
 
         doPoll();
     });
+//#A Google Chart intitialization
+//#B Array that will contain our datapoints
+//#C Chart configuration
+//#D Adds a datapoint to the chart data
+//#E Redraw the chart with the new data
+//#F Polls the temperature sensor
 </script>
 
 </body>

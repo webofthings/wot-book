@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{deviceId}} :: Actuators</title>
+    <title>{{deviceId}} :: Actuators :: {{actuator.name}}</title>
 
     <!-- Bootstrap -->
 	<!-- Latest compiled and minified CSS -->
@@ -60,22 +60,45 @@
 
     <div class="container theme-showcase" role="main">
 
-		<!-- Main jumbotron for a primary marketing message or call to action -->
-		<div class="jumbotron">
-			<h1>Device: {{device.name}}!</h1>
-			<p>This is a WoT Device (URL: {{device.url}}).</p>
-      <p>Description: {{device.description}}.</p>
-      <p>Tags: {{device.tags|json_encode}}.</p>
-		</div>
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <h3>{{device.name}} > Actuators > {{actuator.name}}</h3>
+
+      <hr>
+      <h2>Device Information</h2>
+
+      <div class="table-responsive">
+        <table class="table">
+
+          <tr>
+            <td>URL</td>
+            <td>{{device.url}}</td>
+          </tr>
+
+          <tr>
+            <td>Description</td>
+            <td>{{device.description}}</td>
+          </tr>
+
+          <tr>
+            <td>Tags</td>
+            <td>{{device.tags|json_encode}}</td>
+          </tr>
+
+        </table>
+      </div>
+    </div>
 
     <div class="page-header">
-      <h1>Actuator: {{actuator.name}}</h1>
-      <p>Actuators on this device:</p>
+      <h2>Actuator Details</h2>
+      <p><b>Description:</b> {{actuator.description}}</p>
     
-      <h2>Properties</h2>
-      <ol>
+      <h3>Properties</h3>
         {% for property in properties %}
-          <li><a href="{{property}}/"><b>{{actuator.properties[property].name}}</b></a>: <em>{{actuator.properties[property].description}}</em>. <b>Last value:</b> {{actuator.properties[property].value}} @ {{actuator.properties[property].timestamp}}</li> 
+
+          <h4><a href="{{property}}/"><b>{{actuator.properties[property].name}}</b></a></h4>
+          Description: <em>{{actuator.properties[property].description}}</em>. 
+          <h5>Last value: <b>{{actuator.properties[property].value}}</b> @ {{actuator.properties[property].timestamp}}</h5>  
           <form class="form-inline" action="{{property}}" method="post">
             <div class="form-group">
               <label class="sr-only" for="exampleInputAmount">Change value (in {{actuator.properties[property].type}})</label>
@@ -87,7 +110,6 @@
             <button type="submit" class="btn btn-primary">Update</button>
           </form>  
         {% endfor %}
-      </ol>
     </div>
 
 

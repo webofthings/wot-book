@@ -14,5 +14,6 @@
     "mdns": "~2.2.4"
   },
   "devDependencies": {},
+  "scripts": { "start": "node server.js" },
   "engine": "node >= 0.10.0"
 }
