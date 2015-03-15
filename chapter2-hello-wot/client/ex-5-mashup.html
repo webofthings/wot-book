@@ -43,7 +43,7 @@ $(document).ready(function () {
                 data.displayInSeconds + ' seconds...');
                 setTimeout(function () { //#D
                     takePicture();
-                }, data.displayInSeconds);
+                }, data.displayInSeconds+1); // +1 just in case ;)
             }
         });
     }
@@ -68,9 +68,10 @@ $(document).ready(function () {
         $.ajax({
             type: 'GET',
             url: 'camRootUrl' + 'sensors/picture/',
-            datatype: 'image/jpg',
+            //datatype: 'image/jpg',  //get a JSON and parse it 
+            dataType: 'application/json',
             success: function (data) {
-                $('#camImg').attr('src', data);
+                $('#camImg').attr('src', data.value);
             }
         });
     }
