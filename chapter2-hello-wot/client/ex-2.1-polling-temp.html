@@ -18,21 +18,20 @@
 <script>
     $(document).ready( //#A
             function doPoll() {
-                $.getJSON('http://localhost:3000/pi/sensors/temperature', //#B
+                $.getJSON('http://devices.webofthings.io/pi/sensors/temperature', //#B
                         function (data) { //#C
                             console.log(data);
                             $('#temp').html(data.value + ' ' + data.unit); //#D
                             setTimeout(doPoll, 5000); //#E
                         });
             });
-//#A Wait until the page is loaded and start polling
-//#B Use the AJAX helper to get a JSON payload
-//#C This function is called when the response arrives
-//#D Select the temp HTML element and update its content
-//#E Calls itself again in 5 secods
+//#A Wait until the page is loaded and then call doPoll()
+//#B Use the AJAX helper to get the JSON payload from the temperature sensor
+//#C When the response arrives, this function is called
+//#D Select the "temp" HTML element and update its content using the data.value (the value) and data.unit (the unit) returned in the JSON payload
+//#E The doPoll() function sets a timer to call itself again in 5 secods (5000 milliseconds)
 
 </script>
 
 </body>
 </html>
-

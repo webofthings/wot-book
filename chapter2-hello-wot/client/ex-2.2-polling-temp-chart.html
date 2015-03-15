@@ -45,22 +45,23 @@
         }
 
         function doPoll() { //#F
-            $.getJSON('http://localhost:3000/pi/sensors/temperature/value',
+            $.getJSON('http://devices.webofthings.io/pi/sensors/temperature/value',
                     function (result) {
-                        console.log(result);
-                        addDataPoint(result);
+                        addDataPoint(result); //#G
                         setTimeout(doPoll, 2000);
                     });
         }
 
         doPoll();
     });
-//#A Google Chart intitialization
-//#B Array that will contain our datapoints
-//#C Chart configuration
-//#D Adds a datapoint to the chart data
+//#A We initialize the Google chart
+//#B Create an array that will contain the data points
+//#C We configure the parameters of the chart 
+//#D Adds a datapoint to the chart data and removes the oldest one if needed (if there are already 10 points available)
 //#E Redraw the chart with the new data
-//#F Polls the temperature sensor
+//#F Polls the temperature sensor just like we did before
+//#G When the new readings is returned we use them to call the addDataPoint() function
+
 </script>
 
 </body>

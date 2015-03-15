@@ -49,10 +49,9 @@
         }
 
 function subscribeToTemperature() {
-    var socket = new WebSocket('ws://localhost:3000/pi/sensors/temperature'); //#A
+    var socket = new WebSocket('ws://devices.webofthings.io/pi/sensors/temperature'); //#A
     socket.onmessage = function (event) { //#B
         var result = JSON.parse(event.data);
-        console.log(result);
         addDataPoint(result);
     };
     socket.onerror = function (error) { //#C
@@ -61,11 +60,13 @@ function subscribeToTemperature() {
     };
 }
 subscribeToTemperature();
-//#A Create a new WebSocket
-//#B Register to the event triggerd when a message arrives on the WebSocket
-//#C Register to the event triggered when an error occurs
-        
-    });
+
+//#A Create a new WebSocket which subscribed to the temperature sensor. Note that instead of doing this over HTTP, it uses the WebSockets protocol (ws://...)
+//#B Register this anonymous function to be called when a message arrives on the WebSocket
+//#C Register this other anonymous function to be triggered when an error occurs on the WebSocket
+
+});
+
 </script>
 
 </body>
