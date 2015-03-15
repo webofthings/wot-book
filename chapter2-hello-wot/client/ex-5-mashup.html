@@ -54,13 +54,12 @@ $(document).ready(function () {
 
     function prepareMessage(name, location, localTemp, piTemp) {
         var diff = localTemp - piTemp;
-        var qualifier = ' higher ';
+        var qualifier = ' > ';
         if (diff < 0) {
-            qualifier = ' lower ';
+            qualifier = ' < ';
         }
-        var result = 'Hello I\'m ' + name + ' from ' + location;
-        result += ' my local temperature is ' + Math.abs(diff) + ' degrees';
-        result += qualifier + 'than yours!';
+        var result = name + '@' + location;
+        result += '/n' + qualifier + Math.abs(diff);
         return result;
     }
 
@@ -74,7 +73,7 @@ $(document).ready(function () {
             }
         });
     }
-    mashup('Rachel', 'Zurich, Switzerland');
+    mashup('Rachel', 'Zurich, CH');
 });
 //#A this starts by getting the local temperature from Yahoo
 //#B then it gets the remote temperature
