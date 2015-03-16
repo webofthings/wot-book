@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8b1bf2bd-394d-4de0-ba86-0563d89cc7a1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.1-polling-temp.html" afterPath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.1-polling-temp.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.2-polling-temp-chart.html" afterPath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.2-polling-temp-chart.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.3-websockets-temp-graph.html" afterPath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.3-websockets-temp-graph.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-3.2-actuator-ajax-form.html" afterPath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-3.2-actuator-ajax-form.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-3.3-actuator-ajax-json.html" afterPath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-3.3-actuator-ajax-json.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-4-parse-device-full.html" afterPath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-4-parse-device-full.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-5-mashup.html" afterPath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-5-mashup.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -56,8 +50,28 @@
       <file leaf-file-name="ex-5-mashup.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chapter2-hello-wot/client/ex-5-mashup.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.9938271" vertical-offset="0" max-vertical-offset="1786">
-              <caret line="68" column="51" selection-start-line="68" selection-start-column="51" selection-end-line="68" selection-end-column="51" />
+            <state vertical-scroll-proportion="0.23765433" vertical-offset="1138" max-vertical-offset="1786">
+              <caret line="68" column="27" selection-start-line="68" selection-start-column="27" selection-end-line="68" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ex-2.1-polling-temp.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.1-polling-temp.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.7142856" vertical-offset="0" max-vertical-offset="798">
+              <caret line="4" column="57" selection-start-line="4" selection-start-column="57" selection-end-line="4" selection-end-column="57" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ex-2.3-websockets-temp-graph.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.3-websockets-temp-graph.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-34.607143" vertical-offset="0" max-vertical-offset="1482">
+              <caret line="51" column="59" selection-start-line="51" selection-start-column="59" selection-end-line="51" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -78,13 +92,13 @@
         <option value="$PROJECT_DIR$/chapter3-node-js/ex-3.2-webserver.js" />
         <option value="$PROJECT_DIR$/chapter3-node-js/hello-modules/lib/operations.js" />
         <option value="$PROJECT_DIR$/chapter3-node-js/hello-modules/module-client.js" />
-        <option value="$PROJECT_DIR$/chapter2-hello-wot/client/ex-5-mashup.html" />
         <option value="$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.2-polling-temp-chart.html" />
         <option value="$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.1-polling-temp.html" />
         <option value="$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.3-websockets-temp-graph.html" />
         <option value="$PROJECT_DIR$/chapter2-hello-wot/client/ex-3.2-actuator-ajax-form.html" />
         <option value="$PROJECT_DIR$/chapter2-hello-wot/client/ex-3.3-actuator-ajax-json.html" />
         <option value="$PROJECT_DIR$/chapter2-hello-wot/client/ex-4-parse-device-full.html" />
+        <option value="$PROJECT_DIR$/chapter2-hello-wot/client/ex-5-mashup.html" />
       </list>
     </option>
   </component>
@@ -666,22 +680,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.3-websockets-temp-graph.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4691358" vertical-offset="665" max-vertical-offset="1482">
-          <caret line="51" column="59" selection-start-line="51" selection-start-column="59" selection-end-line="51" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.1-polling-temp.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.58641976" vertical-offset="0" max-vertical-offset="798">
-          <caret line="20" column="56" selection-start-line="20" selection-start-column="56" selection-end-line="20" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.2-polling-temp-chart.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.32253087" vertical-offset="0" max-vertical-offset="1387">
@@ -706,10 +704,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.1-polling-temp.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.7142856" vertical-offset="0" max-vertical-offset="798">
+          <caret line="4" column="57" selection-start-line="4" selection-start-column="57" selection-end-line="4" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chapter2-hello-wot/client/ex-2.3-websockets-temp-graph.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-34.607143" vertical-offset="0" max-vertical-offset="1482">
+          <caret line="51" column="59" selection-start-line="51" selection-start-column="59" selection-end-line="51" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chapter2-hello-wot/client/ex-5-mashup.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.9938271" vertical-offset="0" max-vertical-offset="1786">
-          <caret line="68" column="51" selection-start-line="68" selection-start-column="51" selection-end-line="68" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.23765433" vertical-offset="1138" max-vertical-offset="1786">
+          <caret line="68" column="27" selection-start-line="68" selection-start-column="27" selection-end-line="68" selection-end-column="27" />
           <folding />
         </state>
       </provider>
