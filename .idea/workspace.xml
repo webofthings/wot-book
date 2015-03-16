@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8b1bf2bd-394d-4de0-ba86-0563d89cc7a1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-5-mashup.html" afterPath="$PROJECT_DIR$/chapter2-hello-wot/client/ex-5-mashup.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="wot-book.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -50,8 +49,8 @@
       <file leaf-file-name="ex-5-mashup.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chapter2-hello-wot/client/ex-5-mashup.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23765433" vertical-offset="1138" max-vertical-offset="1786">
-              <caret line="68" column="27" selection-start-line="68" selection-start-column="27" selection-end-line="68" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.23765433" vertical-offset="986" max-vertical-offset="1767">
+              <caret line="60" column="43" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -722,8 +721,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chapter2-hello-wot/client/ex-5-mashup.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23765433" vertical-offset="1138" max-vertical-offset="1786">
-          <caret line="68" column="27" selection-start-line="68" selection-start-column="27" selection-end-line="68" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.23765433" vertical-offset="986" max-vertical-offset="1767">
+          <caret line="60" column="43" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
           <folding />
         </state>
       </provider>

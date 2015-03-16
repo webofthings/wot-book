@@ -58,8 +58,7 @@ $(document).ready(function () {
         if (diff < 0) {
             qualifier = ' < ';
         }
-        var result = name + '@' + location;
-        result += '/n' + qualifier + Math.abs(diff);
+        var result = name + '@' + location + qualifier + Math.abs(diff);
         return result;
     }
 
