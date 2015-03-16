@@ -18,7 +18,7 @@
 <script>
     $(document).ready( //#A
             function doPoll() {
-                $.getJSON('http://devices.webofthings.io/pi/sensors/temperature', //#B
+                $.getJSON('http://devices.webofthings.cc/pi/sensors/temperature', //#B
                         function (data) { //#C
                             console.log(data);
                             $('#temp').html(data.value + ' ' + data.unit); //#D

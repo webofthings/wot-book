@@ -67,7 +67,6 @@ $(document).ready(function () {
         $.ajax({
             type: 'GET',
             url: 'camRootUrl' + 'sensors/picture/',
-            //datatype: 'image/jpg',  //get a JSON and parse it 
             dataType: 'application/json',
             success: function (data) {
                 $('#camImg').attr('src', data.value);
@@ -80,9 +79,6 @@ $(document).ready(function () {
 //#B then it gets the remote temperature
 //#C then we publish the message on the LCD screen
 //#D we delay taking the picture until is is our turn, based on what the server told us to wait
-
-// @DOM - can you please add a little more descriptions here (e.g. the quivalent of the text explanations?)
-
 </script>
 
 </body>
