@@ -45,7 +45,7 @@
         }
 
         function doPoll() { //#F
-            $.getJSON('http://devices.webofthings.io/pi/sensors/temperature/value',
+            $.getJSON('http://devices.webofthings.cc/pi/sensors/temperature/value',
                     function (result) {
                         addDataPoint(result); //#G
                         setTimeout(doPoll, 2000);
