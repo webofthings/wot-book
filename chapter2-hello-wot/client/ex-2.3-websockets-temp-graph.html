@@ -49,7 +49,7 @@
         }
 
 function subscribeToTemperature() {
-    var socket = new WebSocket('ws://devices.webofthings.io/pi/sensors/temperature'); //#A
+    var socket = new WebSocket('ws://devices.webofthings.cc/pi/sensors/temperature'); //#A
     socket.onmessage = function (event) { //#B
         var result = JSON.parse(event.data);
         addDataPoint(result);
