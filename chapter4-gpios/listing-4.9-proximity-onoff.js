@@ -1,5 +1,5 @@
 var Gpio = require('onoff').Gpio,
-    sensor = new Gpio(17, 'in');    //#A
+    sensor = new Gpio(17, 'in', 'falling');    //#A
 
 sensor.watch(function(err, value) { //#B
     if (err) exit(err);
