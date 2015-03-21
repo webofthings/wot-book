@@ -40,10 +40,10 @@ $(document).ready(function () {
             success: function (data) {
                 $('#message').html('Published: ' + message);
                 console.log('Will take a picture in ' +
-                data.displayInSeconds + ' seconds...');
+                ++data.displayInSeconds + ' seconds...');
                 setTimeout(function () { //#D
                     takePicture();
-                }, data.displayInSeconds+1); // +1 just in case ;)
+                }, data.displayInSeconds*1000); // +1 just in case ;)
             }
         });
     }
@@ -66,9 +66,13 @@ $(document).ready(function () {
         $.ajax({
             type: 'GET',
             url: camRootUrl + 'sensors/picture/',
-            dataType: 'application/json',
+            dataType: 'json',
             success: function (data) {
+                console.log(data);
                 $('#camImg').attr('src', data.value);
+            },
+            error: function (err) {
+                console.log(err);
             }
         });
     }
