@@ -14,9 +14,9 @@
 <body>
 <script type="text/javascript">
 $(document).ready(function () {
-    var gatewayRootUrl = "http://devices.webofthings.cc/";
-    var camRootUrl = "http://devices.webofthings.cc/camera/";
-    var piRootUrl = "http://devices.webofthings.cc/pi/";
+    var gatewayRootUrl = "http://devices.webofthings.io/";
+    var camRootUrl = "http://devices.webofthings.io/camera/";
+    var piRootUrl = "http://devices.webofthings.io/pi/";
 
     function mashup(name, location) {//#A
         $.getJSON(prepareYahooWeatherUrl(location), function (yahooResult) {
@@ -43,7 +43,7 @@ $(document).ready(function () {
                 ++data.displayInSeconds + ' seconds...');
                 setTimeout(function () { //#D
                     takePicture();
-                }, data.displayInSeconds*1000); // +1 just in case ;)
+                }, data.displayInSeconds*1000); // +2 just in case ;)
             }
         });
     }
