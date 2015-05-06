@@ -14,15 +14,13 @@
 <body>
 <script type="text/javascript">
 $(document).ready(function () {
-    var gatewayRootUrl = "http://devices.webofthings.io/";
-    var camRootUrl = "http://devices.webofthings.io/camera/";
-    var piRootUrl = "http://devices.webofthings.io/pi/";
+    var rootUrl = 'http://devices.webofthings.io';
 
     function mashup(name, location) {//#A
         $.getJSON(prepareYahooWeatherUrl(location), function (yahooResult) {
             var localTemp = yahooResult.query.results.channel.item.condition.temp;
             console.log('Local @ ' + location + ': ' + localTemp);
-            $.getJSON(piRootUrl + 'sensors/temperature', function (piResult) {//#B
+            $.getJSON(rootUrl + '/pi/sensors/temperature', function (piResult) {//#B
                 var piTemp = piResult.value;
                 console.log('Pi @ London: ' + piTemp);
                 publishMessage(prepareMessage(name, location, localTemp, piTemp)); //#C
@@ -33,7 +31,7 @@ $(document).ready(function () {
 
     function publishMessage(message) {
         var payload = {"value": message};
-        $.ajax(piRootUrl + 'actuators/display/content', {
+        $.ajax(rootUrl + '/pi/actuators/display/content', {
             data: JSON.stringify(payload),
             contentType: 'application/json',
             type: 'POST',
@@ -65,7 +63,7 @@ $(document).ready(function () {
     function takePicture() {
         $.ajax({
             type: 'GET',
-            url: camRootUrl + 'sensors/picture/',
+            url: rootUrl + '/camera/sensors/picture/',
             dataType: 'json',
             success: function (data) {
                 console.log(data);
