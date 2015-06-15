@@ -8,7 +8,7 @@
 
 <script type="text/javascript">
     function subscribeToTemperature() {
-        var socket = new WebSocket('ws://devices.webofthings.io/pi/sensors/pir'); //#A
+        var socket = new WebSocket('ws://devices.webofthings.io/pi/sensors/pir','wot'); //#A
 
         socket.onmessage = function (event) { //#B
             var result = JSON.parse(event.data);
