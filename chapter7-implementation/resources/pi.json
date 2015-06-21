@@ -5,9 +5,17 @@
   "sensors": {
     "temperature": {
       "name": "Temperature Sensor",
-      "description": "A temperature sensor.",
+      "description": "An ambient temperature sensor.",
       "unit": "celsius",
-      "value": 0
+      "value": 0,
+      "gpio": 21
+    },
+    "humidity": {
+      "name": "Humidity Sensor",
+      "description": "An ambient humidity sensor.",
+      "unit": "%",
+      "value": 0,
+      "gpio":  21
     },
     "pir": {
       "name": "Passive Infrared",
@@ -19,10 +27,14 @@
   "actuators": {
     "leds": {
       "1": {
-        "isOn": false
+        "name": "LED 1",
+        "isOn": false,
+        "gpio": 17
       },
       "2": {
-        "isOn": false
+        "name": "LED 2",
+        "isOn": false,
+        "gpio": 19
       }
     }
   }

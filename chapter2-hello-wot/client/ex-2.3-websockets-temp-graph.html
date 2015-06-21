@@ -56,7 +56,7 @@ function subscribeToTemperature() {
         addDataPoint(result);
     };
     socket.onerror = function (error) { //#C
-        console.log('An error occured while trying to connected to a Websocket!');
+        console.log('An error occurred while trying to connect to a Websocket!');
         console.log(error);
     };
 }

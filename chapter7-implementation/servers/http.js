@@ -1,36 +1,57 @@
-var express = require('express'),
+/* var express = require('express'),
   actuatorsRoutes = require('./../routes/actuators'),
   sensorRoutes = require('./../routes/sensors'),
-  resources = require('./../resources/config'),
+  resources = require('./../resources/model'),
   converter = require('./../middleware/converter'),
   bodyParser = require('body-parser');
 
 var app = express();
 
-app.use('/actuators', actuatorsRoutes);
-app.use('/sensors', sensorRoutes);
+app.use(bodyParser.json());
 
-app.get('/', function (req, res) {
+app.use('/pi/actuators', actuatorsRoutes);
+app.use('/pi/sensors', sensorRoutes);
+
+app.get('/pi', function (req, res) {
   res.send('This is the WoT-Pi!')
 });
 
 // For representation design
 app.use(converter);
 
-// For interface
-app.use(bodyParser.json()); // for parsing application/json
 
-
+// issue with WS: see: https://github.com/HenningM/express-ws/issues/10
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Resource not Found');
-  err.status = 404;
-  next(err);
-});
-
-// plugins
-var ledsPlugin = require('../plugins/ledsPlugin');
-
+//app.use(function(req, res, next) {
+  //var err = new Error('Resource not Found');
+  //err.status = 404;
+  //next(err);
+//});
 
 module.exports = app;
+*/
+
+
+ //Initial version:
+
+var express = require('express'),
+  actuatorsRoutes = require('./../routes/actuators'),
+  sensorRoutes = require('./../routes/sensors'),
+  resources = require('./../resources/model'); //#A
+
+var app = express(); //#B
+
+app.use('/pi/actuators', actuatorsRoutes); //#C
+app.use('/pi/sensors', sensorRoutes);
+
+app.get('/pi', function (req, res) { //#D
+  res.send('This is the WoT-Pi!')
+});
+
+module.exports = app;
+
+//#A Requires the Express framework, our routes and the model
+//#B Creates an application with the Express framework, this wraps an HTTP server
+//#C Binds our routes to the Express application we bind them to /pi/actuators/... and /pi/sensors/...
+//#D Create a default route for /pi
 

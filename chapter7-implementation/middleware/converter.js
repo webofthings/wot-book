@@ -4,7 +4,7 @@ var msgpack = require('msgpack5')(),
   json2html = require('node-json2html');
 
 function represent(req, res, next) {
-  console.log(req.headers);
+  //console.log(req.headers);
 
   if (req.result) {
     if (req.accepts('html')) {

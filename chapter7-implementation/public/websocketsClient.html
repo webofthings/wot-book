@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>A Simple Websockets Client</title>
+</head>
+<body>
+
+<script>
+    function subscribeToWs(url, msg) {
+        var socket = new WebSocket(url);
+
+        socket.onmessage = function (event) {
+            //var result = JSON.parse(event.data);
+            console.log(event.data);
+        };
+        socket.onerror = function (error) {
+            console.log('An error occurred while trying to connect to a Websocket!');
+            console.log(error);
+        };
+        socket.onopen = function (event) {
+            if (msg) {
+                socket.send(msg);
+            }
+        };
+    }
+    subscribeToWs('ws://localhost:8484/sensors/pir', 'echo');
+</script>
+
+</body>
+</html>

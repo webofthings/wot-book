@@ -2,15 +2,17 @@
   "name": "wot-pi",
   "version": "1.0.0",
   "description": "A Web of Things server for the Pi",
-  "main": "index.js",
+  "main": "wot-pi.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "dom guinard",
-  "license": "ISC",
+  "license": "Apache-2",
   "dependencies": {
+    "body-parser": "^1.13.1",
     "express": "^4.12.4",
     "msgpack5": "^2.3.0",
-    "observed": "^1.1.1"
+    "observed": "^1.1.1",
+    "ws": "^0.7.2"
   }
 }

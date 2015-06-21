@@ -1,14 +1,13 @@
 var resources = require('./../resources/model');
 
-var actuator;
 var interval;
-var me = resources.actuators.leds['1'];
-var pluginName = me.name;
+var me = resources.sensors.pir;
+var pluginName = resources.sensors.pir.name;
 var localParams = {'simulate': false, 'frequency': 2000};
+
 
 exports.start = function (params) {
   localParams = params;
-  observe(me);
 
   if (params.simulate) {
     doSimulate();
@@ -26,28 +25,15 @@ exports.stop = function () {
   console.info('%s plugin stopped!', pluginName);
 }
 
-function observe(what) {
-  Object.observe(what, function (changes) {
-    console.info('Change detected for %s...', pluginName);
-    switchOnOff(me.value);
-  });
-}
-
-function switchOnOff(value) {
-  if (!params.simulate) {
-    // converts boolean to number
-    +value;
-    value = (value + 1) % 2;
-    actuator.write(value, function () {
-      console.info('Changed value of %s to %i', value);
-    });
-  }
-}
-
 function connectHardware() {
   var Gpio = require('onoff').Gpio;
-  actuator = new Gpio(14, 'out');
-  console.info('Hardware %s actuator started!', pluginName);
+  sensor = new Gpio(me.gpio, 'in', 'both');
+  sensor.watch(function (err, value) {
+    if (err) exit(err);
+    console.info(value ? 'there is someone!' : 'not anymore!');
+    me.value = !!value;
+  });
+  console.info('Hardware %s sensor started!', pluginName);
 }
 
 function doSimulate() {
@@ -59,5 +45,5 @@ function doSimulate() {
       me.value = true;
     }
   }, localParams.frequency);
-  console.info('Simulated %s actuator started!', pluginName);
+  console.info('Simulated %s sensor started!', pluginName);
 }

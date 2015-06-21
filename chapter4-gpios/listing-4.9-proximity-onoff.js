@@ -3,7 +3,7 @@ var Gpio = require('onoff').Gpio,
 
 sensor.watch(function (err, value) { //#B
   if (err) exit(err);
-  console.log(value ? 'there is some one!' : 'not anymore!');
+  console.log(value ? 'there is someone!' : 'not anymore!');
 });
 
 function exit(err) {
