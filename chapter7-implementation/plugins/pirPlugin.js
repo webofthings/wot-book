@@ -30,7 +30,7 @@ function connectHardware() {
   sensor = new Gpio(me.gpio, 'in', 'both');
   sensor.watch(function (err, value) {
     if (err) exit(err);
-    console.info(value ? 'there is someone!' : 'not anymore!');
+    showValue();
     me.value = !!value;
   });
   console.info('Hardware %s sensor started!', pluginName);
@@ -44,6 +44,11 @@ function doSimulate() {
     } else {
       me.value = true;
     }
+    showValue();
   }, localParams.frequency);
   console.info('Simulated %s sensor started!', pluginName);
+}
+
+function showValue() {
+  console.info(me.value ? 'there is someone!' : 'not anymore!');
 }

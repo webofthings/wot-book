@@ -1,4 +1,33 @@
 var express = require('express'),
+  router = express.Router(),
+  resources = require('./../resources/model');
+
+router.route('/').get(function (req, res, next) {
+  req.result = resources.sensors;
+  next();
+});
+
+router.route('/pir').get(function (req, res, next) {
+  req.result = resources.sensors.pir;
+  next();
+});
+
+router.route('/temperature').get(function (req, res, next) {
+  req.result = resources.sensors.temperature;
+  next();
+});
+
+router.route('/humidity').get(function (req, res, next) {
+  req.result = resources.sensors.humidity;
+  next();
+});
+
+module.exports = router;
+
+
+/*
+// Intial version
+var express = require('express'),
   router = express.Router(), //#A
   resources = require('./../resources/model');
 
@@ -27,3 +56,4 @@ module.exports = router; //#F
 //#D This route serves the temperature and humidity sensor
 //#E with :id we inject a variable in the path which will be the LED number
 //#F we export to router to make it accessible for "requirers" of this file
+*/

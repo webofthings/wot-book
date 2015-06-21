@@ -28,12 +28,12 @@
     "leds": {
       "1": {
         "name": "LED 1",
-        "isOn": false,
+        "value": false,
         "gpio": 17
       },
       "2": {
         "name": "LED 2",
-        "isOn": false,
+        "value": false,
         "gpio": 19
       }
     }

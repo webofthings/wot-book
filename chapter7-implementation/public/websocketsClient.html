@@ -1,17 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>A Simple Websockets Client</title>
-</head>
-<body>
-
-<script>
+<body><script>
     function subscribeToWs(url, msg) {
         var socket = new WebSocket(url);
 
         socket.onmessage = function (event) {
-            //var result = JSON.parse(event.data);
             console.log(event.data);
         };
         socket.onerror = function (error) {
@@ -24,8 +17,5 @@
             }
         };
     }
-    subscribeToWs('ws://localhost:8484/sensors/pir', 'echo');
-</script>
-
-</body>
-</html>
+    subscribeToWs('ws://localhost:8484/pi/sensors/temperature');
+</script></body></html>

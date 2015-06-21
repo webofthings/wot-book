@@ -34,9 +34,7 @@ function connectHardware() {
       var readout = sensorDriver.read();
       me.temperature.value = parseFloat(readout.temperature.toFixed(2));
       me.humidity.value = parseFloat(readout.humidity.toFixed(2));
-
-      console.info('Temperature: %s C, humidity %s \%',
-        me.temperature.value, me.humidity.value);
+      showValue();
 
       setTimeout(function () {
         sensor.read();
@@ -56,6 +54,12 @@ function doSimulate() {
   interval = setInterval(function () {
     me.temperature.value = Math.random();
     me.humidity.value = Math.random();
+    showValue();
   }, localParams.frequency);
   console.info('Simulated %s sensor started!', pluginName);
+}
+
+function showValue() {
+  console.info('Temperature: %s C, humidity %s \%',
+    me.temperature.value, me.humidity.value);
 }

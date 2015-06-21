@@ -1,4 +1,4 @@
-/* var express = require('express'),
+var express = require('express'),
   actuatorsRoutes = require('./../routes/actuators'),
   sensorRoutes = require('./../routes/sensors'),
   resources = require('./../resources/model'),
@@ -29,9 +29,9 @@ app.use(converter);
 //});
 
 module.exports = app;
-*/
 
 
+/*
  //Initial version:
 
 var express = require('express'),
@@ -55,3 +55,4 @@ module.exports = app;
 //#C Binds our routes to the Express application we bind them to /pi/actuators/... and /pi/sensors/...
 //#D Create a default route for /pi
 
+*/

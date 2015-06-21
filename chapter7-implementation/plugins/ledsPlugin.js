@@ -28,7 +28,7 @@ exports.stop = function () {
 
 function observe(what) {
   Object.observe(what, function (changes) {
-    console.info('Change detected for %s...', pluginName);
+    console.info('Change detected by plugin for %s...', pluginName);
     switchOnOff(me.value);
   });
 }
