@@ -31,3 +31,23 @@ node_modules
 .lock-wscript
 
 .idea/workspace.xml
+
+chapter7-implementation/part3-cloud/app.json
+
+chapter7-implementation/part3-cloud/product.json
+
+chapter7-implementation/part3-cloud/setStatus.json
+
+chapter7-implementation/part3-cloud/thng.json
+
+chapter7-implementation/part3-cloud/project.json
+
+chapter7-implementation/part3-cloud/config.json
+
+chapter7-implementation/part3-cloud/deviceApiKey.json
+
+chapter7-implementation/part3-cloud/curl-examples-private.sh
+
+chapter7-implementation/part3-cloud/private/setup.js
+
+chapter7-implementation/part3-cloud/private/curl-examples-private.sh
