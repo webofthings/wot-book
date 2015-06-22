@@ -1,12 +1,13 @@
 {
-  "name": "WoT Smart Plug",
-  "version": "1.0.0",
-  "description": "",
+  "name": "wot-plug",
+  "description": "Examples for the Web of Things Book",
+  "author": "Dom Guinard <dom@guinard.org>",
+  "author": "Vlad Trifa <vladounet@gmail.com>",
+  "repository" : "https://github.com/webofthings/wot-book.git",
   "main": "plug-with-control.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
   "license": "MIT",
   "dependencies": {
     "mqtt": "^1.3.1"
