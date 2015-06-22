@@ -10,8 +10,8 @@ coap.createServer(function(req, res) {
 
   res.setOption('Content-Format', 'application/json');
   res.code = '2.05';
-  var result = { temp: 0 };
-  result.temp = random(0, 40);
+  var result = { co2: 0 };
+  result.co2 = random(0, 40);
   res.end(JSON.stringify(result));
 
 }).listen(5683)

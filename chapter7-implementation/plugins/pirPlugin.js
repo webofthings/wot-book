@@ -1,8 +1,8 @@
 var resources = require('./../resources/model');
 
 var interval;
-var me = resources.sensors.pir;
-var pluginName = resources.sensors.pir.name;
+var me = resources.pi.sensors.pir;
+var pluginName = resources.pi.sensors.pir.name;
 var localParams = {'simulate': false, 'frequency': 2000};
 
 

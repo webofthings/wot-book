@@ -29,6 +29,7 @@
     "coap": "^0.10.3",
     "express": "^4.12.4",
     "msgpack5": "^2.3.0",
+    "node-json2html": "^1.0.0",
     "observed": "^1.1.1",
     "ws": "^0.7.2"
   }

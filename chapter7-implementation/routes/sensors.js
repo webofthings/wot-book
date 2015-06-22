@@ -3,22 +3,22 @@ var express = require('express'),
   resources = require('./../resources/model');
 
 router.route('/').get(function (req, res, next) {
-  req.result = resources.sensors;
+  req.result = resources.pi.sensors;
   next();
 });
 
 router.route('/pir').get(function (req, res, next) {
-  req.result = resources.sensors.pir;
+  req.result = resources.pi.sensors.pir;
   next();
 });
 
 router.route('/temperature').get(function (req, res, next) {
-  req.result = resources.sensors.temperature;
+  req.result = resources.pi.sensors.temperature;
   next();
 });
 
 router.route('/humidity').get(function (req, res, next) {
-  req.result = resources.sensors.humidity;
+  req.result = resources.pi.sensors.humidity;
   next();
 });
 
@@ -32,19 +32,19 @@ var express = require('express'),
   resources = require('./../resources/model');
 
 router.route('/').get(function (req, res, next) { //#B
-  res.send(resources.sensors);  //#C
+  res.send(resources.pi.sensors);  //#C
 });
 
 router.route('/pir').get(function (req, res, next) { //#D
-  res.send(resources.sensors.pir);
+  res.send(resources.pi.sensors.pir);
 });
 
 router.route('/temperature').get(function (req, res, next) { //#E
-  res.send(resources.sensors.temperature);
+  res.send(resources.pi.sensors.temperature);
 });
 
 router.route('/humidity').get(function (req, res, next) { //#E
-  res.send(resources.sensors.humidity);
+  res.send(resources.pi.sensors.humidity);
 });
 
 module.exports = router; //#F

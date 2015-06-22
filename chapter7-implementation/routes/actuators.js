@@ -3,20 +3,20 @@ var express = require('express'),
   resources = require('./../resources/model');
 
 router.route('/').get(function (req, res, next) {
-  req.result = resources.actuators;
+  req.result = resources.pi.actuators;
   next();
 });
 
 router.route('/leds').get(function (req, res, next) {
-  req.result = resources.actuators.leds;
+  req.result = resources.pi.actuators.leds;
   next();
 });
 
 router.route('/leds/:id').get(function (req, res, next) { //#A
-  req.result = resources.actuators.leds[req.params.id];
+  req.result = resources.pi.actuators.leds[req.params.id];
   next();
 }).put(function(req, res, next) { //#B
-  var selectedLed = resources.actuators.leds[req.params.id];
+  var selectedLed = resources.pi.actuators.leds[req.params.id];
   selectedLed.value = req.body.value; //#C
   console.info('Changed LED %s value to %s', req.params.id, selectedLed.value);
   req.result = selectedLed;
@@ -38,15 +38,15 @@ router = express.Router(),
 resources = require('./../resources/model');
 
 router.route('/').get(function (req, res, next) { // #A
- res.send(resources.actuators); // #B
+ res.send(resources.pi.actuators); // #B
 });
 
 router.route('/leds').get(function (req, res, next) { // #C
-  res.send(resources.actuators.leds);
+  res.send(resources.pi.actuators.leds);
 });
 
 router.route('/leds/:id').get(function (req, res, next) { //#D
-  res.send(resources.actuators.leds[req.params.id]); //#E
+  res.send(resources.pi.actuators.leds[req.params.id]); //#E
 });
 
 module.exports = router;

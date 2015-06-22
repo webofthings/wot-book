@@ -1,7 +1,7 @@
 var resources = require('./../resources/model');
 
 var interval;
-var me = resources.sensors;
+var me = resources.pi.sensors;
 var pluginName = 'Temperature & Humidity'
 var localParams = {'simulate': false, 'frequency': 5000};
 

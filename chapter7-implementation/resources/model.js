@@ -1,2 +1,3 @@
-var resources = require('./pi.json');
+var resources = require('./resources.json');
 module.exports = resources;
+
