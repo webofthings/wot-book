@@ -30,9 +30,9 @@ echo '  "operatorApiKey":"'$EVRYTHNG_API_KEY'",' >> config.json
 curl -X POST "$SERVER/projects" \
      -H "Authorization: $EVRYTHNG_API_KEY" \
      -H "Content-Type: application/json" \
-     -d '{ "name": "Web of Things Book", "description": "My First WoT Project" }' > project.json
+     -d '{ "name": "Web of Things Book", "description": "My First WoT Project" }' > payloads/project.json
 
-PROJECT=`cat project.json`
+PROJECT=`cat payloads/project.json`
 PROJECT_ID=`parse_json "$PROJECT" id`
 
 echo "Created Project ID: $PROJECT_ID"
@@ -44,16 +44,16 @@ echo '  "projectId":"'$PROJECT_ID'",' >> config.json
 curl -X POST "$SERVER/actions?project=$PROJECT_ID" \
      -H "Authorization: $EVRYTHNG_API_KEY" \
      -H "Content-Type: application/json" \
-     -d '{ "name": "_setStatus", "description": "Changes the Status of the Thng","tags":["WoT","device"] }' > setStatus.json
+     -d '{ "name": "_setStatus", "description": "Changes the Status of the Thng","tags":["WoT","device"] }' > payloads/setStatus.json
 
 
 # Create a Product
 curl -X POST "$SERVER/products?project=$PROJECT_ID" \
      -H "Authorization: $EVRYTHNG_API_KEY" \
      -H "Content-Type: application/json" \
-     -d '{ "fn": "WoT Smart Plug", "description": "A Web-connected Smart Plug","tags":["WoT","device","energy"],"photos":["https://cdn1.vox-cdn.com/thumbor/pMsZTT_Oci8Y_0MHX0nuzSXc9vQ=/cdn0.vox-cdn.com/uploads/chorus_asset/file/2905920/iSP5_1_.0.jpg"] }' > product.json
+     -d '{ "fn": "WoT Smart Plug", "description": "A Web-connected Smart Plug","tags":["WoT","device","energy"],"photos":["https://webofthings.github.io/files/plug.jpg"] }' > payloads/product.json
 
-PRODUCT=`cat product.json`
+PRODUCT=`cat payloads/product.json`
 PRODUCT_ID=`parse_json "$PRODUCT" id`
 
 echo "Created Product ID: $PRODUCT_ID"
@@ -71,10 +71,10 @@ curl -X GET "$SERVER/products/$PRODUCT_ID?project=$PROJECT_ID" \
 curl -X POST "$SERVER/thngs?project=$PROJECT_ID" \
      -H "Authorization: $EVRYTHNG_API_KEY" \
      -H "Content-Type: application/json" \
-     -d '{ "name": "My WoT Plug", "product":"'$PRODUCT_ID'", "description": "My own Smart Plug","tags":["WoT","device","plug","energy"] }' > thng.json
+     -d '{ "name": "My WoT Plug", "product":"'$PRODUCT_ID'", "description": "My own Smart Plug","tags":["WoT","device","plug","energy"] }' > payloads/thng.json
 
 
-THNG=`cat thng.json`
+THNG=`cat payloads/thng.json`
 THNG_ID=`parse_json "$THNG" id`
 
 echo "Created Thng ID: $THNG_ID"
@@ -86,10 +86,10 @@ echo '  "thngId":"'$THNG_ID'",' >> config.json
 curl -X POST "$SERVER/projects/$PROJECT_ID/applications" \
      -H "Authorization: $EVRYTHNG_API_KEY" \
      -H "Content-Type: application/json" \
-     -d '{ "name": "My Awesome WoT App", "description": "My First WoT Client Application","tags":["WoT","device","plug","energy"], "socialNetworks": {} }' > app.json
+     -d '{ "name": "My Awesome WoT App", "description": "My First WoT Client Application","tags":["WoT","device","plug","energy"], "socialNetworks": {} }' > payloads/app.json
 
 
-APP=`cat app.json`
+APP=`cat payloads/app.json`
 APP_ID=`parse_json "$APP" id`
 APP_API_KEY=`parse_json "$APP" appApiKey`
 
@@ -102,9 +102,9 @@ echo '  "appApiKey":"'$APP_API_KEY'",' >> config.json
 curl -X POST "$SERVER/auth/evrythng/thngs" \
      -H "Authorization: $EVRYTHNG_API_KEY" \
      -H "Content-Type: application/json" \
-     -d '{ "thngId": "'$THNG_ID'" }' > deviceApiKey.json
+     -d '{ "thngId": "'$THNG_ID'" }' > payloads/deviceApiKey.json
 
-THNG_API=`cat deviceApiKey.json`
+THNG_API=`cat payloads/deviceApiKey.json`
 THNG_API_KEY=`parse_json "$THNG_API" thngApiKey`
 
 echo '  "thngApiKey":"'$THNG_API_KEY'"' >> config.json
