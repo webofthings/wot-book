@@ -5,14 +5,14 @@ coap.createServer(function (req, res) {
   console.info('CoAP device got a request for %s', req.url);
   if (req.headers['Accept'] != 'application/json') {
     res.code = '4.06'; //#B
-    res.end();
+    return res.end();
   }
   switch (req.url) { //#C
     case "/co2":
-      respond(res, {'co2': utils.random(0, 1000)}); //#D
+      respond(res, {'co2': utils.randomInt(0, 1000)}); //#D
       break;
     case "/temp":
-      respond(res, {'temp': utils.random(0, 40)});
+      respond(res, {'temp': utils.randomInt(0, 40)});
       break;
     default:
       respond(res);

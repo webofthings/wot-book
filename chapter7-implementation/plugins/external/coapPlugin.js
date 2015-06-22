@@ -89,5 +89,3 @@ function doSimulate() {
 function showValue() {
   console.info('CO2 Level: %s ppm', me.value);
 };
-
-
