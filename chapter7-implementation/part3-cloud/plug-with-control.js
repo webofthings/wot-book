@@ -1,12 +1,11 @@
 var mqtt = require('mqtt');
-
 var config = require('./config.json'); 
+
 var thngId=config.thngId; 
 var thngUrl='/thngs/'+thngId;
 var thngApiKey=config.thngApiKey; 
 
-
-var status=false; // This is the status of this plug, true = turned on
+var status=false; 
 
 // FIXME: use secure version here
 var client = mqtt.connect("mqtt://mqtt.evrythng.com:1883", {
@@ -15,12 +14,9 @@ var client = mqtt.connect("mqtt://mqtt.evrythng.com:1883", {
 });
 
 client.on('connect', function () {
-
   client.subscribe(thngUrl+'/properties/');
   client.subscribe(thngUrl+'/actions/all'); // #A
-
   updateProperty ('livenow',true);
-
   setTimeout(updateProperties, 5000); 
 });
 
@@ -42,10 +38,9 @@ function handleAction (action) {
   switch(action.type) { // #F
     case '_setStatus':
       console.log('ACTION: _setStatus changed to: '+action.customFields.status); // #G
-      // Set status and update the property to false
       status=Boolean(action.customFields.status);
-      client.publish(thngUrl+'/properties/status', '[{"value": '+status+'}]');
-      /* Do something about this */
+      updateProperty ('status',status);
+      /* Do something else too */
       break;
     case '_setLevel':
       console.log('ACTION: _setLevel changed to: '+action.customFields.level);
@@ -79,7 +74,6 @@ function updateProperties () {
 }
 
 function updateProperty (property,value) {
-  // update the model
   client.publish(thngUrl+'/properties/'+property, '[{"value": '+value+'}]');
 }
 

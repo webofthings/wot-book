@@ -1,13 +1,12 @@
 var mqtt = require('mqtt');
 
 var config = require('./config.json'); // #A 
-var thngId=config.thngId; //Your THNG ID
+var thngId=config.thngId; 
 var thngUrl='/thngs/'+thngId;
-var thngApiKey=config.thngApiKey; //Your device API KEY
+var thngApiKey=config.thngApiKey; 
 
 console.log('Using Thng #'+thngId+' with API Key: '+ thngApiKey);
 
-// This is using the unsecure version - for simplicity's sake - obviously, don't use it in production
 var client = mqtt.connect("mqtt://mqtt.evrythng.com:1883", {// #B
   username: 'authorization',
   password: thngApiKey 
@@ -15,8 +14,7 @@ var client = mqtt.connect("mqtt://mqtt.evrythng.com:1883", {// #B
 
 client.on('connect', function () { // #C
   client.subscribe(thngUrl+'/properties/'); //#D
-
-  client.publish(thngUrl+'/properties/livenow', '[{"value": true}]'); //#E
+  updateProperty ('livenow',true);
   setTimeout(updateProperties, 5000); //#F
 });
 
@@ -27,21 +25,25 @@ client.on('message', function (topic, message) { // #G
 
 function updateProperties () {
   var voltage = (219.5 + Math.random()).toFixed(3); // #H
-	client.publish(thngUrl+'/properties/voltage', '[{"value": '+voltage+'}]');
+  updateProperty ('voltage',voltage);
 
   var current = (Math.random()*10).toFixed(3); // #I
-  client.publish(thngUrl+'/properties/current', '[{"value": '+current+'}]');
+  updateProperty ('current',current);
 
   var power = (voltage * current * (0.6+Math.random()/10)).toFixed(3) // #J
-  client.publish(thngUrl+'/properties/power', '[{"value": '+power+'}]');
+  updateProperty ('power',power);
 
-	setTimeout(updateProperties, 5000); // #F
+  setTimeout(updateProperties, 5000); // #F
+}
+
+function updateProperty (property,value) {
+  client.publish(thngUrl+'/properties/'+property, '[{"value": '+value+'}]');
 }
 
 // Let's close this connection cleanly
 process.on('SIGINT', function() { // #K
-	client.publish(thngUrl+'/properties/livenow', '[{"value": false}]');
-	client.end();
+  updateProperty ('livenow',false);
+  client.end();
   process.exit();
 });
 
