@@ -6,7 +6,7 @@ var me;
 var pluginName;
 var localParams = {'simulate': false, 'frequency': 5000};
 
-function configure(app) {
+function configure() {
   utils.addDevice('coapDevice', 'A CoAP Device',
     'A CoAP Device',
     {
@@ -49,14 +49,15 @@ function connectHardware() {
     read: function () {
       coap
         .request({
+          host: 'localhost',
+          port: 5683,
           pathname: '/co2',
           options: {'Accept': 'application/json'}
         })
         .on('response', function (res) {
           console.info('response code', res.code);
           if (res.code !== '2.05')
-            return process.exit(1);
-
+            console.log("Error while contacting CoAP service: %s", res.code);
           res.pipe(bl(function (err, data) {
             var json = JSON.parse(data);
             console.info(json);
@@ -78,7 +79,7 @@ function connectHardware() {
 
 function doSimulate() {
   interval = setInterval(function () {
-    me.co2 = Math.random();
+    me.co2 = utils.randomInt(0, 1000)
     showValue();
   }, localParams.frequency);
   console.info('Simulated %s sensor started!', pluginName);
