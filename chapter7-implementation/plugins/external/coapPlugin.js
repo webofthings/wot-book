@@ -1,12 +1,42 @@
 var utils = require('./../../utils/utils.js'),
   resources = require('./../../resources/model');
 
-var interval;
-var me;
-var pluginName;
+var interval, me, pluginName, pollInterval;
 var localParams = {'simulate': false, 'frequency': 5000};
 
-function configure() {
+function connectHardware() {
+  var coap = require('coap'),
+    bl = require('bl'); //#A
+
+  var sensor = {
+    read: function () { //#B
+      coap
+        .request({ //#C
+          host: 'localhost',
+          port: 5683,
+          pathname: '/co2',
+          options: {'Accept': 'application/json'}
+        })
+        .on('response', function (res) { //#D
+          console.info('CoAP response code', res.code);
+          if (res.code !== '2.05')
+            console.log("Error while contacting CoAP service: %s", res.code);
+          res.pipe(bl(function (err, data) { //#E
+            var json = JSON.parse(data);
+            me.value = json.co2;
+            showValue();
+          }));
+        })
+        .end();
+      pollInterval = setTimeout(function () { //#F
+        sensor.read();
+      }, localParams.frequency);
+    }
+  };
+  sensor.read();
+};
+
+function configure() { //#G
   utils.addDevice('coapDevice', 'A CoAP Device',
     'A CoAP Device',
     {
@@ -19,7 +49,14 @@ function configure() {
     });
   me = resources.things.coapDevice.sensors.co2;
   pluginName = resources.things.coapDevice.name;
-}
+};
+//#A Require the CoAP and BL library, a Buffer helper
+//#B Create a sensor object and give it a read function
+//#C The read function wraps a coap over UDP request with the enclosed parameters, replace localhost by the IP of the device you are simulating the CoAP device (e.g., your laptop)
+//#D When CoAP device sends the result the 'on response' event is triggered
+//#E Fetch the results and update the model
+//#F Poll the CoAP device for new CO2 readings on a regular basis
+//#G Adds the resources managed by this plugin to the model
 
 exports.start = function (params, app) {
   localParams = params;
@@ -30,52 +67,16 @@ exports.start = function (params, app) {
   } else {
     connectHardware();
   }
-}
+};
 
 exports.stop = function () {
   if (params.simulate) {
     clearInterval(interval);
   } else {
-    sensor.unexport();
+    clearInterval(pollInterval);
   }
   console.info('%s plugin stopped!', pluginName);
-}
-
-function connectHardware() {
-  var coap = require('coap'),
-    bl = require('bl');
-
-  var sensor = {
-    read: function () {
-      coap
-        .request({
-          host: 'localhost',
-          port: 5683,
-          pathname: '/co2',
-          options: {'Accept': 'application/json'}
-        })
-        .on('response', function (res) {
-          console.info('response code', res.code);
-          if (res.code !== '2.05')
-            console.log("Error while contacting CoAP service: %s", res.code);
-          res.pipe(bl(function (err, data) {
-            var json = JSON.parse(data);
-            console.info(json);
-            me.value = json.co2;
-          }))
-        })
-        .end();
-
-      showValue();
-
-      setTimeout(function () {
-        sensor.read();
-      }, localParams.frequency);
-    }
-  };
-
-  sensor.read();
-}
+};
 
 function doSimulate() {
   interval = setInterval(function () {
@@ -83,10 +84,10 @@ function doSimulate() {
     showValue();
   }, localParams.frequency);
   console.info('Simulated %s sensor started!', pluginName);
-}
+};
 
 function showValue() {
   console.info('CO2 Level: %s ppm', me.value);
-}
+};
 
 

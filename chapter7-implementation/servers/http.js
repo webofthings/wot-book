@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 app.use('/pi/actuators', actuatorsRoutes);
 app.use('/pi/sensors', sensorRoutes);
-app.use('/things', thingsRoutes)
+app.use('/things', thingsRoutes);
 
 app.get('/pi', function (req, res) {
   res.send('This is the WoT-Pi!')
