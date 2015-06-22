@@ -3,7 +3,7 @@ var coap = require('coap'),
 
 coap
   .request({
-    pathname: '/temp',
+    pathname: '/co2',
     options: { 'Accept' : 'application/json'}
   })
   .on('response', function(res) {

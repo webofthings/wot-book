@@ -1,41 +1,44 @@
 {
-  "name": "WoT Pi",
-  "description": "A simple WoT-connected Raspberry PI for the WoT book.",
-  "port": 8484,
-  "sensors": {
-    "temperature": {
-      "name": "Temperature Sensor",
-      "description": "An ambient temperature sensor.",
-      "unit": "celsius",
-      "value": 0,
-      "gpio": 21
-    },
-    "humidity": {
-      "name": "Humidity Sensor",
-      "description": "An ambient humidity sensor.",
-      "unit": "%",
-      "value": 0,
-      "gpio":  21
-    },
-    "pir": {
-      "name": "Passive Infrared",
-      "description": "A passive infrared sensor. When true someone is present.",
-      "value": true,
-      "gpio": 20
-    }
-  },
-  "actuators": {
-    "leds": {
-      "1": {
-        "name": "LED 1",
-        "value": false,
-        "gpio": 17
+  "pi": {
+    "name": "WoT Pi",
+    "description": "A simple WoT-connected Raspberry PI for the WoT book.",
+    "port": 8484,
+    "sensors": {
+      "temperature": {
+        "name": "Temperature Sensor",
+        "description": "An ambient temperature sensor.",
+        "unit": "celsius",
+        "value": 0,
+        "gpio": 21
       },
-      "2": {
-        "name": "LED 2",
-        "value": false,
-        "gpio": 19
+      "humidity": {
+        "name": "Humidity Sensor",
+        "description": "An ambient humidity sensor.",
+        "unit": "%",
+        "value": 0,
+        "gpio": 21
+      },
+      "pir": {
+        "name": "Passive Infrared",
+        "description": "A passive infrared sensor. When true someone is present.",
+        "value": true,
+        "gpio": 20
+      }
+    },
+    "actuators": {
+      "leds": {
+        "1": {
+          "name": "LED 1",
+          "value": false,
+          "gpio": 17
+        },
+        "2": {
+          "name": "LED 2",
+          "value": false,
+          "gpio": 19
+        }
       }
     }
-  }
+  },
+  "things": [{coap1},{coap2},{}]
 }
