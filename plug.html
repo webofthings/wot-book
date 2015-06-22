@@ -248,7 +248,7 @@ socket.onerror = function (error) {
 
 function sendAction(type,value){ 
   $.ajax({ 
-      url: 'http://api.evrythng.com/actions/'+type+'?access_token='+key,//#A
+      url: 'https://api.evrythng.com/actions/'+type+'?access_token='+key,//#A
       dataType: 'json', //#B
       type: 'post', //#B
       contentType: 'application/json', //#B
