@@ -1,0 +1,14 @@
+{
+  "name": "WoT Smart Plug",
+  "version": "1.0.0",
+  "description": "",
+  "main": "plug-with-control.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "mqtt": "^1.3.1"
+  }
+}

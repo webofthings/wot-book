@@ -53,3 +53,15 @@ chapter7-implementation/part3-cloud/private/setup.js
 chapter7-implementation/part3-cloud/private/curl-examples-private.sh
 
 chapter7-implementation/part3-cloud/wot-simple-ui/
+
+chapter7-implementation/part3-cloud/payloads/app.json
+
+chapter7-implementation/part3-cloud/payloads/deviceApiKey.json
+
+chapter7-implementation/part3-cloud/payloads/product.json
+
+chapter7-implementation/part3-cloud/payloads/project.json
+
+chapter7-implementation/part3-cloud/payloads/setStatus.json
+
+chapter7-implementation/part3-cloud/payloads/thng.json

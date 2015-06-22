@@ -3,6 +3,8 @@
 SERVER="https://api.evrythng.com"
 [ -z "$EVRYTHNG_API_KEY" ] && EVRYTHNG_API_KEY="PUT-YOUR-OPERATOR-API-KEY-HERE"
 
+mkdir -p payloads
+
 # Ultra basic script to extract json content
 function parse_json()
 {
@@ -129,7 +131,6 @@ curl -X POST "$SERVER/thngs/$THNG_ID/properties" \
 	     ]'
 
 
-
 # Let's update this thng a few times with random values
 for i in {1..5} 
 do 
@@ -146,3 +147,10 @@ curl -X POST "$SERVER/actions/_setStatus?project=$PROJECT_ID" \
      -H "Authorization: $EVRYTHNG_API_KEY" \
      -H "Content-Type: application/json" \
      -d '{ "type": "_setStatus", "thng":"'$THNG_ID'", "customFields": {"status":false} }'
+
+
+# Create the redirection
+curl -X POST "https://tn.gg/redirections" \
+     -H "Authorization: $EVRYTHNG_API_KEY" \
+     -H "Content-Type: application/json" \
+     -d '{ "type": "thng", "evrythngId":"'$THNG_ID'", "defaultRedirectUrl":"http://webofthings.github.io/wot-book/plug.html?thngId={evrythngId}&key='$EVRYTHNG_API_KEY'" }'
