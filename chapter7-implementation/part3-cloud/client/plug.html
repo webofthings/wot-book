@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript">
+    var key = 'EDIT-ME';
+    var thngId = 'EDIT-ME';
+  </script>
+
+  <script type="text/javascript">
+    function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    if (getParameterByName('key') != ""){
+      console.log('Get API key from query param:'+getParameterByName('key'))
+      key = getParameterByName('key');
+    }
+
+    if (getParameterByName('thngId') != ""){
+      console.log('Get thngId from query param:'+getParameterByName('thngId'))
+      thngId = getParameterByName('thngId');
+    }
+
+  </script>
+
+  <title>WoT Controller</title>
+
+  <style class="anchorjs"></style><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+
+  <!-- Documentation extras -->
+  <link href="./files/docs.min.css" rel="stylesheet">
+
+  <!-- Import D3 -->
+  <style>
+    svg {
+      font: 10px sans-serif;
+    }
+
+    .line {
+      fill: none;
+      stroke: #000;
+      stroke-width: 1.5px;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+</head>
+
+
+  <body>
+
+    <!-- Docs page layout -->
+    <div class="bs-docs-header" id="content" tabindex="-1">
+      <div class="container">
+        <h1>WoT Controller</h1>
+        <p>Control Web Things via EVRYTHNG.</p>
+      </div>
+    </div>
+
+    <div class="container bs-docs-container">
+      <div class="row">
+        <div class="col-md-9" role="main">
+          <div class="bs-docs-section">
+
+            <h2>Smart Plug</h2>
+
+            <hr>
+            <h3>Actions</h3>
+            <div>
+              <h5>_setStatus</h5>
+              <input type="checkbox" id="toggle-status">
+              <script>
+
+                $(function() {
+                  $('#toggle-status').bootstrapToggle({
+                    on: 'On',
+                    off: 'Off'
+                  });
+                })
+
+                $(function() {
+                  $('#toggle-status').change(function() {
+                    sendAction("_setStatus",{"status": $(this).prop('checked')});
+                  })
+                })
+
+              </script>
+            </div>
+
+
+            <h5>Response</h5>
+
+            <div class="panel-group" id="accordion">
+              <div class="panel panel-default" id="panel2">
+                <div class="panel-heading">
+                  <h4 class="panel-title"><a data-toggle="collapse" data-target="#collapseTwo" href="#collapseTwo" class="collapsed">DEBUG (Show HTTP Response)</a></h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                  <div id="response" class="panel-body"> 
+                    <pre></pre> 
+                  </div> 
+                </div>
+              </div>
+            </div>
+
+            <hr>
+            <h3>Properties</h3>
+
+            <ul class="list-group">
+              <li class="list-group-item">
+                <span id="value-power" class="badge">0.0</span>
+                power
+              </li>
+            </ul>
+
+            <svg class="power-chart"></svg>
+
+
+            <script>
+            var n = 40,
+                random = d3.random.normal(1, 0.1),
+                data = d3.range(n).map(random);
+
+            var margin = {top: 30, right: 40, bottom: 20, left: 40},
+                width = $(window).width() - margin.left - margin.right,
+                height = 200 - margin.top - margin.bottom;
+
+            var x = d3.scale.linear()
+                .domain([0, n - 1])
+                .range([0, width]);
+
+            var y = d3.scale.linear()
+                .domain([0, 1500])
+                .range([height, 0]);
+
+            var line = d3.svg.line()
+                .x(function(d, i) { return x(i); })
+                .y(function(d, i) { return y(d); });
+
+            var svg = d3.select(".power-chart")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+              .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            svg.append("defs").append("clipPath")
+                .attr("id", "clip")
+              .append("rect")
+                .attr("width", width)
+                .attr("height", height);
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + y(0) + ")")
+                .call(d3.svg.axis().scale(x).orient("bottom"));
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(d3.svg.axis().scale(y).orient("left"));
+
+            var path = svg.append("g")
+                .attr("clip-path", "url(#clip)")
+              .append("path")
+                .datum(data)
+                .attr("class", "line")
+                .attr("d", line);
+
+            function updateCharts(key, value, timestamp) {
+
+              console.log('Updating chart '+key+'='+value+'(@'+timestamp+')');
+
+              // push a new data point onto the back
+              data.push(value);
+
+              // redraw the line, and slide it to the left
+              path
+                  .attr("d", line)
+                  .attr("transform", null)
+                .transition()
+                  .duration(500)
+                  .ease("linear")
+                  .attr("transform", "translate(" + x(-1) + ",0)")
+
+              data.shift();
+
+            }
+
+            </script>
+
+
+            <ul class="list-group">
+              <li class="list-group-item">
+                <span id="value-voltage" class="badge">0</span>
+                voltage
+              </li>
+              <li class="list-group-item">
+                <span id="value-current" class="badge">0</span>
+                current
+              </li>
+              <li class="list-group-item">
+                <span id="value-status" class="badge">false</span>
+                status
+              </li>
+            </ul>
+
+            <script>
+var url = 'wss://ws.evrythng.com:443/thngs/'+thngId+'/properties?access_token='+key;
+var socket = new WebSocket(url); //#A 
+
+socket.onmessage = function (message) { //#B
+  var content = JSON.parse(message.data);
+  console.log('Property update : ', content[0]); //#C
+  if (content[0].key=="power"){
+    updateCharts(content[0].key, content[0].value, content[0].timestamp); //#D
+  }
+  $('#value-'+content[0].key).html( content[0].value ); //#E 
+};
+
+socket.onerror = function (error) {
+    console.log('An error occurred while trying to connect to a WebSocket!');
+    console.log(error);
+};
+//#A Subscribes to all properties of this Thng (via secure WebSockets) 
+//#B Each time we receive a WS message, this will be called 
+//#C We parse the message content (note: it's an array!)
+//#D Call this to update the power graph (function not shown)
+//#E Use the property name to update the badge  
+            </script>
+
+            <script>
+
+function sendAction(type,value){ 
+  $.ajax({ 
+      url: 'https://api.evrythng.com/actions/'+type+'?access_token='+key,//#A
+      dataType: 'json', //#B
+      type: 'post', //#B
+      contentType: 'application/json', //#B
+      data: JSON.stringify({"type": type, "thng": thngId, "customFields":value}), //#C
+      processData: false, 
+      success: function( data, textStatus, jQxhr ){ //#D
+          $('#response pre').html( JSON.stringify( data ) ); 
+      }, 
+      error: function( jqXhr, textStatus, errorThrown ){//#E 
+          console.log( errorThrown ); 
+      } 
+  });
+}
+//#A The custom actions endpoint in EVRYTHNG
+//#B We POST a JSON document
+//#C The payload to POST 
+//#D If successful, update the "response" html element
+//#E If an error, display in the console
+
+            </script>
+
+          </div>
+
+          </div>
+        </div>
+
+    <!-- Footer
+================================================== -->
+<footer class="bs-docs-footer" role="contentinfo">
+  <div class="container">
+
+    <p>Built with the amazing D3, Bootstrap, and bootstraptoggle.</p>
+
+  </div>
+</footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+
+
+
+</body></html>

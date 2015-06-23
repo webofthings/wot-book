@@ -31,3 +31,12 @@ node_modules
 .lock-wscript
 
 .idea/workspace.xml
+
+chapter7-implementation/part3-cloud/private/
+
+chapter7-implementation/part3-cloud/payloads/
+
+
+
+
+chapter7-implementation/part3-cloud/config.json
