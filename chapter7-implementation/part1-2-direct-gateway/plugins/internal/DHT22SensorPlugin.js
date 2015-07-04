@@ -2,19 +2,18 @@ var resources = require('./../../resources/model'),
   utils = require('./../../utils/utils.js');
 
 var interval;
-var me = resources.pi.sensors;
-var pluginName = 'Temperature & Humidity'
+var model = resources.pi.sensors;
+var pluginName = 'Temperature & Humidity';
 var localParams = {'simulate': false, 'frequency': 5000};
 
 exports.start = function (params) {
   localParams = params;
-
   if (params.simulate) {
-    doSimulate();
+    simulate();
   } else {
     connectHardware();
   }
-}
+};
 
 exports.stop = function () {
   if (params.simulate) {
@@ -23,7 +22,7 @@ exports.stop = function () {
     sensor.unexport();
   }
   console.info('%s plugin stopped!', pluginName);
-}
+};
 
 function connectHardware() {
  var sensorDriver = require('node-dht-sensor');
@@ -33,8 +32,8 @@ function connectHardware() {
     },
     read: function () {
       var readout = sensorDriver.read();
-      me.temperature.value = parseFloat(readout.temperature.toFixed(2));
-      me.humidity.value = parseFloat(readout.humidity.toFixed(2));
+      model.temperature.value = parseFloat(readout.temperature.toFixed(2));
+      model.humidity.value = parseFloat(readout.humidity.toFixed(2));
       showValue();
 
       setTimeout(function () {
@@ -42,25 +41,24 @@ function connectHardware() {
       }, localParams.frequency);
     }
   };
-
   if (sensor.initialize()) {
     console.info('Hardware %s sensor started!', pluginName);
     sensor.read();
   } else {
     console.warn('Failed to initialize sensor!');
   }
-}
+};
 
-function doSimulate() {
+function simulate() {
   interval = setInterval(function () {
-    me.temperature.value = utils.randomInt(0, 40)
-    me.humidity.value = Math.random(0, 100);
+    model.temperature.value = utils.randomInt(0, 40)
+    model.humidity.value = Math.random(0, 100);
     showValue();
   }, localParams.frequency);
   console.info('Simulated %s sensor started!', pluginName);
-}
+};
 
 function showValue() {
   console.info('Temperature: %s C, humidity %s \%',
-    me.temperature.value, me.humidity.value);
-}
+    model.temperature.value, model.humidity.value);
+};

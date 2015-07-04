@@ -4,16 +4,13 @@ var httpServer = require('./servers/http'),
 
 // Internal Plugins
 var ledsPlugin = require('./plugins/internal/ledsPlugin'),
-  //pirPlugin = require('./plugins/pirPlugin'),
-  PirPlugin = require('./plugins/internal/pirPlugin2').PirPlugin,
+  pirPlugin = require('./plugins/internal/pirPlugin'),
   dhtPlugin = require('./plugins/internal/DHT22SensorPlugin');
-//pirPlugin.start({'simulate': true, 'frequency': 2000});
-//ledsPlugin.start({'simulate': true, 'frequency': 10000});
-//dhtPlugin.start({'simulate': true, 'frequency': 10000});
 
-var pirPlugin = new PirPlugin({'simulate': true, 'frequency': 2000});
-pirPlugin.start();
-
+// External Plugins for sensors/actuators connected to the PI GPIOs
+pirPlugin.start({'simulate': true, 'frequency': 2000});
+ledsPlugin.start({'simulate': true, 'frequency': 10000});
+dhtPlugin.start({'simulate': true, 'frequency': 10000});
 
 // External Plugins
 var coapPlugin = require('./plugins/external/coapPlugin');

@@ -1,5 +1,5 @@
 var coap = require('coap'),  //#A
-  utils = require('./utils/utils');
+  utils = require('./../utils/utils');
 
 coap.createServer(function (req, res) {
   console.info('CoAP device got a request for %s', req.url);

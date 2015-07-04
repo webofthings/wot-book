@@ -1,25 +1,20 @@
-
-
-
 var resources = require('./../../resources/model');
 
 var interval;
-var me = resources.pi.sensors.pir;
+var model = resources.pi.sensors.pir;
 var pluginName = resources.pi.sensors.pir.name;
 var localParams = {'simulate': false, 'frequency': 2000};
 
-
-exports.start = function (params) {
+exports.start = function (params) { //#A
   localParams = params;
-
   if (params.simulate) {
-    doSimulate();
+    simulate();
   } else {
     connectHardware();
   }
 }
 
-exports.stop = function () {
+exports.stop = function () { //#A
   if (params.simulate) {
     clearInterval(interval);
   } else {
@@ -28,24 +23,23 @@ exports.stop = function () {
   console.info('%s plugin stopped!', pluginName);
 }
 
-function connectHardware() {
+function connectHardware() { //#B
   var Gpio = require('onoff').Gpio;
-  sensor = new Gpio(me.gpio, 'in', 'both');
-  sensor.watch(function (err, value) {
+  sensor = new Gpio(model.gpio, 'in', 'both'); //#C
+  sensor.watch(function (err, value) { //#D
     if (err) exit(err);
     showValue();
-    me.value = !!value;
+    model.value = !!value;
   });
   console.info('Hardware %s sensor started!', pluginName);
 }
 
-function doSimulate() {
+function simulate() { //#E
   interval = setInterval(function () {
-    // Switch value on a regular basis
-    if (me.value) {
-      me.value = false;
+    if (model.value) {
+      model.value = false;
     } else {
-      me.value = true;
+      model.value = true;
     }
     showValue();
   }, localParams.frequency);
@@ -53,5 +47,12 @@ function doSimulate() {
 }
 
 function showValue() {
-  console.info(me.value ? 'there is someone!' : 'not anymore!');
+  console.info(model.value ? 'there is someone!' : 'not anymore!');
 }
+
+//#A this starts and stops the plugin (really?). These two functions should be accessible from other Node.js files (i.e., they should be exported.
+//#B require and connect the actual hardware driver and configure it
+//#C configure the GPIO pin to which the PIR sensor is connected
+//#D start listening for GPIO events, the callback will be invoked on events
+//#E allows the plugin to be in simulation mode. This is very useful when developing or when you want to test your code on a device with no sensors connected, such as your laptop.
+

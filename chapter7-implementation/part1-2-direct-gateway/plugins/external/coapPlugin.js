@@ -63,7 +63,7 @@ exports.start = function (params, app) {
   configure(app);
 
   if (params.simulate) {
-    doSimulate();
+    simulate();
   } else {
     connectHardware();
   }
@@ -78,7 +78,7 @@ exports.stop = function () {
   console.info('%s plugin stopped!', pluginName);
 };
 
-function doSimulate() {
+function simulate() {
   interval = setInterval(function () {
     me.co2 = utils.randomInt(0, 1000)
     showValue();
