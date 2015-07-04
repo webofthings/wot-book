@@ -3,12 +3,17 @@ var httpServer = require('./servers/http'),
   resources = require('./resources/model');
 
 // Internal Plugins
-var ledsPlugin = require('./plugins/ledsPlugin'),
-  pirPlugin = require('./plugins/pirPlugin'),
-  dhtPlugin = require('./plugins/DHT22SensorPlugin');
+var ledsPlugin = require('./plugins/internal/ledsPlugin'),
+  //pirPlugin = require('./plugins/pirPlugin'),
+  PirPlugin = require('./plugins/internal/pirPlugin2').PirPlugin,
+  dhtPlugin = require('./plugins/internal/DHT22SensorPlugin');
 //pirPlugin.start({'simulate': true, 'frequency': 2000});
 //ledsPlugin.start({'simulate': true, 'frequency': 10000});
 //dhtPlugin.start({'simulate': true, 'frequency': 10000});
+
+var pirPlugin = new PirPlugin({'simulate': true, 'frequency': 2000});
+pirPlugin.start();
+
 
 // External Plugins
 var coapPlugin = require('./plugins/external/coapPlugin');
