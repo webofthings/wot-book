@@ -1,0 +1,3 @@
+[submodule "chapter8-semantics/wot-framework"]
+	path = chapter8-semantics/wot-framework
+	url = git@github.com:webofthings/wot-framework.git
