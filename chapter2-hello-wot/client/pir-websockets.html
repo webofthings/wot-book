@@ -7,8 +7,8 @@
 <body>
 
 <script type="text/javascript">
-    function subscribeToTemperature() {
-        var socket = new WebSocket('ws://devices.webofthings.io/pi/sensors/pir','wot'); //#A
+    function subscribeToSensor(sensor) {
+        var socket = new WebSocket('ws://devices.webofthings.io/pi/sensors/' + sensor,'wot'); //#A
 
         socket.onmessage = function (event) { //#B
             var result = JSON.parse(event.data);
@@ -18,8 +18,8 @@
             console.log('An error occured while trying to connected to a Websocket!');
             console.log(error);
         };
-    }
-    subscribeToTemperature();
+    };
+    subscribeToSensor('pir');
 </script>
 </body >
 </html>
