@@ -6,9 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
   <script type="text/javascript">
     var key = 'EDIT-ME';
     var thngId = 'EDIT-ME';
+    var longitude;
+    var latitude;
   </script>
 
   <script type="text/javascript">
@@ -29,12 +33,29 @@
       thngId = getParameterByName('thngId');
     }
 
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+        console.log(" Loading geolocation")
+      } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+
+    function showPosition(position) {
+      console.log(" You are here: ("+position.coords.latitude+","+position.coords.longitude+")");
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+    }
+
+    $(window).bind("load", function() {
+      getLocation()
+    });
   </script>
 
   <title>WoT Controller</title>
 
   <style class="anchorjs"></style><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
   <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 
@@ -247,12 +268,14 @@ socket.onerror = function (error) {
             <script>
 
 function sendAction(type,value){ 
+  console.log(" You are here: ("+latitude+","+longitude+")");
+
   $.ajax({ 
       url: 'https://api.evrythng.com/actions/'+type+'?access_token='+key,//#A
       dataType: 'json', //#B
       type: 'post', //#B
       contentType: 'application/json', //#B
-      data: JSON.stringify({"type": type, "thng": thngId, "customFields":value}), //#C
+      data: JSON.stringify({"type": type, "thng": thngId, "customFields":value,"location":{"position":{"type": "Point","coordinates": [longitude, latitude]}},"locationSource":"sensor"}), //#C
       processData: false, 
       success: function( data, textStatus, jQxhr ){ //#D
           $('#response pre').html( JSON.stringify( data ) ); 
