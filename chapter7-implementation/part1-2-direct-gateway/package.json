@@ -32,5 +32,9 @@
     "node-json2html": "^1.0.0",
     "observed": "^1.1.1",
     "ws": "^0.7.2"
+  },
+  "optionalDependencies": {
+    "onoff": "^1.0.2",
+    "node-dht-sensor": "^0.0.8"
   }
 }
