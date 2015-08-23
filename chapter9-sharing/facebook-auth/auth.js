@@ -1,12 +1,13 @@
-var express = require('express')
-  , passport = require('passport')
-  , util = require('util')
-  , FacebookStrategy = require('passport-facebook').Strategy
-  , logger = require('morgan')
-  , session = require('express-session')
-  , bodyParser = require("body-parser")
-  , cookieParser = require("cookie-parser")
-  , methodOverride = require('method-override');
+var express = require('express'),
+  passport = require('passport'),
+  util = require('util'),
+  FacebookStrategy = require('passport-facebook').Strategy
+  logger = require('morgan'),
+  session = require('express-session'),
+  bodyParser = require("body-parser"),
+  cookieParser = require("cookie-parser"),
+  cons = require('consolidate'),
+  methodOverride = require('method-override');
 
 var FACEBOOK_APP_ID = "446871648832920";
 var FACEBOOK_APP_SECRET = "7499c233a1e2c4d8234dedca5e6a0cc3";
@@ -50,35 +51,36 @@ var app = express();
 
 // configure Express
 app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
+
+app.engine('html', cons.handlebars);
+app.set('view engine', 'html');
+
+//app.set('view engine', 'ejs');
 app.use(logger());
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(methodOverride());
 app.use(session({ secret: 'keyboard cat' }));
+
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(__dirname + '/public'));
 
 
-app.get('/', function(req, res){
+app.get('/', ensureAuthenticated, function(req, res){
   res.render('index', { user: req.user });
 });
 
 app.get('/account', ensureAuthenticated, function(req, res){
+  //console.log(JSON.stringify(req.user));
   res.render('account', { user: req.user });
 });
 
 app.get('/login', function(req, res){
   res.render('login', { user: req.user });
 });
-
-app.get('/hello', passport.authenticate('facebook', { failureRedirect: '/login' }),
-    function(req, res) {
-      res.send("okay, all good!");
-    });
 
 
 // GET /auth/facebook
@@ -99,9 +101,9 @@ app.get('/auth/facebook',
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
 app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { session: false, failureRedirect: '/login' }),
+  passport.authenticate('facebook', { session: true, failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/');
+    res.redirect('/account');
   });
 
 app.get('/logout', function(req, res){
