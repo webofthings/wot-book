@@ -9,10 +9,8 @@
   <title>Web Thing</title>
 
   <style class="anchorjs"></style>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
 
   <!-- Documentation extras -->
   <link href="/css/docs.min.css" rel="stylesheet">
@@ -25,8 +23,8 @@
     <!-- Docs page layout -->
 	<div class="bs-docs-header" id="content" tabindex="-1">
 		<div class="container">
-			<h1><a href="/">Login</a></h1>
-			<p>Login page</p>
+			<h1><a href="/"></a>Account</h1>
+			<p>Web Thing Root Resource</p>
 		</div>
 	</div>
 
@@ -35,27 +33,28 @@
 			<div class="col-md-9" role="main">
 				<div class="bs-docs-section" vocab="http://model.webofthings.org/" typeof="WebThing">
 
-				{{#if user}}
-					<h2>Hello, {{user.username}}.</h2>
-				{{else}}
-					<h2>Welcome.</h2>
-			        <p>Login or Register with:</p>
 
-			        <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
-				{{/if}}
+					<h2>You are logged in.</h2>
+
+	            	<p>ID:  {{user.id}}</p>
+					<p>Name: {{user.displayName}}</p>
+					<p>Access Token: <input type="text" class="field left" value={{user.token}}></p>
+					
+			        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
 
 				</div>
+
 			</div>
 		</div>
 	</div>
 
-	<footer class="bs-docs-footer" role="contentinfo">
-	  <div class="container">
+<footer class="bs-docs-footer" role="contentinfo">
+  <div class="container">
 
-	    <p>Check the WoT Book.</p>
+    <p>Check the WoT Book.</p>
 
-	  </div>
-	</footer>
+  </div>
+</footer>
 
 
 </body></html>
