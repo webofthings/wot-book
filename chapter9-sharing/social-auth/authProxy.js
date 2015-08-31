@@ -4,7 +4,7 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   cons = require('consolidate'),
   auth = require('./middleware/auth'),
-  fb = require('./socialNetworks/facebook.js'),
+  fb = require('./providers/facebook.js'),
   proxy = require('./middleware/proxy.js'),
   config = require('./config/acl.json').config;
 

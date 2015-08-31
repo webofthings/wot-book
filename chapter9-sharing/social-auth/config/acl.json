@@ -14,15 +14,9 @@
     }
   ],
   "open": [
-    "/",
-    "/model",
-    "/account",
-    "/login",
-    "/logout",
-    "/auth/facebook",
-    "/auth/facebook/callback"
+    "/", "/model", "/account", "/login", "/logout", "/auth/facebook", "/auth/facebook/callback"
   ],
-  "gateways": [
+  "things": [
     {
       "id": "WoTPi",
       "url": "https://127.0.0.1:8484",
