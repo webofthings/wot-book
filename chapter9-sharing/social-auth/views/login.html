@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Web Thing</title>
+
+  <style class="anchorjs"></style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+
+  <!-- Documentation extras -->
+  <link href="/css/docs.min.css" rel="stylesheet">
+
+</head>
+
+
+<body>
+
+    <!-- Docs page layout -->
+	<div class="bs-docs-header" id="content" tabindex="-1">
+		<div class="container">
+			<h1><a href="/">Login</a></h1>
+			<p>Login page</p>
+		</div>
+	</div>
+
+	<div class="container bs-docs-container">
+		<div class="row">
+			<div class="col-md-9" role="main">
+				<div class="bs-docs-section" vocab="http://model.webofthings.org/" typeof="WebThing">
+
+				{{#if user}}
+					<h2>Hello, {{user.displayName}}.</h2>
+				{{else}}
+					<h2>Welcome.</h2>
+			        <p>Login or Register with:</p>
+
+			        <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
+				{{/if}}
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="bs-docs-footer" role="contentinfo">
+	  <div class="container">
+
+	    <p>Check the WoT Book.</p>
+
+	  </div>
+	</footer>
+
+
+</body></html>

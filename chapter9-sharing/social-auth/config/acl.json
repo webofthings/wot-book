@@ -1,0 +1,29 @@
+{
+  "protected": [
+    {
+      "uid": "facebook:1482479545406343",
+      "resources": [
+        "/properties", "/properties/temperature", "/properties/humidity", "/properties/pir", "/leds/1", "/leds/2", "/actions/ledState"
+      ]
+    },
+    {
+      "uid": "facebook:10207489314897153",
+      "resources": [
+        "/properties", "/properties/temperature", "/properties/humidity", "/properties/pir", "/leds/1", "/leds/2", "/actions/ledState"
+      ]
+    }
+  ],
+  "open": [
+    "/", "/model", "/account", "/login", "/logout", "/auth/facebook", "/auth/facebook/callback"
+  ],
+  "things": [
+    {
+      "id": "WoTPi",
+      "url": "https://127.0.0.1:8484",
+      "token": "cKXRTaRylYWQiF3MICaKndG4WJMcVLFz"
+    }
+  ],
+  "config": {
+    "sourcePort" : 5050
+  }
+}
