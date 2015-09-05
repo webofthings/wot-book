@@ -52,7 +52,7 @@ function checkUser(socialUserId, token, callback) { //#H
     result.token = token; //#J
     callback(null, result);
   } else {
-    callback('User not found!', null);
+    callback('User <b>'+ socialUserId +'</b> not found! Did you add it to acl.json?', null);
   }
 };
 
@@ -64,7 +64,7 @@ function getToken(socialUserId, callback) {
   if(result) {
     callback(null, result);
   } else {
-    callback('User not found!', null);
+    callback('User <b>'+ socialUserId +'</b> not found! Did you add it to acl.json?', null);
   }
 };
 

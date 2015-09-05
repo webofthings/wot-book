@@ -7,6 +7,12 @@
       ]
     },
     {
+      "uid": "facebook:10104818212136076",
+      "resources": [
+        "/properties", "/properties/temperature", "/properties/humidity", "/properties/pir", "/leds/1", "/leds/2", "/actions/ledState"
+      ]
+    },
+    {
       "uid": "facebook:10207489314897153",
       "resources": [
         "/properties", "/properties/temperature", "/properties/humidity", "/properties/pir", "/leds/1", "/leds/2", "/actions/ledState"
