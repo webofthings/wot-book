@@ -1,0 +1,30 @@
+...
+"pir": {
+  "name": "Passive Infrared",
+  "description": "A passive infrared sensor.",
+  "values": {
+    "presence": {
+      "name": "Presence",
+      "description": "Current sensor value (true=motion detected)",
+      "type": "boolean",
+      "customFields": {"gpio": 20}
+    }
+  },
+  "tags": ["sensor","public"]
+},
+"leds": {
+  "name": "LEDs",
+  "description": "The LEDs of this device.",
+  "values": {
+    "1": {
+      "name": "LED 1",
+      "customFields": {"gpio": 17}
+    },
+    "2": {
+      "name": "LED 2",
+      "customFields": {"gpio": 19}
+    }
+  },
+  "tags": ["sensor","public"]
+}
+...   

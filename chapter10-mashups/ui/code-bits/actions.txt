@@ -1,0 +1,25 @@
+"actions": {
+  "link": "/actions",
+  "title": "Actions of this Web Thing",
+  "resources": {
+    "ledState": {
+      "name": "Change LED state",
+      "description": "Change the state of an LED",
+      "values": {
+        "ledId": {
+          "type": "enum",
+          "enum": {
+            "1": "LED 1",
+            "2": "LED 2",
+            "ALL": "All LEDs"
+          },
+          "required": true
+        },
+        "state": {
+          "type": "boolean",
+          "required": true
+        }
+      } 
+    }
+  }
+}

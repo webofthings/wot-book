@@ -8,134 +8,187 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-  <script type="text/javascript">
-  	var token = 'cKXRTaRylYWQiF3MICaKndG4WJMcVLFz';
-    var modelUrl = 'http://localhost:8484/model?token='+token;
-    var baseUrl;
-    var longitude;
-    var latitude;
-  </script>
 
   <script type="text/javascript">
 
-    function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-        console.log("Loading geolocation")
-      } else { 
-        x.innerHTML = "Geolocation is not supported by this browser.";
-      }
+    // Returns the value of the query parameter given as input
+    function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
-    function showPosition(position) {
-      console.log(" You are here: ("+position.coords.latitude+","+position.coords.longitude+")");
-      latitude = position.coords.latitude;
-      longitude = position.coords.longitude;
+    var hostname = 'localhost:8484'; // Hostname of the Web Thing
+    var secure = true; // true for HTTPS
+    var rootUrl = (secure ? "https://" : "http://") + hostname;
+
+    var token, modelUrl;
+
+    // Generate the URL of the model with an API token if provided as query parameter 
+    // token = 'cKXRTaRylYWQiF3MICaKndG4WJMcVLFz';
+    if (getParameterByName('token') != ""){
+      console.log('Get device Token from query param:'+getParameterByName('token'))
+      token = getParameterByName('token');
+      modelUrl = rootUrl+'/model?token='+token;
+    } else {
+      modelUrl = rootUrl+'/model';
     }
-
-	function getModel(sourceUrl){ 
-	  $.ajax({ 
-	      url: sourceUrl, //#A
-		  dataType: "json",
-		  headers: {Accept : "application/json"},
-	      type: 'GET', //#B
-	      success: function( data ){ //#D
-	      	baseUrl=data.customFields.hostname+":"+"8484";         
-	     	$('#wt-name').html(data.name);
-	     	$('#wt-description').html(data.description);
-	     	generateActions(data.links.actions.resources);
-	     	generateProperties(data.links.properties.resources);
-	      }, 
-	      error: function( jqXhr, textStatus, errorThrown ){//#E 
-	          console.log( errorThrown ); 
-	      } 
-	  });
-	}
-
-	function generateActions(actions){ 
-		$.each(actions, function(i,item){ // For each action in the model, create a form
-		    $("<h3>").html(item.name).appendTo("#wt-actions");
-		    $("<p>").html(item.description).appendTo("#wt-actions");
-		    $("<form>").attr("id","wt-actions-"+i).appendTo("#wt-actions");
-
-			$.each(item.values, function(vi,vitem){ // Create a field for each input parameter
-				$("<div>").attr("id","wt-actions-"+i+"-"+vi+"-field").appendTo("#wt-actions-"+i);
-		    	$("<label>").html(vi).appendTo("#wt-actions-"+i+"-"+vi+"-field");
-		    	// TODO: Generate dropdowns for booleans & enums
-		    	// TODO: generate a slider for min-max integers
-		    	$("<input>").attr("type","text").attr("name",vi).attr("value","("+vitem.type+")").attr("id","text").appendTo("#wt-actions-"+i+"-"+vi+"-field");
-		    	//$("<span>") show required/option
-			});
-
-
-		    // Attach handler to the button
-		    $("<p>").html("<a class=\"btn btn-primary btn-lg\" id=\"send-"+i+"\" href=\"#\" role=\"button\">Create Action: "+i+"</a>").appendTo("#wt-actions");
-		    $('#send-'+i).click(function() {
-		    	var data = {}; // # # Maps the fields of the form into the data input object 
-		    	$("#wt-actions-"+i).serializeArray().map(function(x){data[x.name] = x.value;});
-            	sendAction(i,data); // # # Sends the action to the Web Thing
-            });
-
-		});
-	}
-
-	function generateProperties(properties){ 
-		// Loop over all resources
-		$.each(properties, function(i,item){
-			$("<h3>").html(item.name).appendTo("#wt-properties");
-			$("<p>").html(item.description).appendTo("#wt-properties");
-			$("<h5>").html("Values (timestamp: <span id=\"property-"+i+"-value-timestamp\">unknown</span>)").appendTo("#wt-properties");
-			$("<ul>").attr("class","list-group").attr("id","property-"+i).appendTo("#wt-properties");
-
-			$.each(item.values, function(vi,vitem){ //
-		    	$("<li>").attr("class","list-group-item").html("<span id=\"property-"+i+"-value-"+vi+"\" class=\"badge\"></span>"+vi).appendTo("#property-"+i);
-			});
-
-			$.each(item.data, function(vi,vitem){ //
-		    	$("property-"+i+"-value-"+vi).attr("class","list-group-item").html("<span id=\"property-"+i+"-value-"+vi+"\" class=\"badge\"></span>"+vi).appendTo("#property-"+i);
-			});
-
-			// Subscribe to the property via WebSocket
-			var url = 'ws://'+baseUrl+'/properties/'+i;
-			var socket = new WebSocket(url); //#A 
-
-			socket.onopen = function (message) { //
-			  console.log("Subscribed to Property : "+url); //
-			};
-
-			socket.onmessage = function (message) { //#B
-				var content = JSON.parse(message.data);
-				console.log("Property "+i+" updated : ", content); //#C
-				$.each(content, function(vi,vitem){ // For each value we received, update it
-					$("#property-"+i+"-value-"+vi).text(vitem); 
-				});
-			};
-
-			socket.onerror = function (error) {
-			    console.log('An error occurred while trying to connect to a WebSocket!');
-			    console.log(error);
-			};
-
-		});
-
-	}
 
     $(window).bind("load", function() {
-		getModel(modelUrl);
-		getLocation()
+      getModel(modelUrl);
     });
 
 
-  </script>
+		var longitude, latitude;
 
-  <title>WoT Controller</title>
+    function setLocation(position) {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+      console.log(" You are here: ("+latitude+","+longitude+")");
+    }
 
-  <style class="anchorjs"></style><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
-  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(setLocation);
+      } else { 
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
 
-  <!-- Documentation extras -->
-  <link href="./files/docs.min.css" rel="stylesheet">
+function getModel(sourceUrl){ 
+  $.ajax({ 
+    type: 'GET', //#A
+    url: sourceUrl, //#A 
+    dataType: 'json', //#A
+    headers: {Accept : "application/json"}, //#B
+    success: function( data ){ 
+      baseUrl=data.customFields.hostname+":"+data.customFields.port; //#C        
+      $('#wt-name').html(data.name); //#D
+      $('#wt-description').html(data.description); //#D
+      generateActions(data.links.actions.resources); //#E
+      generateProperties(data.links.properties.resources); //#F
+     }, 
+    error: function( jqXhr, textStatus, errorThrown ){
+      console.log( errorThrown ); 
+    } 
+  });
+}
+
+//#A We do a GET on the sourceUrl to retrive the model
+//#B Ask for JSON explicitly in the HTTP headers
+//#C Upon success store the hostname for future requests (e.g. sending actions)
+//#D Update the page with the device metadata
+//#E Generate the UI for the actions
+//#F Generate the UI for the properties
+
+		// TODO generate a slider for min-max integers
+		// TODO $("<span>") show required/option
+
+function generateActions(actions){ 
+  $.each(actions, function(i,item){ //#A
+
+    $("<div>").attr("class","panel panel-default").appendTo("#wt-actions").append($("<div>").attr("class","panel-heading").append($("<h3>").attr("class","panel-title").html(item.name))).append($("<div>").attr("class","panel-body").html(item.description).append($("<form>").attr("class","form-horizontal").attr("id","wt-actions-"+i))); //#B
+
+    var el = "#wt-actions-"+i; //#B 
+    $.each(item.values, function(vi,vitem){ //#C 
+      $("<div>").attr("class","form-group").attr("id","wt-actions-"+i+"-"+vi).appendTo(el); //#D
+      var vel=el+"-"+vi; //#D 
+      $("<label>").attr("class","col-sm-2 control-label").html(vi).appendTo(vel);
+      $("<div>").attr("class","col-sm-4").attr("id","wt-actions-"+i+"-"+vi+"-f").appendTo(vel); //#E  
+
+      switch(vitem.type) { //#F 
+        case 'boolean': //#G 
+          $("<select>").attr("class","form-control").attr("name",vi).attr("id","wt-actions-"+i+"-"+vi+"-v").appendTo(vel+"-f");
+          $("<option>").val("true").html("True").appendTo(vel+"-v");
+          $("<option>").val("false").html("False").appendTo(vel+"-v");
+          break;
+        case 'enum': //#H 
+          $("<select>").attr("class","form-control").attr("name",vi).attr("id","wt-actions-"+i+"-"+vi+"-v").appendTo(vel+"-f");
+          $.each(vitem.enum, function(enumi,enumv){ //#I
+          	$("<option>").val(enumi).html(enumv).appendTo(vel+"-v");
+          });
+          break;
+        default: //#J
+          $("<input>").attr("class","form-control").attr("type","text").attr("name",vi).attr("placeholder",vitem.type).appendTo(vel+"-f");
+      };
+    });
+
+    $("<p>").html("<a class=\"col-sm-offset-2 col-sm-4 btn btn-primary btn-lg\" id=\"send-"+i+"\" href=\"#\" role=\"button\">Create Action: "+i+"</a>").appendTo(el); //#K
+    $('#send-'+i).click(function() {  //#L 
+      var data = {};  
+      $(el).serializeArray().map(function(x){data[x.name] = x.value;}); //#M
+      sendAction(i,data); //#N Finally, sends the action to the Web Thing
+    });
+  });
+}
+
+//#A Iterate over each action of this Web Thing
+//#B For each action create a UI element (form) that will hold the parameters of the action ("el" is the element id the form for this action)
+//#C Iterate over each input parameter for this action
+//#D Create a div element that will contain the form input element for this parameter ("vel" is the id of this div element)
+//#E Create the div element that contains the value of this parameter 
+//#F Let's look at the type of this parameter
+//#G It's a boolean, so let's simply create a true/false dropdown
+//#H It's an enum, so let's create a dropdown selector with the possible values
+//#I Iterate over the "enum" object to generate the possible values
+//#J It's anything else, so a basic input element will do
+//#K Create the button for this action
+//#L Attach a handler to this button
+//#M Stores all the input fields of this form into the "data" variable
+//#N Finally, sends the action to the Web Thing
+    
+
+
+function generateProperties(properties){ 
+  $.each(properties, function(i,item){ //#A
+    $("<h3>").html(item.name).appendTo("#wt-properties");
+    $("<p>").html(item.description).appendTo("#wt-properties");
+    $("<h5>").html("Values (timestamp: <span id=\"property-"+i+"-value-timestamp\">unknown</span>)").appendTo("#wt-properties");
+    $("<ul>").attr("class","list-group").attr("id","property-"+i).appendTo("#wt-properties");
+
+    $.each(item.values, function(vi,vitem){ //#B
+      $("<li>").attr("class","list-group-item").html("<span id=\"property-"+i+"-value-"+vi+"\" class=\"badge\"></span>"+vi).appendTo("#property-"+i);
+    });
+
+    var wsUrl = (secure ? 'wss://' : 'ws://') + baseUrl +'/properties/'+i; //#C
+    var socket = new WebSocket(wsUrl); //#C 
+
+    socket.onopen = function (message) { //#D 
+      console.log("Subscribed to Property : "+wsUrl); 
+    };
+
+    socket.onmessage = function (message) { 
+      var content = JSON.parse(message.data); //#E
+      console.log("Property "+i+" updated : ", content);
+      $.each(content, function(vi,vitem){ //#F 
+        $("#property-"+i+"-value-"+vi).text(vitem); 
+      });
+    };
+
+    socket.onerror = function (error) {
+        console.log('Error while connecting to a WebSocket!');
+        console.log(error);
+    };
+  });
+}
+//#A For each property create a set of HTML elements
+//#B For each value of this property create a list item
+//#C Subscribe to the property via WebSockets
+//#D Called when the WebSocket connection is successfully opened
+//#E Each time a WS message has been received, unpack it
+//#F For each value we received, update its content
+
+	</script>
+
+	<title>WoT Controller</title>
+
+	<style class="anchorjs"></style><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+
+	<!-- Documentation extras -->
+	<link href="./files/docs.min.css" rel="stylesheet">
 
 </head>
 
@@ -172,29 +225,27 @@
 
             <script>
 
-			function sendAction(type,value){ 
-			  $.ajax({ 
-			      url: 'http://'+baseUrl+'/actions/'+type+'?token='+token,//#A
-			      dataType: 'json', //#B
-			      type: 'post', //#B
-			      contentType: 'application/json', //#B
-			      data: JSON.stringify(value),
-			      //data: JSON.stringify({"type": type, "thng": thngId, "customFields":value,"location":{"position":{"type": "Point","coordinates": [longitude, latitude]}},"locationSource":"sensor"}), //#C
-			      processData: false, 
-			      success: function( data, textStatus, jQxhr ){ //#D
-			      	console.log("Action sent: "+JSON.stringify( value ));	
-			          //$('#response pre').html( JSON.stringify( data ) ); 
-			      }, 
-			      error: function( jqXhr, textStatus, errorThrown ){//#E 
-			          console.log( errorThrown ); 
-			      } 
-			  });
-			}
-			//#A The custom actions endpoint in EVRYTHNG
-			//#B We POST a JSON document
-			//#C The payload to POST 
-			//#D If successful, update the "response" html element
-			//#E If an error, display in the console
+function sendAction(type,value){ 
+  $.ajax({ 
+    url: 'http://'+baseUrl+'/actions/'+type+'?token='+token,//#A
+    type: 'POST', //#B
+    dataType: 'json', //#B
+    contentType: 'application/json', //#B
+    data: JSON.stringify(value), //#C
+    processData: false, 
+    success: function( data, textStatus, jQxhr ){ //#D
+      console.log("Action sent: " + JSON.stringify( value ));
+    }, 
+    error: function( jqXhr, textStatus, errorThrown ){
+      console.log( errorThrown ); 
+    } 
+  });
+}
+
+//#A The Web Thing actions endpoint with authentication token
+//#B We POST a JSON document
+//#C The payload to POST (data holds the form content)
+//#D If successful, update the "response" html element
 
             </script>
 
@@ -216,8 +267,6 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-
-
 
 
 </body></html>
