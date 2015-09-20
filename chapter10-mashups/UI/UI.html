@@ -227,7 +227,7 @@ function generateProperties(properties){
 
 function sendAction(type,value){ 
   $.ajax({ 
-    url: 'http://'+baseUrl+'/actions/'+type+'?token='+token,//#A
+    url: (secure ? "https://" : "http://") + baseUrl +'/actions/' + type + '?token='+token,//#A
     type: 'POST', //#B
     dataType: 'json', //#B
     contentType: 'application/json', //#B
