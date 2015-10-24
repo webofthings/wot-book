@@ -14,7 +14,7 @@ function blink(outPin, frequency, status) { //#B
 process.on('SIGINT', function () { //#F
   gpio.write(pin, 0, function () {
     gpio.close(pin); //#G
-    console.log('Bye, bye!')
+    console.log('Bye, bye!');
     process.exit();
   });
 });
