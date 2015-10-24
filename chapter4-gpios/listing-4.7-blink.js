@@ -1,34 +1,29 @@
-var gpio = require('pi-gpio'); //#A
-var pin = 7;
+var onoff = require('onoff'); //#A
 
-function blink(outPin, frequency, status) { //#B
-  gpio.write(outPin, status, function () { //#D
-  console.log('Setting GPIO to: ' + status);
-    setTimeout(function () { //#E
-      status = (status + 1) % 2;
-      blink(outPin, frequency, status);
-    }, frequency);
+var Gpio = onoff.Gpio,
+  led = new Gpio(4, 'out'), //#B
+  interval;
+
+interval = setInterval(function () { //#B
+  var value = (led.readSync() + 1) % 2; //#C
+  led.write(value, function() { //#D
+    console.log("Changed LED state to: " + value);
   });
-}
+}, 2000);
 
 process.on('SIGINT', function () { //#F
-  gpio.write(pin, 0, function () {
-    gpio.close(pin); //#G
-    console.log('Bye, bye!')
-    process.exit();
-  });
+  clearInterval(interval);
+  led.writeSync(0); //#G
+  led.unexport();
+  console.log('Bye, bye!');
+  process.exit();
 });
 
-gpio.open(pin, "output", function (err) { //#C
-  if (err) exit(err);
-  blink(pin, 2000,1); //#H
-});
-
-// #A Importing the GPIO management library
-// #B A blink function with the pin to activate, the blinking frequency and the initial status as parameters
-// #C Initialize the pin in output mode, once this is ready the anonymous function will be called
-// #D Write the current status to the pin
+// #A Import the onoff library
+// #B Initialize pin 4 to be an output pin
+// #C This interval will be called every 2 seconds
+// #C Synchronously read the value of pin 4 and transform 1 to 0 or 0 to 1
+// #D Asynchronously write the new value to pin 4
 // #E Once the status has been written we set a timer to recursively call blink
-// #F Listen to the even triggered when the program is about the exit
+// #F Listen to the event triggered on CTRL+C
 // #G Cleanly close the GPIO pin before exiting
-// #H Call the blink function for pin #7 with a blinking speed of 2 seconds
