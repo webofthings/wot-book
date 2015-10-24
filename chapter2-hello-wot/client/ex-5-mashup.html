@@ -43,7 +43,7 @@ $(document).ready(function () {
   }
 
   function prepareMessage(name, location, localTemp, piTemp) { //#F
-    return name + '@' + location + ((localTemp < piTemp) ? ' < ' : ' > ') + piTemp;;
+    return name + '@' + location + ((localTemp < piTemp) ? ' < ' : ' > ') + piTemp;
   }
 
   function takePicture() {
@@ -72,10 +72,9 @@ $(document).ready(function () {
 //#G Retrieve the current image from the Webcam in our office
 //#H Update the HTML <img> tag with the image URL
   </script>
-
-</body>
 <h1>Compare my Weather WoT Mashup</h1>
 <h2 id='message'></h2>
 <h3 id='wait'></h3>
 <img id="camImg" src=""/>
+</body>
 </html>
