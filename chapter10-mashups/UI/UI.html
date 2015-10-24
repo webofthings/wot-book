@@ -95,7 +95,7 @@ function generateActions(actions){
       $("<div>").attr("class","form-group").attr("id","wt-actions-"+i+"-"+vi).appendTo(el); //#D
       var vel=el+"-"+vi; //#D 
       $("<label>").attr("class","col-sm-2 control-label").html(vi).appendTo(vel);
-      $("<div>").attr("class","col-sm-4").attr("id","wt-actions-"+i+"-"+vi+"-f").appendTo(vel); //#E  
+      $("<div>").attr("class","col-sm-8").attr("id","wt-actions-"+i+"-"+vi+"-f").appendTo(vel); //#E  
 
       switch(vitem.type) { //#F 
         case 'boolean': //#G 
@@ -259,7 +259,7 @@ function sendAction(type,value){
 <footer class="bs-docs-footer" role="contentinfo">
   <div class="container">
 
-    <p>Built with the amazing D3, Bootstrap, and bootstraptoggle.</p>
+    <p>Built with the amazing Bootstrap.</p>
 
   </div>
 </footer>

@@ -1,0 +1,157 @@
+{
+  "pi": {
+    "id": "1",
+    "name": "My WoT Raspberry PI",
+    "description": "A simple WoT-connected Raspberry PI for the WoT book.",
+    "url": "http://devices.webofthings.io/pi/",
+    "currentStatus": "Live",
+    "version": "v0.1",
+    "tags": [
+      "raspberry",
+      "pi",
+      "WoT"
+    ],
+    "ip": "todo",
+    "resources": {
+      "sensors": {
+        "url": "sensors/",
+        "name": "The list of sensors"
+      },
+      "actuators": {
+        "url": "actuators/",
+        "name": "The list of actuators"
+      }
+    },
+    "links": {
+      "meta": {
+        "rel": "http://webofthings.io/meta/device/",
+        "title": "Metadata"
+      },
+      "self": {
+        "rel": "self/",
+        "title": "Self"
+      },
+      "doc": {
+        "rel": "http://webofthings.io/docs/pi/",
+        "title": "Documentation"
+      },
+      "ui": {
+        "rel": "ui/",
+        "title": "User Interface"
+      }
+    }
+  },
+  "camera": {
+    "id": "2",
+    "name": "My WoT Camera",
+    "description": "A simple WoT-connected camera.",
+    "url": "http://devices.webofthings.io/camera/",
+    "currentStatus": "Live",
+    "version": "v0.1",
+    "tags": [
+      "camera",
+      "WoT"
+    ],
+    "ip": "todo",
+    "resources": {
+      "sensors": {
+        "url": "sensors/",
+        "name": "The list of sensors"
+      },
+      "actuators": {
+        "url": "actuators/",
+        "name": "The list of actuators"
+      }
+    },
+    "links": {
+      "meta": {
+        "rel": "http://webofthings.io/meta/device/",
+        "title": "Metadata"
+      },
+      "doc": {
+        "rel": "http://webofthings.io/docs/camera/",
+        "title": "Documentation"
+      },
+      "ui": {
+        "rel": "ui",
+        "title": "User Interface"
+      }
+    }
+  }
+}
+
+
+
+/// Shorter
+
+{
+  "pi": {
+    "id": "1",
+    "name": "My WoT Raspberry PI",
+    "description": "A simple WoT-connected Raspberry PI for the WoT book.",
+    "url": "http://devices.webofthings.io/pi/",
+    "currentStatus": "Live",
+    "version": "v0.1",
+    "tags": ["raspberry","pi","WoT"],
+    "resources": {},
+    "links": {}
+  },
+  "camera": {
+    "id": "2",
+    "name": "My WoT Camera",
+    "description": "A simple WoT-connected camera.",
+    "url": "http://devices.webofthings.io/camera/",
+    "currentStatus": "Live",
+    "version": "v0.1",
+    "tags": ["camera","WoT"],
+    "resources": {},
+    "links": {}
+  }
+}
+
+
+
+/// Step 3 Get the sensors
+
+{
+  "temperature": {
+    "name": "Temperature Sensor",
+    "description": "A temperature sensor.",
+    "type": "float",
+    "unit": "celsius",
+    "value": 23.4,
+    "timestamp": "2015-10-04T14:39:17.240Z",
+    "frequency": 5000
+  },
+  "humidity": {
+    "name": "Humidity Sensor",
+    "description": "A temperature sensor.",
+    "type": "float",
+    "unit": "percent",
+    "value": 38.9,
+    "timestamp": "2015-10-04T14:39:17.240Z",
+    "frequency": 5000
+  },
+  "pir": {
+    "name": "Passive Infrared",
+    "description": "A passive infrared sensor. When true someone is present.",
+    "type": "boolean",
+    "value": true,
+    "timestamp": "2015-10-04T14:39:17.240Z",
+    "gpio": 20
+  }
+}
+
+
+"resources": {
+  "sensors": {
+    "url": "sensors/",
+    "name": "The list of sensors"
+  },
+  "actuators": {
+    "url": "actuators/",
+    "name": "The list of actuators"
+  }
+},
+
+

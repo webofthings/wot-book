@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My first WoT Mashup!</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <script type="text/javascript">
+$(document).ready(function () {
+  var rootUrl = 'http://devices.webofthings.io';
+
+  function mashup(name, location) {
+    var yahooUrl = "https://query.yahooapis.com/v1/public/yql?q=select item from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + location + "') and u='c'&format=json";
+    $.getJSON(yahooUrl, function (yahooResult) {//#A
+      var localTemp = yahooResult.query.results.channel.item.condition.temp;
+      console.log('Local @ ' + location + ': ' + localTemp);
+      $.getJSON(rootUrl + '/pi/sensors/temperature', function (piResult) {//#B
+        console.log('Pi @ London: ' + piResult.value);
+        publishMessage(prepareMessage(name, location, localTemp, piResult.value)); //#C
+      });
+    });
+  }
+
+  function publishMessage(message) {
+    $.ajax(rootUrl + '/pi/actuators/display/content', { //#D
+      data: JSON.stringify({"value": message}),
+      contentType: 'application/json',
+      type: 'POST',
+      success: function (data) {
+        $('#message').html('Published to LCD: ' + message);
+        $('#wait').html('The Webcam image with your message will appear below in : ' + (data.displayInSeconds+2) + ' seconds.');
+        console.log('We will take a picture in ' + (data.displayInSeconds+2) + ' seconds...');
+        setTimeout(takePicture, (data.displayInSeconds+2) * 1000); //#E 
+      }
+    });
+  }
+
+  function prepareMessage(name, location, localTemp, piTemp) { //#F
+    return name + '@' + location + ((localTemp < piTemp) ? ' < ' : ' > ') + piTemp;;
+  }
+
+  function takePicture() {
+    $.ajax({ //#G
+      type: 'GET',
+      url: rootUrl + '/camera/sensors/picture/',
+      dataType: 'json',
+      success: function (data) {
+        console.log(data);
+        $('#camImg').attr('src', data.value); //#H
+      },
+      error: function (err) {
+        console.log(err);
+      }
+    });
+  }
+
+  mashup('Rachel', 'Zurich, CH');
+});
+//#A First, get the temperature in the user location from Yahoo
+//#B Then get the temperature from the WoT Pi in London
+//#C Prepare the text to publish and use it to update the content of the LCD screen
+//#D POST the message to the LCD actuator
+//#E Set a timer that will call the takePicture() function in N seconds (after the LCD content has been updated)
+//#F Generates the text to diplay with the user name, location and Pi temperature
+//#G Retrieve the current image from the Webcam in our office
+//#H Update the HTML <img> tag with the image URL
+  </script>
+
+</body>
+<h1>Compare my Weather WoT Mashup</h1>
+<h2 id='message'></h2>
+<h3 id='wait'></h3>
+<img id="camImg" src=""/>
+</html>

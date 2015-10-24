@@ -1,31 +1,28 @@
-var gpio = require("pi-gpio"); //#A
+var gpio = require('pi-gpio'); //#A
 var pin = 7;
 
 function blink(outPin, frequency, status) { //#B
-  console.log('GPIO set to: ' + status);
-  gpio.open(outPin, "output", function (err) { //#C
-    if (err) exit(err);
-    gpio.write(outPin, status, function () {  //#D
-      gpio.close(outPin);
-      setTimeout(function () {		//#E
-        status = (status + 1) % 2;
-        blink(outPin, frequency, status);
-      }, frequency);
-    });
+  gpio.write(outPin, status, function () { //#D
+  console.log('Setting GPIO to: ' + status);
+    setTimeout(function () { //#E
+      status = (status + 1) % 2;
+      blink(outPin, frequency, status);
+    }, frequency);
   });
 }
 
-process.on('SIGINT', function () {			//#F
+process.on('SIGINT', function () { //#F
   gpio.write(pin, 0, function () {
-    gpio.close(pin);				//#G
+    gpio.close(pin); //#G
     console.log('Bye, bye!')
     process.exit();
   });
 });
 
-
-blink(pin, 2000);         //#H
-
+gpio.open(pin, "output", function (err) { //#C
+  if (err) exit(err);
+  blink(pin, 2000,1); //#H
+});
 
 // #A Importing the GPIO management library
 // #B A blink function with the pin to activate, the blinking frequency and the initial status as parameters
