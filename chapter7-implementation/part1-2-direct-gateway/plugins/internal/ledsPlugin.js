@@ -34,17 +34,15 @@ function observe(what) {
 
 function switchOnOff(value) {
   if (!localParams.simulate) {
-    +value;
-    value = (value + 1) % 2;
-    actuator.write(value, function () { //#C
-      console.info('Changed value of %s to %i', pluginName, value);
+    actuator.write(value === true ? 1 : 0, function () { //#C
+      console.info('Changed value of %s to %s', pluginName, value);
     });
   }
 };
 
 function connectHardware() {
   var Gpio = require('onoff').Gpio;
-  actuator = new Gpio(14, 'out'); //#D
+  actuator = new Gpio(model.gpio, 'out'); //#D
   console.info('Hardware %s actuator started!', pluginName);
 };
 
