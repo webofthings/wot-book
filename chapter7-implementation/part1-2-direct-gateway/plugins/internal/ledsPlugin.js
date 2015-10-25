@@ -9,7 +9,7 @@ exports.start = function (params) {
   localParams = params;
   observe(model); //#A
 
-  if (params.simulate) {
+  if (localParams.simulate) {
     simulate();
   } else {
     connectHardware();
@@ -17,7 +17,7 @@ exports.start = function (params) {
 };
 
 exports.stop = function () {
-  if (params.simulate) {
+  if (localParams.simulate) {
     clearInterval(interval);
   } else {
     actuator.unexport();
@@ -33,7 +33,7 @@ function observe(what) {
 };
 
 function switchOnOff(value) {
-  if (!params.simulate) {
+  if (!localParams.simulate) {
     +value;
     value = (value + 1) % 2;
     actuator.write(value, function () { //#C
