@@ -17,7 +17,7 @@ coap.createServer(function (req, res) {
     default:
       respond(res);
   }
-}).listen(5683)//#E
+}).listen(5683);//#E
 
 function respond(res, content) { //#F
   if (content) {
