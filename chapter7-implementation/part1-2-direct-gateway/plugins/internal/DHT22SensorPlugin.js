@@ -1,7 +1,7 @@
 var resources = require('./../../resources/model'),
   utils = require('./../../utils/utils.js');
 
-var interval;
+var interval, sensor;
 var model = resources.pi.sensors;
 var pluginName = 'Temperature & Humidity';
 var localParams = {'simulate': false, 'frequency': 5000};
@@ -28,7 +28,7 @@ function connectHardware() {
  var sensorDriver = require('node-dht-sensor');
   var sensor = {
     initialize: function () {
-      return sensorDriver.initialize(22, 12);
+      return sensorDriver.initialize(22, model.temperature.gpio);
     },
     read: function () {
       var readout = sensorDriver.read();
@@ -51,7 +51,7 @@ function connectHardware() {
 
 function simulate() {
   interval = setInterval(function () {
-    model.temperature.value = utils.randomInt(0, 40)
+    model.temperature.value = utils.randomInt(0, 40);
     model.humidity.value = Math.random(0, 100);
     showValue();
   }, localParams.frequency);

@@ -9,14 +9,14 @@
         "description": "An ambient temperature sensor.",
         "unit": "celsius",
         "value": 0,
-        "gpio": 21
+        "gpio": 12
       },
       "humidity": {
         "name": "Humidity Sensor",
         "description": "An ambient humidity sensor.",
         "unit": "%",
         "value": 0,
-        "gpio": 21
+        "gpio": 12
       },
       "pir": {
         "name": "Passive Infrared",
