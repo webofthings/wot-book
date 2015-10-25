@@ -37,7 +37,7 @@ function switchOnOff(value) {
     +value;
     value = (value + 1) % 2;
     actuator.write(value, function () { //#C
-      console.info('Changed value of %s to %i', value);
+      console.info('Changed value of %s to %i', pluginName, value);
     });
   }
 };
