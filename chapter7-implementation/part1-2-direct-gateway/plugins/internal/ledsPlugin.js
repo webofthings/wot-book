@@ -60,5 +60,6 @@ function simulate() {
 
 //#A Observe the model for the LEDs
 //#B Listen for model changes, on changes call switchOnOff
-//#C Change the LED state by chaning the GPIO state
+//#C Change the LED state by changing the GPIO state
 //#D Connect the GPIO in write (output) mode
+
