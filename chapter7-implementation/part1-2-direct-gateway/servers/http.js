@@ -4,11 +4,14 @@ var express = require('express'),
   thingsRoutes = require('./../routes/things'),
   resources = require('./../resources/model'),
   converter = require('./../middleware/converter'),
+  cors = require('cors'),
   bodyParser = require('body-parser');
 
 var app = express();
 
 app.use(bodyParser.json());
+
+app.use(cors());
 
 app.use('/pi/actuators', actuatorsRoutes);
 app.use('/pi/sensors', sensorRoutes);
@@ -39,14 +42,17 @@ module.exports = app;
 var express = require('express'),
   actuatorsRoutes = require('./../routes/actuators'),
   sensorRoutes = require('./../routes/sensors'),
-  resources = require('./../resources/model'); //#A
+  resources = require('./../resources/model'), //#A
+  cors = require('cors'); 
 
 var app = express(); //#B
 
-app.use('/pi/actuators', actuatorsRoutes); //#C
+app.use(cors()); //#C
+
+app.use('/pi/actuators', actuatorsRoutes); //#D
 app.use('/pi/sensors', sensorRoutes);
 
-app.get('/pi', function (req, res) { //#D
+app.get('/pi', function (req, res) { //#E
   res.send('This is the WoT-Pi!')
 });
 
@@ -54,7 +60,8 @@ module.exports = app;
 
 //#A Requires the Express framework, our routes and the model
 //#B Creates an application with the Express framework, this wraps an HTTP server
-//#C Binds our routes to the Express application we bind them to /pi/actuators/... and /pi/sensors/...
-//#D Create a default route for /pi
+//#C We enable CORS support (see section 6.1.5)
+//#D Binds our routes to the Express application we bind them to /pi/actuators/... and /pi/sensors/...
+//#E Create a default route for /pi
 
 */
