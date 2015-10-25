@@ -6,8 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "dom guinard",
-  "license": "MIT",
+  "author": "Dominique Guinard",
+  "author": "Vlad Trifa",
+  "license": "Apache-2.0",
   "keywords": [
     "web of things",
     "building the web of things",
@@ -29,7 +30,7 @@
     "coap": "^0.12.0",
     "cors": "^2.7.1",
     "express": "^4.12.4",
-    "msgpack5": "^2.3.1",
+    "msgpack5": "^3.2.0",
     "node-json2html": "^1.0.0",
     "observed": "^1.1.1",
     "ws": "^0.7.2"
