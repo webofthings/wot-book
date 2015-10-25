@@ -28,7 +28,7 @@ function connectHardware() {
  var sensorDriver = require('node-dht-sensor');
   var sensor = {
     initialize: function () {
-      return sensorDriver.initialize(22, 21);
+      return sensorDriver.initialize(22, 12);
     },
     read: function () {
       var readout = sensorDriver.read();

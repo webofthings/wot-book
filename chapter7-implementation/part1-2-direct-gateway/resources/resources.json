@@ -20,9 +20,9 @@
       },
       "pir": {
         "name": "Passive Infrared",
-        "description": "A passive infrared sensor. When true someone is present.",
+        "description": "A passive infrared sensor. When 'true' someone is present.",
         "value": true,
-        "gpio": 20
+        "gpio": 17
       }
     },
     "actuators": {

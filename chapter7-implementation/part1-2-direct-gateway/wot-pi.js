@@ -8,9 +8,10 @@ var ledsPlugin = require('./plugins/internal/ledsPlugin'),
   dhtPlugin = require('./plugins/internal/DHT22SensorPlugin');
 
 // External Plugins for sensors/actuators connected to the PI GPIOs
-pirPlugin.start({'simulate': true, 'frequency': 2000});
-ledsPlugin.start({'simulate': true, 'frequency': 10000});
-dhtPlugin.start({'simulate': true, 'frequency': 10000});
+// If you test this with real sensors do not forget to set simulate to 'true'
+pirPlugin.start({'simulate': false, 'frequency': 2000});
+ledsPlugin.start({'simulate': false, 'frequency': 10000});
+dhtPlugin.start({'simulate': false, 'frequency': 10000});
 
 // External Plugins
 var coapPlugin = require('./plugins/external/coapPlugin');
@@ -24,7 +25,7 @@ var server = httpServer.listen(resources.pi.port, function () {
   wsServer.listen(server);
 
   console.info('Your WoT Pi is up and running on port %s', resources.pi.port);
-})
+});
 
 
 /*
