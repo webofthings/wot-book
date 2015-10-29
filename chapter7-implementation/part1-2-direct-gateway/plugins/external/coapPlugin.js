@@ -3,6 +3,7 @@ var utils = require('./../../utils/utils.js'),
 
 var interval, me, pluginName, pollInterval;
 var localParams = {'simulate': false, 'frequency': 5000};
+var coapHost = 'localhost';
 
 function connectHardware() {
   var coap = require('coap'),
@@ -12,7 +13,7 @@ function connectHardware() {
     read: function () { //#B
       coap
         .request({ //#C
-          host: 'localhost',
+          host: coapHost,
           port: 5683,
           pathname: '/co2',
           options: {'Accept': 'application/json'}
