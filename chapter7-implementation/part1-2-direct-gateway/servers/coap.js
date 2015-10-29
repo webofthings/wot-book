@@ -1,6 +1,8 @@
 var coap = require('coap'),  //#A
   utils = require('./../utils/utils');
 
+var port = 5683;
+
 coap.createServer(function (req, res) {
   console.info('CoAP device got a request for %s', req.url);
   if (req.headers['Accept'] != 'application/json') {
@@ -17,7 +19,9 @@ coap.createServer(function (req, res) {
     default:
       respond(res);
   }
-}).listen(5683, function() { console.log("CoAP server started!")});//#E
+}).listen(port, function () {
+  console.log("CoAP server started on port %s", port)
+});//#E
 
 function respond(res, content) { //#F
   if (content) {
