@@ -7,8 +7,7 @@ var thngApiKey=config.thngApiKey;
 
 var status=false; 
 
-// FIXME: use secure version here
-var client = mqtt.connect("mqtt://mqtt.evrythng.com:1883", {
+var client = mqtt.connect("mqtts://mqtt.evrythng.com:8883", {
   username: 'authorization',
   password: thngApiKey 
 });
@@ -67,7 +66,7 @@ function updateProperties () {
   if (status==false) current = 0.001;
   updateProperty ('current',current);
 
-  var power = (voltage * current * (0.6+Math.random()/10)).toFixed(3) // #J
+  var power = (voltage * current * (0.6+Math.random()/10)).toFixed(3); // #J
   updateProperty ('power',power);
 
 	setTimeout(updateProperties, 5000); // #F
