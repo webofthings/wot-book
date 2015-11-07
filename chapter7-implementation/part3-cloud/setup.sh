@@ -13,8 +13,8 @@ function parse_json()
     sed -e 's/", "/'\",\"'/g' | \
     sed -e 's/" ,"/'\",\"'/g' | \
     sed -e 's/" , "/'\",\"'/g' | \
-    sed -e 's/","/'\"---SEPERATOR---\"'/g' | \
-    awk -F=':' -v RS='---SEPERATOR---' "\$1~/\"$2\"/ {print}" | \
+    sed -e 's/","/'\"---SEPARATOR---\"'/g' | \
+    awk -F=':' -v RS='---SEPARATOR---' "\$1~/\"$2\"/ {print}" | \
     sed -e "s/\"$2\"://" | \
     tr -d "\n\t" | \
     sed -e 's/\\"/"/g' | \
@@ -131,7 +131,7 @@ curl -X POST "$SERVER/thngs/$THNG_ID/properties" \
 	     ]'
 
 
-# Let's update this thng a few times with random values
+# Let's update this Thng a few times with random values
 for i in {1..5} 
 do 
 	curl -X POST "$SERVER/thngs/$THNG_ID/properties" \

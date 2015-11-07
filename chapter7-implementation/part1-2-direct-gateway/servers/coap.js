@@ -32,7 +32,7 @@ function respond(res, content) { //#F
     res.code = '4.04';
     res.end();
   }
-}
+};
 
 //#A Require the Node.js CoAP module we installed
 //#B We only serve JSON so we reply with a 4.06 (= HTTP 406: Not acceptable)

@@ -7,7 +7,7 @@ var thngApiKey=config.thngApiKey;
 
 console.log('Using Thng #'+thngId+' with API Key: '+ thngApiKey);
 
-var client = mqtt.connect("mqtt://mqtt.evrythng.com:1883", {// #B
+var client = mqtt.connect("mqtts://mqtt.evrythng.com:8883", {// #B
   username: 'authorization',
   password: thngApiKey 
 });
@@ -30,7 +30,7 @@ function updateProperties () {
   var current = (Math.random()*10).toFixed(3); // #I
   updateProperty ('current',current);
 
-  var power = (voltage * current * (0.6+Math.random()/10)).toFixed(3) // #J
+  var power = (voltage * current * (0.6+Math.random()/10)).toFixed(3); // #J
   updateProperty ('power',power);
 
   setTimeout(updateProperties, 5000); // #F

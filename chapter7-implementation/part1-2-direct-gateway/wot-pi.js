@@ -15,7 +15,7 @@ dhtPlugin.start({'simulate': true, 'frequency': 10000});
 
 // External Plugins
 var coapPlugin = require('./plugins/external/coapPlugin');
-coapPlugin.start({'simulate': true, 'frequency': 10000});
+coapPlugin.start({'simulate': false, 'frequency': 10000});
 
 // HTTP Server
 var server = httpServer.listen(resources.pi.port, function () {
