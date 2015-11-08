@@ -20,7 +20,7 @@
     }
 
     var hostname = 'localhost:8484'; // Hostname of the Web Thing
-    var secure = true; // true for HTTPS
+    var secure = false; // true for HTTPS
     var rootUrl = (secure ? "https://" : "http://") + hostname;
 
     var token, modelUrl;
@@ -151,7 +151,7 @@ function generateProperties(properties){
       $("<li>").attr("class","list-group-item").html("<span id=\"property-"+i+"-value-"+vi+"\" class=\"badge\"></span>"+vi).appendTo("#property-"+i);
     });
 
-    var wsUrl = (secure ? 'wss://' : 'ws://') + baseUrl +'/properties/'+i; //#C
+    var wsUrl = (secure ? 'wss://' : 'ws://') + hostname +'/properties/'+i; //#C
     var socket = new WebSocket(wsUrl); //#C 
 
     socket.onopen = function (message) { //#D 
@@ -227,7 +227,7 @@ function generateProperties(properties){
 
 function sendAction(type,value){ 
   $.ajax({ 
-    url: (secure ? "https://" : "http://") + baseUrl +'/actions/' + type + '?token='+token,//#A
+    url: (secure ? "https://" : "http://") + hostname +'/actions/' + type + '?token='+token,//#A
     type: 'POST', //#B
     dataType: 'json', //#B
     contentType: 'application/json', //#B
