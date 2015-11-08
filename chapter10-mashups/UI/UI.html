@@ -20,7 +20,7 @@
     }
 
     var hostname = 'localhost:8484'; // Hostname of the Web Thing
-    var secure = false; // true for HTTPS
+    var secure = true; // true for HTTPS
     var rootUrl = (secure ? "https://" : "http://") + hostname;
 
     var token, modelUrl;
@@ -75,7 +75,7 @@ function getModel(sourceUrl){
   });
 }
 
-//#A We do a GET on the sourceUrl to retrive the model
+//#A We do a GET on the sourceUrl to retrieve the model
 //#B Ask for JSON explicitly in the HTTP headers
 //#C Upon success store the hostname for future requests (e.g. sending actions)
 //#D Update the page with the device metadata

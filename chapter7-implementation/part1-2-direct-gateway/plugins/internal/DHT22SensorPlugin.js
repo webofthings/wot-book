@@ -52,7 +52,7 @@ function connectHardware() {
 function simulate() {
   interval = setInterval(function () {
     model.temperature.value = utils.randomInt(0, 40);
-    model.humidity.value = Math.random(0, 100);
+    model.humidity.value = utils.randomInt(0, 100);
     showValue();
   }, localParams.frequency);
   console.info('Simulated %s sensor started!', pluginName);
