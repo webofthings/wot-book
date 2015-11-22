@@ -28,8 +28,8 @@ function connectHardware() { //#B
   sensor = new Gpio(model.gpio, 'in', 'both'); //#C
   sensor.watch(function (err, value) { //#D
     if (err) exit(err);
-    showValue();
     model.value = !!value;
+    showValue();
   });
   console.info('Hardware %s sensor started!', pluginName);
 };
