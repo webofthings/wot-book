@@ -19,6 +19,7 @@
       return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
+    //var hostname = 'wot-pi.local:8484'
     var hostname = 'localhost:8484'; // Hostname of the Web Thing
     var secure = true; // true for HTTPS
     var rootUrl = (secure ? "https://" : "http://") + hostname;
@@ -118,9 +119,9 @@ function generateActions(actions){
     $('#send-'+i).click(function() {  //#L 
       var data = {};  
       $(el).serializeArray().map(function(x){
-        if (x.value=="true"){
+        if (x.value==="true"){
           data[x.name] = true;
-        } else if ("false") {
+        } else if (x.value==="false") {
           data[x.name] = false;
         } else {
           data[x.name] = x.value;          

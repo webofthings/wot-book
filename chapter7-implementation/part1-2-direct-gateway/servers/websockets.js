@@ -7,14 +7,19 @@ exports.listen = function(server) {
   wss.on('connection', function (ws) { //#B
     var url = ws.upgradeReq.url;
     console.info(url);
+    try {
       Object.observe(selectResouce(url), function (changes) { //#C
         ws.send(JSON.stringify(changes[0].object), function () {
         });
-      });
+      })
+    }
+    catch (e) { //#D
+      console.log('Unable to observe %s resource!', url);
+    };
   });
 };
 
-function selectResouce(url) { //#D
+function selectResouce(url) { //#E
   var parts = url.split('/');
   parts.shift();
   var result = resources;
@@ -27,6 +32,7 @@ function selectResouce(url) { //#D
 //#A Create a WebSocket server by passing it the Express server
 //#B Triggered after a protocol upgrade when the client connected
 //#C We register an observer corresponding to the resource in the protocol upgrade URL
-//#D This function takes a request URL and returns the corresponding resource
+//#D We use a try/catch to catch to intercept error (e.g., malformed/unsupported URLs)
+//#E This function takes a request URL and returns the corresponding resource
 
 
