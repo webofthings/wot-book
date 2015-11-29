@@ -100,8 +100,8 @@ function generateActions(actions){
       switch(vitem.type) { //#F 
         case 'boolean': //#G 
           $("<select>").attr("class","form-control").attr("name",vi).attr("id","wt-actions-"+i+"-"+vi+"-v").appendTo(vel+"-f");
-          $("<option>").val("true").html("True").appendTo(vel+"-v");
-          $("<option>").val("false").html("False").appendTo(vel+"-v");
+          $("<option>").val(true).html("True").appendTo(vel+"-v");
+          $("<option>").val(false).html("False").appendTo(vel+"-v");
           break;
         case 'enum': //#H 
           $("<select>").attr("class","form-control").attr("name",vi).attr("id","wt-actions-"+i+"-"+vi+"-v").appendTo(vel+"-f");
@@ -117,7 +117,15 @@ function generateActions(actions){
     $("<p>").html("<a class=\"col-sm-offset-2 col-sm-4 btn btn-primary btn-lg\" id=\"send-"+i+"\" href=\"#\" role=\"button\">Create Action: "+i+"</a>").appendTo(el); //#K
     $('#send-'+i).click(function() {  //#L 
       var data = {};  
-      $(el).serializeArray().map(function(x){data[x.name] = x.value;}); //#M
+      $(el).serializeArray().map(function(x){
+        if (x.value=="true"){
+          data[x.name] = true;
+        } else if ("false") {
+          data[x.name] = false;
+        } else {
+          data[x.name] = x.value;          
+        }
+      }); //#M
       sendAction(i,data); //#N Finally, sends the action to the Web Thing
     });
   });
@@ -226,6 +234,8 @@ function generateProperties(properties){
             <script>
 
 function sendAction(type,value){ 
+  console.log("Action input: " + type +":"+value);
+
   $.ajax({ 
     url: (secure ? "https://" : "http://") + hostname +'/actions/' + type + '?token='+token,//#A
     type: 'POST', //#B
