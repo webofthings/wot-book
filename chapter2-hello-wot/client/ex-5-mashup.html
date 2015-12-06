@@ -32,7 +32,7 @@ $(document).ready(function () {
     $.ajax(rootUrl + '/pi/actuators/display/content', { //#D
       data: JSON.stringify({"value": message}),
       contentType: 'application/json',
-      type: 'POST',
+      method: 'POST',
       success: function (data) {
         $('#message').html('Published to LCD: ' + message);
         $('#wait').html('The Webcam image with your message will appear below in : ' + (data.displayInSeconds+2) + ' seconds.');
@@ -48,7 +48,7 @@ $(document).ready(function () {
 
   function takePicture() {
     $.ajax({ //#G
-      type: 'GET',
+      method: 'GET',
       url: rootUrl + '/camera/sensors/picture/',
       dataType: 'json',
       success: function (data) {
