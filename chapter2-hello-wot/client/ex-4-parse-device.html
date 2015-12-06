@@ -46,7 +46,7 @@
 
     $.ajax({//#A
       url: $('#host').val(),
-      type: 'GET',
+      method: 'GET',
       dataType: 'json',
       success: function (data) {
         $('#meta').html(data.links.meta.title + " <a href=\"" + data.links.meta.rel + "\">" + data.links.meta.rel + "</a>"); //#B
@@ -56,7 +56,7 @@
 
         $.ajax({ //#D
           url: sensorsPath,
-          type: 'GET',
+          method: 'GET',
           dataType: 'json',
           success: function (data) { //#E
             var sensorList = "";

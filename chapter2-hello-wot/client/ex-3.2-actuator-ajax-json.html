@@ -29,7 +29,7 @@
   $.ajax({ 
     url: 'http://devices.webofthings.io/pi/actuators/display/content/', //#A
     dataType: 'json', //#B
-    type: 'post', //#C
+    method: 'POST', //#C
     contentType: 'application/json', //#D
     data: JSON.stringify({"value": $('#value').val()}), //#E
     processData: false, 
