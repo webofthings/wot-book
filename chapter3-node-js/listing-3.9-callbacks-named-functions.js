@@ -7,7 +7,7 @@ var serviceRootUrl = 'http://localhost:8686';
 http.createServer(function (req, res) {
   console.log('New incoming client request...');
 
-  if (req.url == '/log') {
+  if (req.url === '/log') {
     getTemperature(res);  //#A
 
   } else {
@@ -21,7 +21,7 @@ http.createServer(function (req, res) {
 function getTemperature(res) {  //#B
   request({url: serviceRootUrl + '/temperature', json: true}, function (err, resp, body) {
     if (err) throw err;
-    if (resp.statusCode == 200) {
+    if (resp.statusCode === 200) {
       console.log(body);
       var temp = body.temperature;
 
@@ -33,7 +33,7 @@ function getTemperature(res) {  //#B
 function getLight(res, temp) {
   request({url: serviceRootUrl + '/light', json: true}, function (err, resp, body) {
     if (err) throw err;
-    if (resp.statusCode == 200) {
+    if (resp.statusCode === 200) {
       console.log(body);
       var light = body.light;
 
@@ -44,7 +44,7 @@ function getLight(res, temp) {
 
 function logValuesReply(res, temp, light) {
   var logEntry = 'Temperature: ' + temp + ' Light: ' + light;
-  fs.appendFile('log.txt', logEntry + ' - ', encoding = 'utf8', function (err) {
+  fs.appendFile('log.txt', logEntry + '\n', encoding = 'utf8', function (err) {
     if (err) throw err;
     res.writeHeader(200, {"Content-Type": "text/plain"}); //#E
     res.write(logEntry);
@@ -54,6 +54,6 @@ function logValuesReply(res, temp, light) {
 
 //#A Get the temperature and start the chain of calls
 //#B A named temperature function
-//#C Once the callback for temperature has been called we proceed with calling the light function
+//#C Once the callback for temperature has been called we proceed with calling the getLight function
 //#D We then call the named function to log values
 //#E Return to the client
