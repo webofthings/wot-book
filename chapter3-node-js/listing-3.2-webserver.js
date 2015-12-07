@@ -20,7 +20,7 @@ http.createServer(function(req,res){
       res.write('{"hello" : "world"}');
   }
   res.end();  //#D
-}).listen(8686);
+}).listen(port);
 console.log('Server listening on http://localhost:' + port);
 
 //#A Setting the header to announce we return JSON representations
