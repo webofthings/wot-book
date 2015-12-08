@@ -13,21 +13,21 @@ http.createServer(function (req, res) {
         function (callback) {
           request({url: serviceRootUrl + '/temperature', json: true}, function (err, res, body) {
             if (err) callback(err);
-            if (res.statusCode === 200) {
+            if (res && res.statusCode === 200) {
               console.log(body);
               var temp = body.temperature;
               callback(null, temp); //#B
-            }
+            } else callback(null, null);
           });
         },
         function (callback) {
           request({url: serviceRootUrl + '/light', json: true}, function (err, res, body) {
             if (err) callback(err);
-            if (res.statusCode === 200) {
+            if (res && res.statusCode === 200) {
               console.log(body);
               var light = body.light;
               callback(null, light);
-            }
+            } else callback(null, null);
           });
         }],
       function (err, results) { //#C
