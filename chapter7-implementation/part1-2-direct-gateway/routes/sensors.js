@@ -53,7 +53,6 @@ module.exports = router; //#F
 //#B Create a new route for a GET request on all sensors and attach a callback function
 //#C Reply with the sensor model when this route is selected
 //#D This route serves the passive infrared sensor
-//#D This route serves the temperature and humidity sensor
-//#E with :id we inject a variable in the path which will be the LED number
+//#E This route serves the temperature and humidity sensor
 //#F we export to router to make it accessible for "requirers" of this file
 */

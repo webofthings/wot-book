@@ -38,9 +38,9 @@ function represent(req, res, next) {
 module.exports = represent;
 
 //#A Require the two modules and instantiate a MessagePack encoder
-//#B We check if the previous middleware left a result for us in res.result
+//#B We check if the previous middleware left a result for us in req.result
 //#C Read the request header and check if the client requested JSON and serve the results
 //#D If HTML was requested we use the json2html to transform the JSON into a very simple HTML
 //#E For MessagePack we encode the JSON result into MessagePack using the encoder and return the result to the client
 //#F For all other formats we default to JSON
-//#G If no result was present in res.result there is not much we can do and call the next middleware
+//#G If no result was present in req.result there is not much we can do and call the next middleware
