@@ -1,4 +1,4 @@
-[submodule "chapter8-semantics/wot-framework"]
-	path = wot-framework
+[submodule "wot-framework"]
+	path = chapter8-semantics/wot-framework
 	url = https://github.com/webofthings/wot-framework.git
 	branch = unsecure-chapter8
