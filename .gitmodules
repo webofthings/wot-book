@@ -2,7 +2,7 @@
 	path = chapter8-semantics/wot-framework
 	url = https://github.com/webofthings/wot-framework.git
 	branch = unsecure-chapter8
-[submodule "wot-framework-secure"]
+[submodule "chapter9-sharing/wot-framework-secure"]
 	path = chapter9-sharing/wot-framework-secure
 	url = https://github.com/webofthings/wot-framework.git
 	branch = secure-chapter9
