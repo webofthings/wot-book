@@ -1,6 +1,7 @@
 wot-pi
 ├── middleware
 │   └── converter.js
+├── package.json
 ├── plugins
 │   ├── external
 │   │   └── coapPlugin.js
@@ -8,8 +9,6 @@ wot-pi
 │       ├── DHT22SensorPlugin.js
 │       ├── ledsPlugin.js
 │       └── pirPlugin.js
-├── public
-│   └── websocketsClient.html
 ├── resources
 │   ├── model.js
 │   └── resources.json
@@ -23,5 +22,4 @@ wot-pi
 │   └── websockets.js
 ├── utils
 │   └── utils.js
-├── package.json
 └── wot-pi.js
