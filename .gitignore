@@ -4,6 +4,7 @@ logs
 *.DS_Store
 *.idea
 *.idea/
+log.txt
 
 # Runtime data
 pids

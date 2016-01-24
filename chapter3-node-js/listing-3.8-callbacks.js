@@ -8,7 +8,6 @@ var serviceRootUrl = 'http://localhost:8686';
 
 http.createServer(function (servReq, servResp) {
   console.log('New incoming client request...');
-
   if (servReq.url === '/log') {
     request({url: serviceRootUrl + '/temperature', json: true},  //#A
       function (err, resp, body) {

@@ -1,7 +1,7 @@
 var request = require('request');
 request('http://webofthings.org', function (error, response, body) {  //#A
   if (!error && response.statusCode === 200) {
-    console.log(body) //#B
+    console.log(body); //#B
   }
 });
 
