@@ -18,11 +18,11 @@ module.exports.setupFacebookAuth = setupFacebookAuth;
 function setupFacebookAuth(app) {
   app.use(cookieParser());
   app.use(methodOverride());
-  app.use(session({secret: 'keyboard cat'}));
-  app.use(passport.initialize()); //#C
+  app.use(session({secret: 'keyboard cat', resave: true, saveUninitialized: true}));
+  app.use(passport.initialize()); //#B
   app.use(passport.session());
 
-  passport.serializeUser(function (user, done) { //#B
+  passport.serializeUser(function (user, done) { //#C
     done(null, user);
   });
 
@@ -35,7 +35,7 @@ function setupFacebookAuth(app) {
         clientSecret: facebookAppSecret,
         callbackURL: callbackUrl //#E
       },
-      function (accessToken, refreshToken, profile, done) { //#E
+      function (accessToken, refreshToken, profile, done) {
 
         auth.checkUser(socialId(profile.id), accessToken, function (err, res) { //#F
           if (err) return done(err, null);

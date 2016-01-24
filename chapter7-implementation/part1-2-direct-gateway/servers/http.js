@@ -22,7 +22,7 @@ app.get('/pi', function (req, res) {
 });
 
 // For representation design
-app.use(converter);
+app.use(converter());
 
 
 // issue with WS: see: https://github.com/HenningM/express-ws/issues/10

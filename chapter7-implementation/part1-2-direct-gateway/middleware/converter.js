@@ -2,41 +2,41 @@ var msgpack = require('msgpack5')(),
   encode = msgpack.encode, //#A
   json2html = require('node-json2html');
 
-function represent(req, res, next) {
-  console.info('Representation converter middleware called!');
+module.exports = function() {
+  return function (req, res, next) {
+    console.info('Representation converter middleware called!');
 
-  if (req.result) { //#B
-    if (req.accepts('json')) { //#C
-      console.info('JSON representation selected!');
-      res.send(req.result);
+    if (req.result) { //#B
+      if (req.accepts('json')) { //#C
+        console.info('JSON representation selected!');
+        res.send(req.result);
+        return;
+      }
+
+      if (req.accepts('html')) {
+        console.info('HTML representation selected!');
+        var transform = {'tag': 'div', 'html': '${name} : ${value}'};
+        res.send(json2html.transform(req.result, transform)); //#D
+        return;
+      }
+
+      if (req.accepts('application/x-msgpack')) {
+        console.info('MessagePack representation selected!');
+        res.type('application/x-msgpack');
+        res.send(encode(req.result)); //#E
+        return;
+      }
+
+      console.info('Defaulting to JSON representation!');
+      res.send(req.result); //#F
       return;
+
     }
-
-    if (req.accepts('html')) {
-      console.info('HTML representation selected!');
-      var transform = {'tag': 'div', 'html': '${name} : ${value}'};
-      res.send(json2html.transform(req.result, transform)); //#D
-      return;
+    else {
+      next(); //#G
     }
-
-    if (req.accepts('application/x-msgpack')) {
-      console.info('MessagePack representation selected!');
-      res.type('application/x-msgpack');
-      res.send(encode(req.result)); //#E
-      return;
-    }
-
-    console.info('Defaulting to JSON representation!');
-    res.send(req.result); //#F
-    return;
-
   }
-  else {
-    next(); //#G
-  }
-}
-module.exports = represent;
-
+};
 //#A Require the two modules and instantiate a MessagePack encoder
 //#B We check if the previous middleware left a result for us in req.result
 //#C Read the request header and check if the client requested JSON and serve the results

@@ -2,20 +2,22 @@ var acl = require('../config/acl.json'), //#A
   https = require('https'),
   fs = require('fs');
 
-exports.socialTokenAuth = function (req, res, next) {
-  if (isOpen(req.path)) { //#B
-    next();
-  } else {
-    var token = req.body.token || req.param('token') || req.headers['Authorization'];
-    if (!token) {
-      return res.status(401).send({success: false, message: 'API token missing.'});
+exports.socialTokenAuth = function () {
+  return function (req, res, next) {
+    if (isOpen(req.path)) { //#B
+      next();
     } else {
-      checkUserAcl(token, req.path, function (err, user) { //#C
-        if (err) {
-          return res.status(403).send({success: false, message: err}); //#D
-        }
-        next(); //#E
-      });
+      var token = req.body.token || req.get('authorization') || req.query.token;
+      if (!token) {
+        return res.status(401).send({success: false, message: 'API token missing.'});
+      } else {
+        checkUserAcl(token, req.path, function (err, user) { //#C
+          if (err) {
+            return res.status(403).send({success: false, message: err}); //#D
+          }
+          next(); //#E
+        });
+      }
     }
   }
 };
@@ -36,7 +38,7 @@ function findInAcl(filter) {
 
 
 function isOpen(path) { //#G
-  // Access to any CSS is open...
+                        // Access to any CSS is open...
   if (path.substring(0, 5) === "/css/") return true;
 
   // Is the path an open path?
@@ -45,26 +47,26 @@ function isOpen(path) { //#G
 
 exports.checkUser = checkUser;
 function checkUser(socialUserId, token, callback) { //#H
-  var result = findInAcl(function(current) {
+  var result = findInAcl(function (current) {
     return current.uid === socialUserId; //#I
   });
-  if(result) {
+  if (result) {
     result.token = token; //#J
     callback(null, result);
   } else {
-    callback('User <b>'+ socialUserId +'</b> not found! Did you add it to acl.json?', null);
+    callback('User <b>' + socialUserId + '</b> not found! Did you add it to acl.json?', null);
   }
 };
 
 exports.getToken = getToken;
 function getToken(socialUserId, callback) {
-  var result = findInAcl(function(current) {
+  var result = findInAcl(function (current) {
     return current.uid === socialUserId;
   });
-  if(result) {
+  if (result) {
     callback(null, result);
   } else {
-    callback('User <b>'+ socialUserId +'</b> not found! Did you add it to acl.json?', null);
+    callback('User <b>' + socialUserId + '</b> not found! Did you add it to acl.json?', null);
   }
 };
 

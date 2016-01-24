@@ -12,11 +12,12 @@ var proxyServer = httpProxy.createProxyServer({ //#B
   secure: false
 });
 
-function proxy(req, res, next) {
-  req.headers['authorization'] = config.token; //#C
-  proxyServer.web(req, res, { target: config.url }); //#D
-}
-module.exports = proxy;
+module.exports = function() {
+  return function proxy(req, res, next) {
+    req.headers['authorization'] = config.token; //#C
+    proxyServer.web(req, res, {target: config.url}); //#D
+  }
+};
 
 //#A Load the Thing that can be proxied (there is just one here)
 //#B Initialize the proxy server, making it an HTTPS proxy to ensure end to end encryption

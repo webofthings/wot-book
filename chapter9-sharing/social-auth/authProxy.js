@@ -20,8 +20,8 @@ var tlsConfig = {
 
 
 var app = express();
-app.use(bodyParser());
-app.use(auth.socialTokenAuth);
+app.use(bodyParser.json());
+app.use(auth.socialTokenAuth());
 
 // configure Express
 app.set('views', __dirname + '/views');
@@ -32,7 +32,7 @@ app.set('view engine', 'html');
 
 // add the FB auth support and pages
 fb.setupFacebookAuth(app);
-app.use(proxy);
+app.use(proxy());
 
 var httpServer = https.createServer(tlsConfig, app);
 httpServer.listen(config.sourcePort, function () {
