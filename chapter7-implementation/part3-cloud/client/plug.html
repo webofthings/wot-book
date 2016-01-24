@@ -211,16 +211,15 @@
                 .domain([0, n - 1])
                 .range([0, width]);  
 
-              // Removes the graph
+              // Removes the existing graph
               svg.selectAll("*").remove();
               
 
-              d3.select(".power-chart")
-                .attr("width", width + margin.left + margin.right)
+              // Redraws the existing graph
+              svg.attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 
               svg.append("defs").append("clipPath")
                 .attr("id", "clip")
@@ -243,20 +242,6 @@
                 .datum(data)
                 .attr("class", "line")
                 .attr("d", line);
-
-
-
-              // /* Update the range of the scale with new width/height */
-              // xScale.range([0, width]).nice(d3.time.year);
-              // yScale.range([height, 0]).nice();
-
-              // /* Update the axis with the new scale */
-              // graph.select('.x.axis').attr("transform", "translate(0," + height + ")").call(xAxis);
-
-              // graph.select('.y.axis').call(yAxis);
-
-              // /* Force D3 to recalculate and update the line */
-              // graph.selectAll('.line').attr("d", line);
 
             }
 
