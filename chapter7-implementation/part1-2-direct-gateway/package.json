@@ -36,7 +36,7 @@
     "ws": "^0.7.2"
   },
   "optionalDependencies": {
-    "onoff": "^1.0.3",
+    "onoff": "^1.0.4",
     "node-dht-sensor": "^0.0.8"
   }
 }

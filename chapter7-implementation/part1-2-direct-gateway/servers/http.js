@@ -1,3 +1,4 @@
+// Final version
 var express = require('express'),
   actuatorsRoutes = require('./../routes/actuators'),
   sensorRoutes = require('./../routes/sensors'),
@@ -23,16 +24,6 @@ app.get('/pi', function (req, res) {
 
 // For representation design
 app.use(converter());
-
-
-// issue with WS: see: https://github.com/HenningM/express-ws/issues/10
-// catch 404 and forward to error handler
-//app.use(function(req, res, next) {
-  //var err = new Error('Resource not Found');
-  //err.status = 404;
-  //next(err);
-//});
-
 module.exports = app;
 
 
@@ -58,10 +49,10 @@ app.get('/pi', function (req, res) { //#E
 
 module.exports = app;
 
-//#A Requires the Express framework, our routes and the model
-//#B Creates an application with the Express framework, this wraps an HTTP server
-//#C We enable CORS support (see section 6.1.5)
-//#D Binds our routes to the Express application we bind them to /pi/actuators/... and /pi/sensors/...
+//#A Requires the Express framework, your routes, and the model
+//#B Creates an application with the Express framework; this wraps an HTTP server
+//#C Enable CORS support (see section 6.1.5)
+//#D Binds your routes to the Express application; bind them to /pi/actuators/... and /pi/sensors/...
 //#E Create a default route for /pi
 
 */

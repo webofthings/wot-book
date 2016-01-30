@@ -22,4 +22,4 @@ wot-pi
 │   └── websockets.js
 ├── utils
 │   └── utils.js
-└── wot-pi.js
+└── wot-server.js
