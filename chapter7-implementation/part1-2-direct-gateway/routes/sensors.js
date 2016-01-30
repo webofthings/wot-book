@@ -1,3 +1,4 @@
+// Final version
 var express = require('express'),
   router = express.Router(),
   resources = require('./../resources/model');
@@ -26,7 +27,7 @@ module.exports = router;
 
 
 /*
-// Intial version
+// Initial version
 var express = require('express'),
   router = express.Router(), //#A
   resources = require('./../resources/model');
@@ -53,6 +54,6 @@ module.exports = router; //#F
 //#B Create a new route for a GET request on all sensors and attach a callback function
 //#C Reply with the sensor model when this route is selected
 //#D This route serves the passive infrared sensor
-//#E This route serves the temperature and humidity sensor
-//#F we export to router to make it accessible for "requirers" of this file
+//#E These routes serve the temperature and humidity sensor
+//#F We export router to make it accessible for "requirers" of this file
 */
