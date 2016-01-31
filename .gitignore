@@ -4,3 +4,7 @@ chapter7-implementation/part3-cloud/node_modules/
 chapter7-implementation/part3-cloud/payloads/
 chapter7-implementation/part3-cloud/config.json
 .idea/workspace.xml
+
+chapter8-semantics/webofthingsjs-unsecure/
+
+chapter9-sharing/webofthingsjs-secure/
