@@ -1,0 +1,8 @@
+[submodule "chapter8-semantics/webofthingsjs-unsecure"]
+	path = chapter8-semantics/webofthingsjs-unsecure
+	url = https://github.com/webofthings/webofthings.js.git
+	branch = unsecure-chapter8
+[submodule "chapter9-sharing/webofthingsjs-secure"]
+	path = chapter9-sharing/webofthingsjs-secure
+	url = https://github.com/webofthings/webofthings.js.git
+	branch = secure-chapter9
