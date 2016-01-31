@@ -28,12 +28,11 @@ function connectHardware() {
           }));
         })
         .end();
-      pollInterval = setTimeout(function () { //#F
-        sensor.read();
-      }, localParams.frequency);
     }
   };
-  sensor.read();
+  pollInterval = setInterval(function () { //#F
+    sensor.read();
+  }, localParams.frequency);
 };
 
 function configure() { //#G
@@ -52,11 +51,12 @@ function configure() { //#G
 };
 //#A Require the CoAP and BL library, a Buffer helper
 //#B Create a sensor object and give it a read function
-//#C The read function wraps a coap over UDP request with the enclosed parameters, replace localhost by the IP of the device you are simulating the CoAP device (e.g., your laptop)
-//#D When CoAP device sends the result the 'on response' event is triggered
+//#C The read function wraps a coap over UDP request with the enclosed parameters; replace localhost with the IP of the machine you’re simulating the CoAP device from (e.g., your laptop)
+//#D When CoAP device sends the result, the on response event is triggered
 //#E Fetch the results and update the model
 //#F Poll the CoAP device for new CO2 readings on a regular basis
-//#G Adds the resources managed by this plugin to the model
+//#G Add the resources managed by this plugin to the model
+
 
 exports.start = function (params, app) {
   localParams = params;

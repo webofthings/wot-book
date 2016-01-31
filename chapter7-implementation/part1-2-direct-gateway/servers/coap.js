@@ -33,11 +33,9 @@ function respond(res, content) { //#F
     res.end();
   }
 };
-
-//#A Require the Node.js CoAP module we installed
-//#B We only serve JSON so we reply with a 4.06 (= HTTP 406: Not acceptable)
+//#A Require the Node.js CoAP module you installed
+//#B You only serve JSON, so you reply with a 4.06 (= HTTP 406: Not acceptable)
 //#C Handle the different resources requested
-//#D This is the CO2 resource, generate a random value for it and respond
-//#E Start the CoAP server on port 5683 (CoAP's default port)
-//#F Sends the JSON content back or replies with a 4.04 (= HTTP 404: Not found)
-
+//#D This is the CO2 resource; generate a random value for it and respond
+//#E Start the CoAP server on port 5683 (CoAP’s default port)
+//#F Send the JSON content back or reply with a 4.04 (= HTTP 404: Not found)

@@ -1,7 +1,9 @@
 {
 	"operatorApiKey":"EDIT-ME",
+	"projectId":"EDIT-ME",
+	"productId":"EDIT-ME",
+	"thngId":"EDIT-ME",
 	"appId":"EDIT-ME",
 	"appApiKey":"EDIT-ME",
-	"thngId":"EDIT-ME",
 	"thngApiKey":"EDIT-ME"
 }

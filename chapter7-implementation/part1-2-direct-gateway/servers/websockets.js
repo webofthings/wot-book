@@ -9,7 +9,7 @@ exports.listen = function(server) {
     console.info(url);
     try {
       Object.observe(selectResouce(url), function (changes) { //#C
-        ws.send(JSON.stringify(changes[0].object), function () {
+        ws.send(JSON.stringify(changes[0].object[changes[0].object.length -1]), function () {
         });
       })
     }
@@ -29,10 +29,10 @@ function selectResouce(url) { //#E
   return result;
 }
 
-//#A Create a WebSocket server by passing it the Express server
-//#B Triggered after a protocol upgrade when the client connected
-//#C We register an observer corresponding to the resource in the protocol upgrade URL
-//#D We use a try/catch to catch to intercept error (e.g., malformed/unsupported URLs)
-//#E This function takes a request URL and returns the corresponding resource
 
+//#A Create a WebSockets server by passing it the Express server
+//#B Triggered after a protocol upgrade when the client connected
+//#C Register an observer corresponding to the resource in the protocol upgrade URL
+//#D Use a try/catch to catch to intercept errors (e.g., malformed/unsupported URLs)
+//#E This function takes a request URL and returns the corresponding resource
 

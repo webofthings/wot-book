@@ -103,7 +103,7 @@
             <h3>Actions</h3>
             <div>
               <h5>_setStatus</h5>
-              <input type="checkbox" id="toggle-status">
+              <input type="checkbox" id="toggle-status"/>
               <script>
 
                 $(function() {
@@ -116,8 +116,8 @@
                 $(function() {
                   $('#toggle-status').change(function() {
                     sendAction("_setStatus",{"status": $(this).prop('checked')});
-                  })
-                })
+                  });
+                });
 
               </script>
             </div>

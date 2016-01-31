@@ -5,7 +5,8 @@ var thngId=config.thngId;
 var thngUrl='/thngs/'+thngId;
 var thngApiKey=config.thngApiKey; 
 
-var status=false; 
+var status=false;
+var updateInterval;
 
 var client = mqtt.connect("mqtts://mqtt.evrythng.com:8883", {
   username: 'authorization',
@@ -15,17 +16,18 @@ var client = mqtt.connect("mqtts://mqtt.evrythng.com:8883", {
 client.on('connect', function () {
   client.subscribe(thngUrl+'/properties/');
   client.subscribe(thngUrl+'/actions/all'); // #A
-  updateProperty ('livenow',true);
-  setTimeout(updateProperties, 5000); 
+  updateProperty('livenow',true);
+  updateInterval = setInterval(updateProperties, 5000);
 });
 
-client.on('message', function (topic, message) {
-  if (topic.split('/')[1] == "thngs"){ // #B
-    if (topic.split('/')[2] == thngId){  // #C
-      if (topic.split('/')[3] == "properties"){ //#D 
+client.on('message', function(topic, message) {
+  var resources = topic.split('/');
+  if (resources[1] && resources[1] == "thngs"){ // #B
+    if (resources[2] && resources[2] == thngId){  // #C
+      if (resources[3] && resources[3] == "properties"){ //#D
         var property = JSON.parse(message);
         console.log('Property was updated: '+property[0].key+'='+property[0].value); 
-      } else if (topic.split('/')[3] == "actions"){ //#E
+      } else if (resources[3] && resources[3] == "actions"){ //#E
         var action = JSON.parse(message);
         handleAction(action); 
       }
@@ -33,7 +35,7 @@ client.on('message', function (topic, message) {
   }
 });
 
-function handleAction (action) {
+function handleAction(action) {
   switch(action.type) { // #F
     case '_setStatus':
       console.log('ACTION: _setStatus changed to: '+action.customFields.status); // #G
@@ -50,15 +52,16 @@ function handleAction (action) {
   }
 }
 
-//#A Let's also subscribe to all actions on this thing
-//#B Verify if the MQTT message is on a 'thng' 
-//#C Verify if the message is for the current thng
-//#D Check if a property was changed, if so display it
+//#A Subscribe to all actions on this thing
+//#B Verify if the MQTT message is on a Thng
+//#C Verify if the message is for the current Thng
+//#D Check if a property was changed; if so display it
 //#E Was it an action? If so call handleAction()
 //#F Check the type of this action
-//#G If action type is set status, display the new value and do something with it
+//#G If action type is _setStatus, display the new value and do something with it
 
-function updateProperties () {
+
+function updateProperties() {
   var voltage = (219.5 + Math.random()).toFixed(3); // #H
   updateProperty ('voltage',voltage);
 
@@ -68,16 +71,15 @@ function updateProperties () {
 
   var power = (voltage * current * (0.6+Math.random()/10)).toFixed(3); // #J
   updateProperty ('power',power);
-
-	setTimeout(updateProperties, 5000); // #F
 }
 
-function updateProperty (property,value) {
+function updateProperty(property,value) {
   client.publish(thngUrl+'/properties/'+property, '[{"value": '+value+'}]');
 }
 
 process.on('SIGINT', function() { 
-  updateProperty ('livenow',false);
+  updateProperty('livenow',false);
+  clearInterval(updateInterval);ß
 	client.end();
   process.exit();
 });

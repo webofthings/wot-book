@@ -47,15 +47,14 @@ process.on('SIGINT', function() { // #K
   client.end();
   process.exit();
 });
-
-//#A Load configuration from file (thng id and thng API Key)
-//#B Connects to the MQTT server on EVRYTHNG
-//#C Callback called once when the MQTT connection succeeded
-//#D Subscribe to All Properties
-//#E Set the property 'livenow' to true on EVRYTHNG
+//#A Load configuration from file (Thng ID and Thng API key)
+//#B Connect to the secure MQTT server on EVRYTHNG
+//#C Callback called once when the MQTT connection suceeds
+//#D Subscribe to all properties
+//#E Set the property livenow to true
 //#F Call the function updateProperties() in 5 seconds
 //#G Called every time an MQTT message is received from the broker
-//#H 'Measures' voltage (fluctuates around ~220 volts)
-//#I 'Measures' current (fluctuates between 0-10 ampères)
-//#J 'Measures' power using P=U*I*PF (PF=power factor fluctuates between 60-70%)
-//#K Cleanly exits this code (and sets the 'livenow' property to false)
+//#H Measures voltage (fluctuates around ~220 volts)
+//#I Measures current (fluctuates 0–10 amps)
+//#J Measures power using P=U*I*PF (PF=power factor fluctuates 60–70%)
+//#K Cleanly exit this code and set the livenow property to false
