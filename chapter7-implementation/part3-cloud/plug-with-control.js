@@ -79,7 +79,7 @@ function updateProperty(property,value) {
 
 process.on('SIGINT', function() { 
   updateProperty('livenow',false);
-  clearInterval(updateInterval);ß
+  clearInterval(updateInterval);
 	client.end();
   process.exit();
 });
