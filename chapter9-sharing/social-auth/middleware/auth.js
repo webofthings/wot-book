@@ -38,7 +38,7 @@ function findInAcl(filter) {
 
 
 function isOpen(path) { //#G
-                        // Access to any CSS is open...
+  // Access to any CSS is open...
   if (path.substring(0, 5) === "/css/") return true;
 
   // Is the path an open path?
@@ -71,13 +71,13 @@ function getToken(socialUserId, callback) {
 };
 
 
-//#A We require our ACL config file
-//#B If the request is for a path that is open we simply call the next middleware
-//#C Otherwise we get the Access Token and check the ACL for this token
-//#D If there was an error we return a "403 Forbidden" status code
-//#E Otherwise the user is good to go and we call the next middleware
-//#F Can we find a user with the given token and the given path (e.g., /temp)?
+//#A Require your ACL config file
+//#B If the request is for an open path, call the next middleware
+//#C Otherwise, get the access token and check the ACL for this token
+//#D If there’s an error, return a 403 Forbidden status code
+//#E Otherwise, the user is good to go, and you call the next middleware
+//#F Can we find a user with the given token and the given path, for example, /temp?
 //#G Handle open resources
-//#H This is called by facebook.js when a user was authenticated
-//#I If the user ID we got from Facebook is present in our ACL we have a winner!
-//#J Store the user token to allow him to make subsequent calls to resources he can access
+//#H Called by facebook.js when a user is authenticated
+//#I If the user ID you got from Facebook is present in your ACL, you have a winner!
+//#J Store the user token to allow them to make subsequent calls to resources they can access

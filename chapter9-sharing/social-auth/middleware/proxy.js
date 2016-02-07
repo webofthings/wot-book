@@ -9,17 +9,18 @@ var proxyServer = httpProxy.createProxyServer({ //#B
     cert: fs.readFileSync('./config/change_me_caCert.pem', 'utf8'),
     passphrase: 'webofthings'
   },
-  secure: false
+  secure: false //#C
 });
 
 module.exports = function() {
   return function proxy(req, res, next) {
-    req.headers['authorization'] = config.token; //#C
-    proxyServer.web(req, res, {target: config.url}); //#D
+    req.headers['authorization'] = config.token; //#D
+    proxyServer.web(req, res, {target: config.url}); //#E
   }
 };
 
-//#A Load the Thing that can be proxied (there is just one here)
-//#B Initialize the proxy server, making it an HTTPS proxy to ensure end to end encryption
-//#C Proxy middleware function, we add the secret token of the Thing
-//#D Proxy the request, notice that this middleware does not call next() as it should be the last in the chain
+//#A Load the Thing that can be proxied (there’s just one here)
+//#B Initialize the proxy server, making it an HTTPS proxy to ensure end-to-end encryption
+//#C Do not verify the certificate (true would refuse local certificate)
+//#D Proxy middleware function; add the secret token of the Thing
+//#E Proxy the request; notice that this middleware doesn’t call next() because it should be the last in the chain
