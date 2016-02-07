@@ -21,32 +21,30 @@
 <body>
 
     <!-- Docs page layout -->
-	<div class="bs-docs-header" id="content" tabindex="-1">
-		<div class="container">
-			<h1><a href="/"></a>Your Account</h1>
-			<p>Social WoT Authentication Proxy</p>
-		</div>
-	</div>
+    <div class="bs-docs-header" id="content" tabindex="-1">
+      <div class="container">
+        <h1><a href="/"></a>Your Account</h1>
+        <p>Social WoT Authentication Proxy</p>
+      </div>
+    </div>
 
-	<div class="container bs-docs-container">
-		<div class="row">
-			<div class="col-md-9" role="main">
-				<div class="bs-docs-section" vocab="http://model.webofthings.org/" typeof="WebThing">
+    <div class="container bs-docs-container">
+      <div class="row">
+        <div class="col-md-9" role="main">
+          <div class="bs-docs-section" vocab="http://model.webofthings.org/" typeof="WebThing">
 
+            <h2>You are logged in.</h2>
+            <p>ID:  {{user.id}}</p>
+            <p>Name: {{user.displayName}}</p>
+            <p>Access Token: <input type="text" class="field left" value={{user.token}}></p>
+            <p>The properties: <a href="/properties?token={{user.token}}" class="btn btn-default btn-sm">link</a> </p>
 
-					<h2>You are logged in.</h2>
+            <a href="/logout" class="btn btn-default btn-sm">Logout</a>
 
-	            	<p>ID:  {{user.id}}</p>
-					<p>Name: {{user.displayName}}</p>
-					<p>Access Token: <input type="text" class="field left" value={{user.token}}></p>
-					
-			        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-
-				</div>
-
-			</div>
-		</div>
-	</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 <footer class="bs-docs-footer" role="contentinfo">
   <div class="container">
