@@ -19,15 +19,14 @@
       return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
-    var hostname = 'wot-pi.local:8484';
+    var hostname = 'raspberrypi.local:8484';
     //var hostname = 'localhost:8484'; // Hostname of the Web Thing
     var secure = true; // true for HTTPS
     var rootUrl = (secure ? "https://" : "http://") + hostname;
 
     var token, modelUrl;
 
-    // Generate the URL of the model with an API token if provided as query parameter 
-    // token = 'cKXRTaRylYWQiF3MICaKndG4WJMcVLFz';
+    // Generate the URL of the model with an API token if provided as query parameter
     if (getParameterByName('token') != ""){
       console.log('Get device Token from query param:'+getParameterByName('token'));
       token = getParameterByName('token');
