@@ -9,7 +9,7 @@ exports.listen = function(server) {
     console.info(url);
     try {
       Object.observe(selectResouce(url), function (changes) { //#C
-        ws.send(JSON.stringify(changes[0].object[changes[0].object.length -1]), function () {
+        ws.send(JSON.stringify(changes[0].object), function () {
         });
       })
     }
