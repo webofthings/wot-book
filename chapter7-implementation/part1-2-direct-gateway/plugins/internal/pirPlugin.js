@@ -36,11 +36,7 @@ function connectHardware() { //#B
 
 function simulate() { //#E
   interval = setInterval(function () {
-    if (model.value) {
-      model.value = false;
-    } else {
-      model.value = true;
-    }
+    model.value = !model.value;
     showValue();
   }, localParams.frequency);
   console.info('Simulated %s sensor started!', pluginName);

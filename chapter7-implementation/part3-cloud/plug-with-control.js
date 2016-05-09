@@ -22,12 +22,12 @@ client.on('connect', function () {
 
 client.on('message', function(topic, message) {
   var resources = topic.split('/');
-  if (resources[1] && resources[1] == "thngs"){ // #B
-    if (resources[2] && resources[2] == thngId){  // #C
-      if (resources[3] && resources[3] == "properties"){ //#D
+  if (resources[1] && resources[1] === "thngs"){ // #B
+    if (resources[2] && resources[2] === thngId){  // #C
+      if (resources[3] && resources[3] === "properties"){ //#D
         var property = JSON.parse(message);
         console.log('Property was updated: '+property[0].key+'='+property[0].value); 
-      } else if (resources[3] && resources[3] == "actions"){ //#E
+      } else if (resources[3] && resources[3] === "actions"){ //#E
         var action = JSON.parse(message);
         handleAction(action); 
       }
