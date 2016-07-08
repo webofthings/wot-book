@@ -17,7 +17,7 @@ client.on('connect', function () { // #C
   client.subscribe(thngUrl+'/properties/'); //#D
   updateProperty('livenow', true); //#E
 
-  interval = setInterval(updateProperties, 5000); //#F
+  if (!interval) interval = setInterval(updateProperties, 5000); //#F
 });
 
 client.on('message', function (topic, message) { // #G
