@@ -6,3 +6,5 @@ The book is all about building apps for the Internet of Things using Web technol
 In more technical terms it is all about Node.js, JavaScript, HTTP, WebSockets for embedded devices!
 
 ![building the web of things](https://raw.githubusercontent.com/webofthings/webofthings.js/master/docs/building-the-web-of-things.png)
+
+Pretty silly, but adding some changes to try out editing in a branch.
