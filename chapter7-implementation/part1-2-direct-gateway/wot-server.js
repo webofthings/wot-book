@@ -9,10 +9,10 @@ var ledsPlugin = require('./plugins/internal/ledsPlugin'), //#A
   dhtPlugin = require('./plugins/internal/DHT22SensorPlugin'); //#A
 
 // Internal Plugins for sensors/actuators connected to the PI GPIOs
-// If you test this with real sensors do not forget to set simulate to 'true'
-pirPlugin.start({'simulate': false, 'frequency': 2000}); //#B
-ledsPlugin.start({'simulate': false, 'frequency': 10000}); //#B
-dhtPlugin.start({'simulate': false, 'frequency': 10000}); //#B
+// If you test this with real sensors do not forget to set simulate to 'false'
+pirPlugin.start({'simulate': true, 'frequency': 2000}); //#B
+ledsPlugin.start({'simulate': true, 'frequency': 10000}); //#B
+dhtPlugin.start({'simulate': true, 'frequency': 10000}); //#B
 
 // External Plugins
 var coapPlugin = require('./plugins/external/coapPlugin');
