@@ -1,11 +1,18 @@
 #!/bin/bash          
 ## This file is a set of cURL requests used in Chapter 7 of the Book "Building the Web of Things" by Guinard & Trifa (bit.ly/wotbook)
+
+# Ensure we are running bash, if not run in bash
+if [ -z "$BASH_VERSION" ]
+then
+    exec bash "$0" "$@"
+fi
+
 SERVER="https://api.evrythng.com"
 [ -z "$EVRYTHNG_API_KEY" ] && EVRYTHNG_API_KEY=$1
 
 mkdir -p payloads
 
-# Ultra basic script to extract json content
+# Extract JSON content
 function parse_json()
 {
     echo $1 | \
