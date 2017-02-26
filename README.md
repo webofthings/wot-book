@@ -5,7 +5,7 @@ This repository contains all the Node.js and JavaScript code examples from the [
 
 Clone the repository recursively to ensure all the sub projects are downloaded:
 
-`git clone --recursive git@github.com:webofthings/wot-book.git`
+`git clone --recursive https://github.com/webofthings/wot-book.git`
 
 # What is the book about?
 The book is all about building apps for the Internet of Things using Web technologies. 
