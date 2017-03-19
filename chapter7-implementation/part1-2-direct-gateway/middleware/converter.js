@@ -7,7 +7,7 @@ module.exports = function() { //#B
     console.info('Representation converter middleware called!');
 
     if (req.result) { //#C
-      if (req.accepts('html')) {
+      if (req.accepts('html')) { //#D
         console.info('HTML representation selected!');
         var transform = {'tag': 'div', 'html': '${name} : ${value}'};
         res.send(json2html.transform(req.result, transform)); //#E
