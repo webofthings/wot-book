@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Dominique Guinard",
   "author": "Vlad Trifa",
   "license": "Apache-2.0",
   "keywords": [
@@ -27,7 +26,7 @@
   "dependencies": {
     "bl": "^1.0.0",
     "body-parser": "^1.13.1",
-    "coap": "^0.15.0",
+    "coap": "^0.20.0",
     "cors": "^2.7.1",
     "express": "^4.12.4",
     "msgpack5": "^3.3.0",

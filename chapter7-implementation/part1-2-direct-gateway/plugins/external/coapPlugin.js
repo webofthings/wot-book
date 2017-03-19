@@ -80,7 +80,7 @@ exports.stop = function () {
 
 function simulate() {
   interval = setInterval(function () {
-    me.co2 = utils.randomInt(0, 1000);
+    me.value = utils.randomInt(0, 1000);
     showValue();
   }, localParams.frequency);
   console.info('Simulated %s sensor started!', pluginName);
