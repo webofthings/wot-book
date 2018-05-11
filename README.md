@@ -1,6 +1,9 @@
 # Building the Web of Things - Code
 This repository contains all the Node.js and JavaScript code examples from the [Building the Web of Things](http://book.webofthings.io) book.
 
+# Node Version compatibility
+This code is meant to work with Node 4.x and will not work on newer Node version. You can find the 4.x releases on https://nodejs.org/en/download/releases/. We are working on a version that will support newer Node but it isn't quite ready yet.
+
 # Downloading the code examples
 
 Clone the repository recursively to ensure all the sub projects are downloaded:
