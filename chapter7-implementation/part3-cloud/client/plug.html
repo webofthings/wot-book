@@ -32,7 +32,7 @@
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
         console.log(" Loading geolocation")
-      } else { 
+      } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
       }
     }
@@ -130,9 +130,9 @@
                 <div class="panel-heading">
                   <h4 class="panel-title">DEBUG (Show HTTP Response)</h4>
                 </div>
-                <div id="response" class="panel-body"> 
-                    <pre></pre> 
-                </div> 
+                <div id="response" class="panel-body">
+                    <pre></pre>
+                </div>
               </div>
             </div>
 
@@ -207,11 +207,11 @@
 
               x = d3.scale.linear()
                 .domain([0, n - 1])
-                .range([0, width]);  
+                .range([0, width]);
 
               // Removes the existing graph
               svg.selectAll("*").remove();
-              
+
 
               // Redraws the existing graph
               svg.attr("width", width + margin.left + margin.right)
@@ -243,7 +243,7 @@
 
             }
 
-            d3.select(window).on('resize', resize); 
+            d3.select(window).on('resize', resize);
 
             function updateCharts(key, value, timestamp) {
 
@@ -285,7 +285,7 @@
 
             <script>
 var url = 'wss://ws.evrythng.com:443/thngs/'+thngId+'/properties?access_token='+key;
-var socket = new WebSocket(url); //#A 
+var socket = new WebSocket(url); //#A
 
 socket.onmessage = function (message) { //#B
   var content = JSON.parse(message.data);
@@ -293,43 +293,43 @@ socket.onmessage = function (message) { //#B
   if (content[0].key=="power"){
     updateCharts(content[0].key, content[0].value, content[0].timestamp); //#D
   }
-  $('#value-'+content[0].key).html( content[0].value ); //#E 
+  $('#value-'+content[0].key).html( content[0].value ); //#E
 };
 
 socket.onerror = function (error) {
     console.log('An error occurred while trying to connect to a WebSocket!');
     console.log(error);
 };
-//#A Subscribes to all properties of this Thng (via secure WebSockets) 
-//#B Each time we receive a WS message, this will be called 
+//#A Subscribes to all properties of this Thng (via secure WebSockets)
+//#B Each time we receive a WS message, this will be called
 //#C We parse the message content (note: it's an array!)
 //#D Call this to update the power graph (function not shown)
-//#E Use the property name to update the badge  
+//#E Use the property name to update the badge
             </script>
 
             <script>
 
-function sendAction(type,value){ 
+function sendAction(type,value){
   console.log(" You are here: ("+latitude+","+longitude+")");
 
-  $.ajax({ 
-      url: 'https://api.evrythng.com/actions/'+type+'?access_token='+key,//#A
+  $.ajax({
+      url: 'https://api.evrythng.com/thngs/'+thngId+'/actions/'+type+'?access_token='+key,//#A
       dataType: 'json', //#B
       type: 'post', //#B
       contentType: 'application/json', //#B
       data: JSON.stringify({"type": type, "thng": thngId, "customFields":value,"location":{"position":{"type": "Point","coordinates": [longitude, latitude]}},"locationSource":"sensor"}), //#C
-      processData: false, 
+      processData: false,
       success: function( data, textStatus, jQxhr ){ //#D
-          $('#response pre').html( JSON.stringify( data ) ); 
-      }, 
-      error: function( jqXhr, textStatus, errorThrown ){//#E 
-          console.log( errorThrown ); 
-      } 
+          $('#response pre').html( JSON.stringify( data ) );
+      },
+      error: function( jqXhr, textStatus, errorThrown ){//#E
+          console.log( errorThrown );
+      }
   });
 }
 //#A The custom actions endpoint in EVRYTHNG
 //#B We POST a JSON document
-//#C The payload to POST 
+//#C The payload to POST
 //#D If successful, update the "response" html element
 //#E If an error, display in the console
 
