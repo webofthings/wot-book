@@ -15,7 +15,7 @@
     "ejs": ">= 0.0.0",
     "express": ">= 4.4.5",
     "express-session": ">= 1.6.1",
-    "handlebars": "^3.0.3",
+    "handlebars": "^4.0.0",
     "http-proxy": "^1.11.1",
     "method-override": ">= 2.0.2",
     "morgan": ">= 1.1.1",
