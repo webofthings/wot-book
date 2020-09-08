@@ -31,7 +31,7 @@
     "express": "^4.12.4",
     "msgpack5": "^3.3.0",
     "node-json2html": "^1.0.0",
-    "ws": "^0.7.2"
+    "ws": "^7.3.1"
   },
   "optionalDependencies": {
     "onoff": "^1.0.4",
