@@ -1,69 +1,69 @@
 <html>
+
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script type="text/javascript"
-  src="https://www.google.com/jsapi?autoload={
-    'modules':[{
-      'name':'visualization',
-      'version':'1',
-      'packages':['corechart']
-    }]
-  }"></script>
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
 <body>
   <div id="chart" style="width: 900px; height: 500px"></div>
   <script type="text/javascript">
-$(document).ready(function () {
-  var maxDataPoints = 10;
-  var chart = new google.visualization.LineChart($('#chart')[0]); //#A
-  var data = google.visualization.arrayToDataTable([ //#B
-    ['Time', 'Temperature'],
-    [getTime(), 0]
-  ]); 
+    google.charts.load('current', {
+      packages: ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawChart);
 
-  var options = { //#C
-    title: 'Temperature',
-    curveType: 'function',
-    animation: {
-      duration: 1000,
-      easing: 'in'
-    },
-    legend: {position: 'bottom'}
-  };
+    function drawChart() {
+      var maxDataPoints = 10;
+      var chart = new google.visualization.LineChart($('#chart')[0]); //#A
+      var data = google.visualization.arrayToDataTable([ //#B
+        ['Time', 'Temperature'],
+        [getTime(), 0]
+      ]);
 
-  function addDataPoint(dataPoint) { //#D
-    if (data.getNumberOfRows() > maxDataPoints) {
-      data.removeRow(0);
-    }
-    data.addRow([getTime(), dataPoint.value]);
-    chart.draw(data, options); //#E
-  }
+      var options = { //#C
+        title: 'Temperature',
+        curveType: 'function',
+        animation: {
+          duration: 1000,
+          easing: 'in'
+        },
+        legend: {
+          position: 'bottom'
+        }
+      }
 
-  function getTime() {
-    var d = new Date();
-    return d.toLocaleTimeString();
-  }
+      function addDataPoint(dataPoint) { //#D
+        if (data.getNumberOfRows() > maxDataPoints) {
+          data.removeRow(0);
+        }
+        data.addRow([getTime(), dataPoint.value]);
+        chart.draw(data, options); //#E
+      };
 
-  function doPoll() { //#F
-    $.getJSON('http://devices.webofthings.io/pi/sensors/temperature/value',
-      function (result) {
-        addDataPoint(result); //#G
-        setTimeout(doPoll, 2000);
-      });
-    }
+      function getTime() {
+        var d = new Date();
+        return d.toLocaleTimeString();
+      };
 
-    doPoll();
-  });
-//#A We initialize the Google chart
-//#B Create an array that will contain the data points
-//#C We configure the parameters of the chart 
-//#D Adds a datapoint to the chart data and removes the oldest one if needed (if there are already 10 points available)
-//#E Redraw the chart with the new data
-//#F Polls the temperature sensor just like we did before
-//#G When the new readings is returned we use them to call the addDataPoint() function
-
-</script>
+      function doPoll() { //#F
+        $.getJSON('http://devices.webofthings.io/pi/sensors/temperature/value',
+          function(result) {
+            addDataPoint(result); //#G
+            setTimeout(doPoll, 2000);
+          });
+      };
+      doPoll();
+    };
+    //#A We initialize the Google chart
+    //#B Create an array that will contain the data points
+    //#C We configure the parameters of the chart
+    //#D Adds a datapoint to the chart data and removes the oldest one if needed (if there are already 10 points available)
+    //#E Redraw the chart with the new data
+    //#F Polls the temperature sensor just like we did before
+    //#G When the new readings is returned we use them to call the addDataPoint() function
+  </script>
 
 </body>
+
 </html>
