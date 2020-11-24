@@ -1,72 +1,74 @@
 <html>
+
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script type="text/javascript"
-  src="https://www.google.com/jsapi?autoload={
-    'modules':[{
-      'name':'visualization',
-      'version':'1',
-      'packages':['corechart']
-    }]
-  }"></script>
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
 <body>
   <div id="chart" style="width: 900px; height: 500px"></div>
 
   <script type="text/javascript">
-    $(document).ready(function () {
-      var maxDataPoints = 10;
-      var chart = new google.visualization.LineChart($('#chart')[0]);
+    $(document).ready(function() {
+      google.charts.load('current', {
+        packages: ['corechart']
+      });
+      google.charts.setOnLoadCallback(drawChart);
 
-      var data = google.visualization.arrayToDataTable([
-        ['Time', 'Temperature'],
-        [getTime(), 0]
+      function drawChart() {
+        var maxDataPoints = 10;
+        var chart = new google.visualization.LineChart($('#chart')[0]);
+
+        var data = google.visualization.arrayToDataTable([
+          ['Time', 'Temperature'],
+          [getTime(), 0]
         ]);
 
-      var options = {
-        title: 'Temperature',
-        curveType: 'function',
-        animation: {
-          duration: 1000,
-          easing: 'in'
-        },
-        legend: {position: 'bottom'}
-      };
+        var options = {
+          title: 'Temperature',
+          curveType: 'function',
+          animation: {
+            duration: 1000,
+            easing: 'in'
+          },
+          legend: {
+            position: 'bottom'
+          }
+        };
 
-      function addDataPoint(dataPoint) {
-        if (data.getNumberOfRows() > maxDataPoints) {
-          data.removeRow(0);
+        function addDataPoint(dataPoint) {
+          if (data.getNumberOfRows() > maxDataPoints) {
+            data.removeRow(0);
+          }
+          data.addRow([getTime(), dataPoint.value]);
+
+          chart.draw(data, options);
         }
-        data.addRow([getTime(), dataPoint.value]);
 
-        chart.draw(data, options);
+        function getTime() {
+          var d = new Date();
+          return d.toLocaleTimeString();
+        }
+
+        var socket = new WebSocket('ws://devices.webofthings.io/pi/sensors/temperature'); //#A
+
+        socket.onmessage = function(event) { //#B
+          var result = JSON.parse(event.data);
+          addDataPoint(result);
+        };
+
+        socket.onerror = function(error) { //#C
+          console.log('WebSocket error!');
+          console.log(error);
+        };
+
+        //#A Create a WebSocket subscription to the temperature sensor. Note that the URL uses the WebSockets protocol (ws://...)
+        //#B Register this anonymous function to be called when a message arrives on the WebSocket
+        //#C Register this other anonymous function to be triggered when an error occurs on the WebSocket
       }
-
-      function getTime() {
-        var d = new Date();
-        return d.toLocaleTimeString();
-      }
-
-var socket = new WebSocket('ws://devices.webofthings.io/pi/sensors/temperature'); //#A
-
-socket.onmessage = function (event) { //#B
-  var result = JSON.parse(event.data);
-  addDataPoint(result);
-};
-
-socket.onerror = function (error) { //#C
-  console.log('WebSocket error!');
-  console.log(error);
-};
-
-//#A Create a WebSocket subscription to the temperature sensor. Note that the URL uses the WebSockets protocol (ws://...)
-//#B Register this anonymous function to be called when a message arrives on the WebSocket
-//#C Register this other anonymous function to be triggered when an error occurs on the WebSocket
-
-});
-
-</script>
+    });
+  </script>
 
 </body>
+
 </html>
